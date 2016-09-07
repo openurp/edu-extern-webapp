@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean id="OtherBeanModule" class="org.openurp.edu.otherexam.OtherBeanModule"/>
+    
+    <bean id="otherExamGradeChecker"
+        class="org.openurp.edu.otherexam.service.checker.OtherExamGradeChecker"
+        autowire="byName" />
+
+    <bean id="otherExamSuperCategoryChecker"
+        class="org.openurp.edu.otherexam.service.checker.OtherExamSuperCategoryChecker"
+        autowire="byName" />
+
+    <bean id="otherExamSignBuildInChecker"
+        class="org.openurp.edu.otherexam.service.checker.OtherExamSignBuildInChecker"
+        autowire="byName" />
+        
+    <bean id="otherExamSignUpService"
+        class="org.openurp.edu.otherexam.service.impl.OtherExamSignUpServiceImpl"
+        autowire="byName">
+        <property name="checkerStack">
+            <list>
+                <!-- <ref bean="otherExamTimeChecker"></ref> -->
+                <ref bean="otherExamSignBuildInChecker"></ref>
+                <ref bean="otherExamGradeChecker"></ref>
+                <ref bean="otherExamSuperCategoryChecker"></ref>
+            </list>
+        </property>
+    </bean>
+    <bean id="otherExamTimeChecker"
+        class="org.openurp.edu.otherexam.service.checker.OtherExamTimeChecker"
+        autowire="byName" />
+        
+    <bean id="otherExamExistChecker"
+        class="org.openurp.edu.otherexam.service.checker.OtherExamExistChecker" 
+        autowire="byName" />
+</beans>
