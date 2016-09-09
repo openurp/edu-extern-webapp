@@ -64,7 +64,7 @@ public class OtherExamSignUpDaoHibernate extends HibernateEntityDao implements O
     OqlBuilder<OtherExamSubject> query = OqlBuilder.from(OtherExamSubject.class, "subject");
     query
         .where(
-            "exists (from org.openurp.edu.other.OtherExamSignUp signUp where signUp.subject = subject and signUp.std = :std and signUp.semester = :semester)",
+            "exists (from  "+OtherExamSignUp.class.getName()+" signUp where signUp.subject = subject and signUp.std = :std and signUp.semester = :semester)",
             std, config.getSemester());
     return search(query);
   }
@@ -73,7 +73,7 @@ public class OtherExamSignUpDaoHibernate extends HibernateEntityDao implements O
     OqlBuilder<OtherExamCategory> query = OqlBuilder.from(OtherExamCategory.class, "category");
     query
         .where(
-            "exists (from org.openurp.edu.other.OtherExamSignUp signUp where signUp.subject = category and signUp.std = :std and signUp.semester = :semester)",
+            "exists (from "+OtherExamSignUp.class.getName()+" signUp where signUp.subject = category and signUp.std = :std and signUp.semester = :semester)",
             std, config.getSemester());
     return search(query);
   }

@@ -6,7 +6,7 @@
 <tr>
     <td class="index_view">
         [@b.form name="otherExamSignUpConfigsearchForm" action="!search" title="ui.searchForm" target="otherExamSignUpConfigList" theme="search"]
-            <input type="hidden" name="otherExamSignUpConfig.project.id" value="${projectId}" />
+            <input type="hidden" name="otherExamSignUpConfig.project.id" value="${projectContext.projectId}" />
             [@b.select name="otherExamSignUpConfig.category.id" label="考试类型" items=otherExamCategries empty="..." /]
             [@b.textfield name="otherExamSignUpConfig.name" label="开关名称"/]
             [@b.select name="otherExamSignUpConfig.opened" label="是否开放" items={"1":"是","0":"否"} empty="..." /]

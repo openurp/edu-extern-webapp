@@ -7,8 +7,8 @@
         <td class="index_view">
             [@b.form name="otherGradesearchForm" action="!search" title="ui.searchForm" target="otherGradeList" theme="search"]
                 [@eams.semesterCalendar theme="search" label="学年学期" name="semester.id" empty=true value=semester /]
-                <input type="hidden" name="project.id" value="${Session['projectId']}" />
-                <input type="hidden" name="otherGrade.std.project.id" value="${Session['projectId']}" />
+                <input type="hidden" name="project.id" value="${projectContext.projectId}" />
+                <input type="hidden" name="otherGrade.std.project.id" value="${projectContext.projectId}" />
                 [@b.textfield name="otherGrade.std.code" label="std.code"/]
                 [@b.textfield name="otherGrade.std.name" label="std.name"/]
                 [@b.textfield name="otherGrade.std.grade" label="std.grade"/]

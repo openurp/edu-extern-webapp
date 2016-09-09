@@ -25,7 +25,7 @@
         [@b.col property="score" title="成绩" width="10%"/] 
         [@b.col property="passed" title="是否合格" width="10%"]
             [#if !(otherGrade.passed)]<font style="color:red">[/#if]
-            ${(otherGrade.passed)!?string("合格","不合格")}
+            ${(otherGrade.passed)!?string("是","否")}
             [#if !(otherGrade.passed)]</font>[/#if]
         [/@]
         [#--][@b.col property="scoreText" title="得分等级"]${(otherGrade.scoreText)!"--"}[/@][--]

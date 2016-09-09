@@ -14,8 +14,8 @@
                     [/#list]
                 [/@]
                  [@eams.semesterCalendar theme="search" label="学年学期" name="semester.id" empty=true value=semester/]
-                <input type="hidden" name="otherExamSignUp.std.project.id" value="${Session['projectId']}" />
-                <input type="hidden" name="project.id" value="${Session['projectId']}" />
+                <input type="hidden" name="otherExamSignUp.std.project.id" value="${projectContext.projectId}" />
+                <input type="hidden" name="project.id" value="${projectContext.projectId}" />
                 [@b.textfield name="otherExamSignUp.std.code" label="std.code"/]
                 [@b.textfield name="otherExamSignUp.std.name" label="std.name"/]
                 [@b.textfield name="otherExamSignUp.std.grade" label="std.grade"/]

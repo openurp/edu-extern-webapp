@@ -11,7 +11,7 @@
   <packaging>war</packaging>
   <name>OpenURP Edu Teach Other Examination App</name>
   <properties>
-    <bundle.symbolicName>org.openurp.edu.otherexam.app</bundle.symbolicName>
+    <bundle.symbolicName>org.openurp.edu.other.app</bundle.symbolicName>
     <bundle.namespace>org.openurp.edu.other</bundle.namespace>
   </properties>
 </project>

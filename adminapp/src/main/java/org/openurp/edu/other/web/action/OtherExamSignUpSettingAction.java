@@ -61,7 +61,7 @@ public class OtherExamSignUpSettingAction extends RestrictionSupportAction {
     query.where("subject.category.id = :categoryId", categoryId);
     query
         .where(
-            "not exists (from org.openurp.edu.other.OtherExamSignUpSetting setting where setting.subject.id =subject.id and setting.config.id =:configId)",
+            "not exists (from "+OtherExamSignUpSetting.class.getName()+" setting where setting.subject.id =subject.id and setting.config.id =:configId)",
             config.getId());
 
     Set<OtherExamSubject> set = CollectUtils.newHashSet();
