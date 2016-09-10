@@ -3,6 +3,5 @@
     "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-    <bean  class="org.openurp.edu.other.grade.web.GradeWebModule"/>
-    <bean  class="org.openurp.edu.other.signup.web.SignupWebModule"/>
+    <bean  class="org.openurp.edu.other.student.web.WebModule"/>
 </beans>
