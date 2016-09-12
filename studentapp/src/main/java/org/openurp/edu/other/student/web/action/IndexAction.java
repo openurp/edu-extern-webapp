@@ -169,7 +169,8 @@ public class IndexAction extends AbstractStudentProjectSupportAction {
     put("feeOpen", !otherExamFeeConfigService
         .getOpenConfigs(project, semesterService.getCurSemester(project)).isEmpty());
     put("unpaid", PayState.UNPAID);
-    put("avatarUrl",Urp.Instance.getServicePath("/sns/photo/"+EncryptUtil.encode(getUsername()+"@"+student.getProject().getSchool().getCode())+".jpg"));
+    put("avatarUrl",Urp.Instance.getServicePath("/sns/photo/"+EncryptUtil.encode(getUsername()+"@"+
+    student.getProject().getSchool().getCode()+".edu.cn")+".jpg"));
     return forward();
   }
 

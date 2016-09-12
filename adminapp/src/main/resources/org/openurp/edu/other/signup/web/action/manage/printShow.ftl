@@ -1,6 +1,6 @@
 [#ftl/]
 [@b.head /]
-[@b.toolbar title="资格考试报名名单"][/@]
+[@b.toolbar title="校外考试报名名单"][/@]
 [#list otherExamSignUps?keys as Key]
 <p>&nbsp;</p>
 <h5>班级：${Key.code}&nbsp;&nbsp;&nbsp;&nbsp;人数:${otherExamSignUps.get(Key)?size}</h5>
@@ -21,7 +21,7 @@
           <td>${index}</td>
           <td>${otherExamSignUp.std.code}</td>
           <td>${otherExamSignUp.std.name}</td>
-          <td>${(otherExamSignUp.std.basicInfo.idcard)?if_exists}</td>
+          <td>${(otherExamSignUp.std.person.code)?if_exists}</td>
           <td>${otherExamSignUp.category.name}</td>
           <td>${otherExamSignUp.semester.schoolYear}&nbsp;${otherExamSignUp.semester.name}</td>
      </tbody>

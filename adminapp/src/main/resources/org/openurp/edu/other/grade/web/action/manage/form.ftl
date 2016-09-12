@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="资格考试成绩维护"]
+[@b.toolbar title="校外考试成绩维护"]
     bar.addBack("${b.text("action.back")}");
 [/@]
 [@b.form name="otherGradeForm" action="!save" theme="list"]
@@ -12,7 +12,7 @@
             <input type="hidden" id="stdId" name="otherGrade.std.id" value="${(otherGrade.std.id)!}"/>
         [/@]
     [/#if]
-    [@b.field label="std.name"]
+    [@b.field label="姓名"]
       <table>
        <tr>
             <td id="stdName">${(otherGrade.std.name)?default("&nbsp;")}</td>

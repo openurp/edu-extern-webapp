@@ -28,10 +28,6 @@ public class OtherExamPropertyExtractor extends DefaultPropertyExtractor {
   }
 
   public Object getPropertyValue(Object target, String property) throws Exception {
-    if ("idcardTypeForSSPU".equals(property)) {
-      return 1;
-    } else {
-      return super.getPropertyValue(target, property);
-    }
+    return super.getPropertyValue(target, property);
   }
 }

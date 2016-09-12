@@ -36,16 +36,16 @@
     function downloadTemplate() {
         var actionForm = document.otherGradesearchForm;
         actionForm.target = "_blank";
-        bg.form.addInput(actionForm,"template","template/excel/资格考试成绩导入模版.xls");
+        bg.form.addInput(actionForm,"template","template/excel/校外考试成绩导入模版.xls");
         bg.form.submit(actionForm, "manage!downloadTemplate.action");
         actionForm.target = "otherGradeList";
     }
     
     function importForm(){
         var form = document.importForm;
-        bg.form.addInput(form,"importTitle","资格考试成绩导入");
-        bg.form.addInput(form,"display","资格考试成绩导入模板");
-        bg.form.addInput(form,"file","template/excel/资格考试成绩导入模版.xls");
+        bg.form.addInput(form,"importTitle","校外考试成绩导入");
+        bg.form.addInput(form,"display","校外考试成绩导入模板");
+        bg.form.addInput(form,"file","template/excel/校外考试成绩导入模版.xls");
         bg.form.submit(form);
     }
         

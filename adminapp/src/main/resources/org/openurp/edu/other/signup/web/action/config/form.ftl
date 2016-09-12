@@ -74,7 +74,7 @@
         </tr>
     </table>
     [/@]
-    
+    [@b.radios label="允许跨校区报名" name="otherExamSignUpConfig.allowCrossCampus" items="1:是,0:否" value=otherExamSignUpConfig.allowCrossCampus required="true"/]
     [@b.field label="报名考试校区" required="true"]
         <table style="border-collapse: collapse;border:solid;border-width:1px;border-color:#006CB2;background-color:#b6d0ff;">
             <tr>

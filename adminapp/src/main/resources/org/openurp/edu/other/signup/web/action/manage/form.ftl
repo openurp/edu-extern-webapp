@@ -15,7 +15,7 @@
              <input type="hidden" id="stdId" name="otherExamSignUp.std.id" value="${(otherExamSignUp.std.id)!}" />
         [/@]
     [/#if]
-    [@b.field label="std.name"]
+    [@b.field label="姓名"]
       <table>
        <tr>
             <td id="stdName">${(otherExamSignUp.std.name)?default("&nbsp;")}</td>

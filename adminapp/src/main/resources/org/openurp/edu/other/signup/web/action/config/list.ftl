@@ -2,7 +2,7 @@
 [@b.head/]
 [@b.form name="otherExamSignUpConfigListForm" action="!search" target="otherExamSignUpConfigList"]
     [@b.grid items=otherExamSignUpConfigs var="otherExamSignUpConfig"]
-        [@b.gridbar title="资格考试开关维护"]
+        [@b.gridbar title="校外考试开关维护"]
             bar.addItem("${b.text("action.new")}",action.add());
             bar.addItem("${b.text("action.edit")}",action.edit());
             bar.addItem("${b.text("action.delete")}",action.remove());    

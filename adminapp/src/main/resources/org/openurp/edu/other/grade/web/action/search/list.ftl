@@ -1,7 +1,7 @@
 [#ftl]
 [@b.head/]
 [@b.grid items=otherGrades var="otherGrade"]
-    [@b.gridbar title="资格考试成绩维护"]
+    [@b.gridbar title="校外考试成绩维护"]
         bar.addItem("${b.text("action.export")}","exportData()");
         bar.addItem("打印","printted()");
     [/@]
@@ -31,7 +31,7 @@
 [/@]
 
 <script>
-    //导出资格考试成绩
+    //导出校外考试成绩
     function exportData(){
         var otherGradeIds = bg.input.getCheckBoxValues("otherGrade.id");
         var form = action.getForm();
@@ -48,7 +48,7 @@
         bg.form.addInput(form,"otherGradeIds",bg.input.getCheckBoxValues("otherGrade.id"));
         bg.form.addInput(form,"keys","std.code,std.name,subject.category.name,subject.name,score,scoreText,std.department.name,std.major.name,std.grade,certificateNumber");
         bg.form.addInput(form,"titles","学号,姓名,考试类型,考试科目,分数,得分等级,院系,专业,年级,证书编号");
-        bg.form.addInput(form,"fileName","资格考试成绩数据");
+        bg.form.addInput(form,"fileName","校外考试成绩数据");
         bg.form.submit(form,"${b.url('!export')}","_self");
     }
 </script>

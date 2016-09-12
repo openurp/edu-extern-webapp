@@ -2,7 +2,7 @@
 [@b.head/]
 <script type='text/javascript' src='${base}/dwr/engine.js'></script>
 <script type='text/javascript' src='${base}/dwr/interface/otherExamSignUpService.js'></script>
-[@b.toolbar title="资格考试及格率统计"]
+[@b.toolbar title="校外考试及格率统计"]
   bar.addBack("${b.text("action.back")}");
 [/@]
 <table class="indexpanel">

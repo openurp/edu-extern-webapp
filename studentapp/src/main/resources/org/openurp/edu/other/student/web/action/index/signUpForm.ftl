@@ -40,57 +40,37 @@
              </tr>
             <tr>
                 <td class="title">证件号码:</td>
-                <td colspan='3'>${(student.person.idcard)?if_exists}</td>
+                <td colspan='3'>${(student.person.code)?if_exists}</td>
             </tr>
             
             <tr class="darkColumn" style="border-top-width:1;border-color:#006CB2;">
                 <td colspan="4">报名信息确认</td>
             </tr>
-    [#if setting.fieldVisable?exists && setting.fieldVisable]
         <tr>
             <td class="title">报名科目:</td>
             <td>${setting.subject.name}</td>
+            <td class="title">报名费:</td>
+            <td>${setting.feeOfSignUp?default(0)} RMB</td>   
+        </tr>
+        <tr>
             <td class="title">考试校区:</td>
-            <td>
+            <td colspan="3">
+            [#if setting.config.allowCrossCampus]
                 <select name="otherExamSignUp.campus.id" id="otherExamSignUp.campuses.id">
                     [#list (setting.config.campuses)?sort_by("name") as campus]
                            <option value="${campus.id}">${campus.name}</option>
                     [/#list]
                 </select>
+                <span style="display:none">是否乘坐班车:<select name="signUp.takeBus" id="signUp.takeBus" style="width:100px"><option value="0">否</option><option value="1">是</option></select></span>
             </td>
-        </tr>
-        <tr>
-            <td class="title">是否乘坐班车:</td>
-            <td><select name="signUp.takeBus" id="signUp.takeBus" style="width:100px">
-                <option value="0">否</option>
-                <option value="1">是</option>
-            </td>
-            <td class="title">报名费:</td>
-            <td>${setting.feeOfSignUp?default(0)} RMB</td>    
-        </tr>
-    [#else]
-        <tr>
-            <td class="title">报名科目:</td>
-            <td>${setting.subject.name}</td>
-            <td class="title">考试校区:</td>
-            <td>
-                <select name="otherExamSignUp.campus.id" id="otherExamSignUp.campus.id">
-                    [#list setting.config.campuses?sort_by("name") as campus]
-                           <option value="${(campus.id)!}">${(campus.name)!}</option>
-                    [/#list]
+            [#else]
+                <select name="otherExamSignUp.campus.id" id="otherExamSignUp.campuses.id">
+                     <option value="${(student.state.campus.id)!}">${(student.state.campus.name)!}</option>
                 </select>
+            [/#if]
             </td>
         </tr>
-        <tr>
-            <td class="title">是否乘坐班车:</td>
-            <td><select name="otherExamSignUp.takeBus" id="otherExamSignUp.takeBus" style="width:100px">
-                <option value="0">否</option>
-                <option value="1">是</option>
-            </td>
-            <td class="title">报名费:</td>
-            <td>${setting.feeOfSignUp?default(0)} RMB</td>        
-        </tr>
-    [/#if]
+        [#if setting.feeOfMaterial??]
         <tr>
             <td class="title">是否需要材料:</td>
             <td>
@@ -102,6 +82,8 @@
             <td class="title">材料费:</td>
             <td>${setting.feeOfMaterial?default(0)} RMB</td>
         </tr>
+        [/#if]
+        [#if setting.feeOfOutline??]
         <tr>
             <td class="title">是否需要考纲:</td>
             <td>
@@ -113,6 +95,7 @@
             <td class="title">考纲费:</td>
             <td>${setting.feeOfOutline?default(0)} RMB</td>
         </tr>
+        [/#if]
         <tr>
             <td colspan="4" align="center"><input type="button" onclick="signUp()" style="width:80px" value="报名"/></td>
         </tr>

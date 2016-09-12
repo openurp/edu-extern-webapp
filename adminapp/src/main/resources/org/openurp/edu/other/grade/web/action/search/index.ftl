@@ -33,7 +33,7 @@
     function downloadTemplate() {
         var actionForm = document.otherGradesearchForm;
         actionForm.target = "_blank";
-        bg.form.addInput(actionForm,"template","template/excel/资格考试成绩导入模版.xls");
+        bg.form.addInput(actionForm,"template","template/excel/校外考试成绩导入模版.xls");
         bg.form.submit(actionForm, "manage!downloadTemplate.action");
         actionForm.target = "otherGradeList";
     }

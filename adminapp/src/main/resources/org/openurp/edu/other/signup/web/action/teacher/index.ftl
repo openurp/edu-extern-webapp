@@ -103,7 +103,7 @@
    </tr>
   </table>
 <script language="javascript">
-   var bar=new ToolBar('bar','资格考试报名维护',null,true,true);
+   var bar=new ToolBar('bar','校外考试报名维护',null,true,true);
    bar.setMessage('<@getMessage/>');
    function search(){
            document.actionForm.submit();

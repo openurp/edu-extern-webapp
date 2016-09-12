@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="资格考试缴费设置"/]
+[@b.toolbar title="校外考试缴费设置"/]
 [@eams.semesterBar name="project.id" semesterEmpty=false semesterName="semester.id" semesterValue=semester/]
 [@b.grid items=configs var="otherExamFeeConfig"]
     [@b.gridbar]

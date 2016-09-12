@@ -29,7 +29,7 @@
     <input type="hidden" name="configId" id="configId" />
 </@>
 <script language="javascript">
-   var bar=new ToolBar('bar','资格考试报名维护',null,true,true);
+   var bar=new ToolBar('bar','校外考试报名维护',null,true,true);
    bar.setMessage('<@getMessage/>');
    bar.addItem("新增","add()","new.gif"); 
    bar.addItem("修改","edit()","update.gif");
@@ -47,28 +47,28 @@
       exportList();
    }
    function exportData(){
-     addInput(form,"keys","std.code,std.name,std.grade,std.gender.name,std.basicInfo.idcard,std.major.name,std.major.code,std.department.name,category.name,category.code,semester.name,feeOfSignUp,feeOfMaterial,feeOfOutline,total,signUpAt,district.name");
+     addInput(form,"keys","std.code,std.name,std.grade,std.gender.name,std.person.code,std.major.name,std.major.code,std.department.name,category.name,category.code,semester.name,feeOfSignUp,feeOfMaterial,feeOfOutline,total,signUpAt,district.name");
      addInput(form,"titles","学号,姓名,年级,性别,身份证号,专业,专业代码,所属院系,科目,科目代码,学期,报名费,材料费,考纲费,合计,报名时间,考试校区");
-     addInput(form,"fileName","资格考试报名数据");
+     addInput(form,"fileName","校外考试报名数据");
      exportCommon();
    }
    
    function exportCET(){
-     addInput(form,"keys","std.name,std.gender.name,std.code,std.basicInfo.idcard,std.educationType.code,std.duration,std.enrollOn,std.grade,std.department.name,std.major.name,std.majorClass.name");
+     addInput(form,"keys","std.name,std.gender.name,std.code,std.person.code,std.educationType.code,std.duration,std.enrollOn,std.grade,std.department.name,std.major.name,std.majorClass.name");
      addInput(form,"titles","姓名,性别,学号,证件号码,学历,学制,入学年份,年级,院系,专业,班级");
      addInput(form,"fileName","CET报名数据");
      exportCommon();
    }
    
    function exportComputer(){
-     addInput(form,"keys","std.name,std.gender.name,std.basicInfo.idcard,std.department.code,std.major.subject.code,std.major.code,std.enrollOn,std.duration,std.majorClass.name,std.code,category.code");
+     addInput(form,"keys","std.name,std.gender.name,std.person.code,std.department.code,std.major.subject.code,std.major.code,std.enrollOn,std.duration,std.majorClass.name,std.code,category.code");
      addInput(form,"titles","姓名,性别,证件号码,学院代码,学科门类,专业,入学年份,学制,班级,学号,语言级别");
      addInput(form,"fileName","计算机报名数据");
      exportCommon();
    }
    
    function exportPTH(){
-     addInput(form,"keys","std.name,std.basicInfo.idcard,std.gender.name,std.basicInfo.nation.name,std.basicInfo.birthday,std.code,std.department.name");
+     addInput(form,"keys","std.name,std.person.code,std.gender.name,std.basicInfo.nation.name,std.basicInfo.birthday,std.code,std.department.name");
      addInput(form,"titles","姓名,身份证,性别,民族,出生年月,学号,院系");
      addInput(form,"fileName","普通话报名数据");
      exportCommon();

@@ -1,6 +1,6 @@
 [#ftl/]
 [@b.head/]
-[@b.toolbar title="资格考试报名信息"]
+[@b.toolbar title="校外考试报名信息"]
     bar.addBack("${b.text("action.back")}");
 [/@]
 [#assign labInfo]${b.text("ui.building.info")}[/#assign]

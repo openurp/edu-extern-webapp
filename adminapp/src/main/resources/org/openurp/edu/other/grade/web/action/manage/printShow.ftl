@@ -1,13 +1,13 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="资格考试成绩单"]
+[@b.toolbar title="校外考试成绩单"]
       bar.addPrint();
       bar.addBackOrClose();
 [/@]
 <DIV align="center" id="dayinDiv" name="dayinDiv">
   <table id="bar"></table>
 </DIV> 
-<h2 align="center">资格考试成绩单</h2> 
+<h2 align="center">校外考试成绩单</h2> 
  [@b.grid items=otherGrades var="otherGrade"]
       [@b.row]
             [@b.col title="序号"]${otherGrade_index+1}[/@]

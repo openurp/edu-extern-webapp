@@ -27,7 +27,7 @@
         <input type="hidden" id="key" name="key" value="" />
     </form>
     <script>
-     var bar=new ToolBar('otherExamSumBar','资格考试报名汇总',null,true,true);
+     var bar=new ToolBar('otherExamSumBar','校外考试报名汇总',null,true,true);
      bar.setMessage('<@getMessage/>');
      
    

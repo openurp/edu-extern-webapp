@@ -30,10 +30,10 @@
             [@b.col property="std.code" title="std.code" width="12%"]
                 [@b.a target="_blank" href="studentSearch!info?student.id="+otherExamSignUp.std.id title="${b.text('info.user.std')}" ]${(otherExamSignUp.std.code)!}[/@]
             [/@]
-            [@b.col property="std.name" title="std.name" width="14%"]
+            [@b.col property="std.name" title="姓名" width="14%"]
                 [@b.a href="manage!info?otherExamSignUp.id="+otherExamSignUp.id title="${b.text('ui.otherExamSignUp.frame')}" ]${(otherExamSignUp.std.name)!}[/@]
             [/@]
-            [@b.col property="std.type.name" title="学生类别" width="8%"]${(otherExamSignUp.std.type.name)!}[/@]
+            [@b.col property="std.stdType.name" title="学生类别" width="8%"]${(otherExamSignUp.std.stdType.name)!}[/@]
             [@b.col property="subject.category.name" title="考试类型" width="9%"/]
             [@b.col property="subject.name" title="报名科目" width="9%"/]
             [@b.col property="feeOfSignUp" title="报名费" width="6%"]${(otherExamSignUp.feeOfSignUp)!"--"}[/@]
@@ -62,19 +62,19 @@
     function exportList(form){
         bg.form.addInput(form, "keys", "std.code,std.name,std.grade,std.gender.name,std.major.name,std.major.code,std.department.name,subject.category.name,subject.name,semester.schoolYear,semester.name,feeOfSignUp,feeOfMaterial,feeOfOutline,total,signUpAt,campus.name");
         bg.form.addInput(form, "titles", "学号,姓名,年级,性别,专业,专业代码,所属院系,考试类型,报名科目,学年,学期,报名费,材料费,考纲费,合计,报名时间,考试校区");
-        bg.form.addInput(form, "fileName", "资格考试报名数据");
+        bg.form.addInput(form, "fileName", "校外考试报名数据");
         bg.form.submit(form, "manage!export.action","_self");
     }
     
     function exportCET(form){
-        bg.form.addInput(form, "keys", "subject.name,std.name,std.gender.name,std.code,idcardTypeForSSPU,std.person.idcard,std.education.name,std.duration,std.enrollOn,std.grade,std.department.name,std.major.name,std.adminclass.name");
+        bg.form.addInput(form, "keys", "subject.name,std.name,std.gender.name,std.code,std.person.idType.name,std.person.code,std.education.name,std.duration,std.enrollOn,std.grade,std.department.name,std.major.name,std.adminclass.name");
         bg.form.addInput(form, "titles", "报考科目,姓名,性别,学号,证件类型,证件号,学历层次,学制,入学年份,年级,院系,专业,班级");
         bg.form.addInput(form, "fileName", "四六级报名数据");
         bg.form.submit(form, "manage!export.action","_self");
     }
     
     function exportComputer(form){
-        bg.form.addInput(form, "keys", "std.code,std.name,std.gender.name,std.person.idcardType.name,std.person.idcard,std.department.name,std.major.discipline.name,std.major.name,std.enrollOn,std.duration,std.adminclass.name,subject.name,payState.name");
+        bg.form.addInput(form, "keys", "std.code,std.name,std.gender.name,std.person.idType.name,std.person.code,std.department.name,std.major.discipline.name,std.major.name,std.enrollOn,std.duration,std.adminclass.name,subject.name,payState.name");
         bg.form.addInput(form, "titles", "学号,姓名,性别,证件类型,证件号码,学院名称,学科名称,专业名称,入学年份,学制,班级名称,报名科目,缴费状态");
         bg.form.addInput(form, "fileName", "计算机报名数据");
         bg.form.submit(form, "manage!export.action","_self");
