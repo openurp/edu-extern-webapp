@@ -9,10 +9,10 @@
     <table width="100%" style="background-color:#FEFFCF"  align="center">
        <tr>
             <td width="15%">
-                <img width="80px" height="110px" src="${avatarUrl}" alt="${(student.person.name)!}" title="${(student.person.name)!}"/>
+                <img width="80px" height="110px" src="${avatarUrl}" alt="${(student.person.formatedName)!}" title="${(student.person.formatedName)!}"/>
             </td>
              <td width="85%">
-                ${(student.person.name)!}同学(${(student.code)!})，您好<br>
+                ${(student.person.formatedName)!}同学(${(student.code)!})，您好<br>
                 <font color='red'>
                     你的身份证为:${(student.person.code)!'系统中暂时没有你的身份证号码'}<br>
                     如没有显示或数据有误请及时联系学院办公室，以免耽误你的报名。
