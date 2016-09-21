@@ -21,11 +21,16 @@ package org.openurp.edu.other;
 import org.beangle.commons.inject.bind.AbstractBindModule;
 import org.openurp.edu.other.dao.internal.OtherExamSignUpDaoHibernate;
 import org.openurp.edu.other.service.checker.OtherExamExistChecker;
+import org.openurp.edu.other.service.checker.OtherExamGradeChecker;
 import org.openurp.edu.other.service.checker.OtherExamPaymentChecker;
+import org.openurp.edu.other.service.checker.OtherExamSignBuildInChecker;
+import org.openurp.edu.other.service.checker.OtherExamSuperCategoryChecker;
+import org.openurp.edu.other.service.checker.OtherExamTimeChecker;
 import org.openurp.edu.other.service.impl.OtherExamExportServiceImpl;
 import org.openurp.edu.other.service.impl.OtherExamFeeConfigServiceImpl;
 import org.openurp.edu.other.service.impl.OtherExamSignUpConfigServiceImpl;
 import org.openurp.edu.other.service.impl.OtherExamSignUpLoggerServiceImpl;
+import org.openurp.edu.other.service.impl.OtherExamSignUpServiceImpl;
 import org.openurp.edu.other.service.impl.OtherGradeServiceImpl;
 import org.openurp.edu.other.service.listener.OtherExamBillStateChangeEventListener;
 import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
@@ -40,7 +45,17 @@ public class OtherServiceModule extends AbstractBindModule {
     bind("otherExamSignUpDao", TransactionProxyFactoryBean.class).proxy("target",
         OtherExamSignUpDaoHibernate.class).parent("baseTransactionProxy");
 
-    bind("otherExamSignUpChecker", OtherExamExistChecker.class);
+    bind("otherExamSignBuildInChecker", OtherExamSignBuildInChecker.class);
+    bind("otherExamExistChecker", OtherExamExistChecker.class);
+    bind("otherExamGradeChecker", OtherExamGradeChecker.class);
+    bind("otherExamSuperCategoryChecker", OtherExamSuperCategoryChecker.class);
+    bind("otherExamTimeChecker", OtherExamTimeChecker.class);
+
+    bind("otherExamSignUpService", OtherExamSignUpServiceImpl.class).property(
+        "checkerStack",
+        list(ref("otherExamSignBuildInChecker"), ref("otherExamExistChecker"), ref("otherExamGradeChecker"),
+            ref("otherExamSuperCategoryChecker")));
+
     bind("otherExamFeeConfigService", OtherExamFeeConfigServiceImpl.class);
     bind("otherExamPaymentChecker", OtherExamPaymentChecker.class);
     bind(OtherExamBillStateChangeEventListener.class);

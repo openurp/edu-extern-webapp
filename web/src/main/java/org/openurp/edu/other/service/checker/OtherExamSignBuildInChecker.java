@@ -32,15 +32,10 @@ import org.openurp.edu.other.model.OtherExamSignUpSetting;
 public class OtherExamSignBuildInChecker extends AbstarctOtherExamSignUpChecker {
 
   public String doCheck(Student student, OtherExamSignUpSetting setting) {
-
-    // FIXME zhouqi 2011-06-10 下面的if需要维护
-    // 不在籍或在校生限制
-    // if (!student.getState().isActive() || !student.getState().isInSchool()) {
-    // return "otherExam.failure.isInSchoolOrIsInValidLimit";
-    // }
+    if (!student.getState().isInschool()) { return "other.failure.isInSchoolOrIsInValidLimit"; }
 
     // 不能重复报名
-    if (otherExamSignUpDao.isRepeatSignUp(student, setting)) { return "otherExam.failure.repeatSignUp"; }
+    if (otherExamSignUpDao.isRepeatSignUp(student, setting)) { return "other.failure.repeatSignUp"; }
 
     // FIXME zhouqi 2011-06-10 下面一段还需要修改
     // 通过科目冲突表来查看是否有冲突
@@ -55,17 +50,17 @@ public class OtherExamSignBuildInChecker extends AbstarctOtherExamSignUpChecker 
           if ((exclusiveSubject.getSubjectOne().equals(subject) && categories.contains(exclusiveSubject
               .getSubjectTwo()))
               || (exclusiveSubject.getSubjectTwo().equals(subject) && categories.contains(exclusiveSubject
-                  .getSubjectOne()))) { return "otherExam.failure.categoryExclusive"; }
+                  .getSubjectOne()))) { return "other.failure.categoryExclusive"; }
         }
       }
     }
 
     // 科目冲突(根据时间)
-    if (isTimeCollision(setting, student)) { return "otherExam.failure.categoryExclusive"; }
+    if (isTimeCollision(setting, student)) { return "other.failure.categoryExclusive"; }
 
     // 所有科目只要通过了就不能再报名
     if (!setting.isReExamAllowed()) {
-      if (otherGradeService.isPass(student, setting.getSubject())) { return "otherExam.failure.isHasPassed"; }
+      if (otherGradeService.isPass(student, setting.getSubject())) { return "other.failure.isHasPassed"; }
     }
     return null;
   }

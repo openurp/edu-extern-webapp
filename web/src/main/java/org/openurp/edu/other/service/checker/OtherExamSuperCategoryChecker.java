@@ -18,20 +18,43 @@
  */
 package org.openurp.edu.other.service.checker;
 
+import org.beangle.commons.dao.EntityDao;
+import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.other.model.OtherExamSignUpSetting;
+import org.openurp.edu.other.model.OtherGrade;
 
 public class OtherExamSuperCategoryChecker extends AbstarctOtherExamSignUpChecker {
 
+  private EntityDao entityDao;
+
   protected String doCheck(Student student, OtherExamSignUpSetting setting) {
-    // 考试科目设置的约束
-    // 判断要求通过的科目是否已经通过
-    if (null != setting.getSuperSubject()) {
-      // FIXME zhouqi 2011-06-10 下面语句需要修改
-      // if (!otherGradeService.isPass(student, setting.getSuperCategory())) {
-      // return "otherExam.failure.isMustPassed";
-      // }
+    // 考试科目设置的约束,判断要求通过的科目是否已经通过
+    if (null != setting.getSuperSubject() && checkAppliable(setting, student)) {
+      OqlBuilder<OtherGrade> builder = OqlBuilder.from(OtherGrade.class, "otherGrade");
+      builder.where("otherGrade.std = :student", student)
+          .where("otherGrade.subject = :subject", setting.getSuperSubject())
+          .where("otherGrade.passed is true");
+      if (entityDao.search(builder).isEmpty()) {
+        return "error.other.notPassSuperCategory";
+      } else {
+        return null;
+      }
     }
     return null;
   }
+
+  // 专升本，六级不做检查
+  private boolean checkAppliable(OtherExamSignUpSetting setting, Student std) {
+    if (std.getEducation().getName().contains("专升本")) {
+      return !setting.getSubject().getName().contains("大学英语六级");
+    } else {
+      return true;
+    }
+  }
+
+  public void setEntityDao(EntityDao entityDao) {
+    this.entityDao = entityDao;
+  }
+
 }

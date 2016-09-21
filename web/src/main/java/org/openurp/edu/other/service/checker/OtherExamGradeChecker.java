@@ -40,7 +40,7 @@ public class OtherExamGradeChecker extends AbstarctOtherExamSignUpChecker {
       }
       List<String> grades = Arrays.asList(Strings.split(gradeString, ","));
       if ((setting.isGradePermited() && !grades.contains(student.getGrade()))
-          || (!setting.isGradePermited() && grades.contains(student.getGrade()))) { return "otherExam.failure.gradeLimit"; }
+          || (!setting.isGradePermited() && grades.contains(student.getGrade()))) { return "other.failure.gradeLimit"; }
     }
     return null;
   }

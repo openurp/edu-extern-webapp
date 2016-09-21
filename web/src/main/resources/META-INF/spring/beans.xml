@@ -3,37 +3,5 @@
     "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-    <bean  class="org.openurp.edu.other.OtherServiceModule"/>
-    
-    <bean id="otherExamGradeChecker"
-        class="org.openurp.edu.other.service.checker.OtherExamGradeChecker"
-        autowire="byName" />
-
-    <bean id="otherExamSuperCategoryChecker"
-        class="org.openurp.edu.other.service.checker.OtherExamSuperCategoryChecker"
-        autowire="byName" />
-
-    <bean id="otherExamSignBuildInChecker"
-        class="org.openurp.edu.other.service.checker.OtherExamSignBuildInChecker"
-        autowire="byName" />
-        
-    <bean id="otherExamSignUpService"
-        class="org.openurp.edu.other.service.impl.OtherExamSignUpServiceImpl"
-        autowire="byName">
-        <property name="checkerStack">
-            <list>
-                <!-- <ref bean="otherExamTimeChecker"></ref> -->
-                <ref bean="otherExamSignBuildInChecker"></ref>
-                <ref bean="otherExamGradeChecker"></ref>
-                <ref bean="otherExamSuperCategoryChecker"></ref>
-            </list>
-        </property>
-    </bean>
-    <bean id="otherExamTimeChecker"
-        class="org.openurp.edu.other.service.checker.OtherExamTimeChecker"
-        autowire="byName" />
-        
-    <bean id="otherExamExistChecker"
-        class="org.openurp.edu.other.service.checker.OtherExamExistChecker" 
-        autowire="byName" />
+    <bean class="org.openurp.edu.other.OtherServiceModule"/>
 </beans>

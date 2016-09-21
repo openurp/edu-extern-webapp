@@ -47,10 +47,8 @@ public class OtherExamExistChecker extends AbstarctOtherExamSignUpChecker {
 
   @Override
   protected String doCheck(Student student, OtherExamSignUpSetting setting) {
-
     // 不能重复报名
-    if (otherExamSignUpDao.isRepeatSignUp(student, setting)) { return "otherExam.failure.repeatSignUp"; }
-
+    if (otherExamSignUpDao.isRepeatSignUp(student, setting)) { return "other.failure.repeatSignUp"; }
     // 通过科目冲突表来查看是否有冲突
     // 这次已经报名的科目和现在要报名的科目比较，是否冲突
     OtherExamSignUpConfig config = setting.getConfig();
@@ -63,14 +61,13 @@ public class OtherExamExistChecker extends AbstarctOtherExamSignUpChecker {
           if ((exclusiveSubject.getSubjectOne().equals(subject) && categories.contains(exclusiveSubject
               .getSubjectTwo()))
               || (exclusiveSubject.getSubjectTwo().equals(subject) && categories.contains(exclusiveSubject
-                  .getSubjectOne()))) { return "otherExam.failure.categoryExclusive"; }
+                  .getSubjectOne()))) { return "other.failure.categoryExclusive"; }
         }
       }
     }
-
     // 所有科目只要通过了就不能再报名
     if (!setting.isReExamAllowed()) {
-      if (otherGradeService.isPass(student, setting.getSubject())) { return "otherExam.failure.isHasPassed"; }
+      if (otherGradeService.isPass(student, setting.getSubject())) { return "other.failure.isHasPassed"; }
     }
     return null;
   }

@@ -47,6 +47,7 @@ import org.openurp.edu.other.service.OtherExamSignUpCalculator;
 import org.openurp.edu.other.service.OtherExamSignUpLoggerService;
 import org.openurp.edu.other.service.OtherExamSignUpService;
 import org.openurp.edu.other.service.checker.OtherExamSignUpChecker;
+import org.openurp.edu.other.service.checker.OtherExamSuperCategoryChecker;
 import org.openurp.edu.web.action.AbstractStudentProjectSupportAction;
 import org.openurp.fee.code.model.PayState;
 import org.openurp.fee.model.Bill;
@@ -74,6 +75,8 @@ public class IndexAction extends AbstractStudentProjectSupportAction {
   protected BillCodeGenerator otherExamBillCodeGenerator;
 
   protected OtherExamFeeConfigService otherExamFeeConfigService;
+
+  private OtherExamSuperCategoryChecker otherExamSuperCategoryChecker;
 
   protected PaymentService paymentService;
 
@@ -169,8 +172,9 @@ public class IndexAction extends AbstractStudentProjectSupportAction {
     put("feeOpen", !otherExamFeeConfigService
         .getOpenConfigs(project, semesterService.getCurSemester(project)).isEmpty());
     put("unpaid", PayState.UNPAID);
-    put("avatarUrl",Urp.Instance.getServicePath("/sns/photo/"+EncryptUtil.encode(getUsername()+"@"+
-    student.getProject().getSchool().getCode()+".edu.cn")+".jpg"));
+    put("avatarUrl", Urp.Instance.getServicePath("/sns/photo/"
+        + EncryptUtil.encode(getUsername() + "@" + student.getProject().getSchool().getCode() + ".edu.cn")
+        + ".jpg"));
     return forward();
   }
 
@@ -186,15 +190,11 @@ public class IndexAction extends AbstractStudentProjectSupportAction {
   public String notice() {
     OtherExamSignUpSetting setting = (OtherExamSignUpSetting) getEntity(OtherExamSignUpSetting.class,
         "setting");
-    // 查询普通话报名记录
     Student student = getLoginStudent();
     if (setting.getSuperSubject() != null) {
-      OqlBuilder<OtherGrade> builder = OqlBuilder.from(OtherGrade.class, "otherGrade");
-      builder.where("otherGrade.std = :student", student)
-          .where("otherGrade.subject = :subject", setting.getSuperSubject())
-          .where("otherGrade.passed is true");
-      if (entityDao.search(builder).isEmpty()) {
-        addFlashError("error.other.notPassSuperCategory");
+      String message = otherExamSuperCategoryChecker.check(student, setting);
+      if (null != message) {
+        addFlashError(message);
         return redirect("configList");
       }
     }
@@ -211,12 +211,6 @@ public class IndexAction extends AbstractStudentProjectSupportAction {
 
   /**
    * 显示报名数据表单(操作第三步)
-   * 
-   * @param mapping
-   * @param form
-   * @param request
-   * @param response
-   * @return @
    */
   public String signUpForm() {
     Student student = getLoginStudent();
@@ -326,7 +320,6 @@ public class IndexAction extends AbstractStudentProjectSupportAction {
         otherExamSignUpLoggerService.logger(signUp.getStd().getCode(), OtherExamSignUpLogger.DELETE,
             remoteAddr, signUp);
         return redirect("configList", "取消报名成功!");
-
       }
     }
     return redirect("configList", "取消报名失败!");
@@ -343,10 +336,6 @@ public class IndexAction extends AbstractStudentProjectSupportAction {
   public void setOtherExamSignUpChecker(OtherExamSignUpChecker otherExamSignUpChecker) {
     this.otherExamSignUpChecker = otherExamSignUpChecker;
   }
-
-  // protected String getReturnUrl() {
-  // return "?method=result";
-  // }
 
   protected void preparePaymentContext(PaymentContext context) {
     Long signUpId = getLong("signUpId");
@@ -411,4 +400,9 @@ public class IndexAction extends AbstractStudentProjectSupportAction {
   public void setCheckers(List<PaymentChecker> checkers) {
     this.checkers = checkers;
   }
+
+  public void setOtherExamSuperCategoryChecker(OtherExamSuperCategoryChecker otherExamSuperCategoryChecker) {
+    this.otherExamSuperCategoryChecker = otherExamSuperCategoryChecker;
+  }
+
 }

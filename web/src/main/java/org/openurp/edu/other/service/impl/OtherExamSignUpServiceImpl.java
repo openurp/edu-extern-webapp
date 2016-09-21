@@ -63,7 +63,7 @@ public class OtherExamSignUpServiceImpl extends BaseServiceImpl implements Other
       if (null != maxStd && maxStd.intValue() > 0) {
         synchronized (setting) {
           int countStd = otherExamSignUpDao.getSignUpCount(setting);
-          if (maxStd.intValue() <= countStd) { return "otherExam.failure.maxStdArrived"; }
+          if (maxStd.intValue() <= countStd) { return "other.failure.maxStdArrived"; }
         }
       }
       if (signUp.getCampus() == null || signUp.getCampus().getId() == null) {
