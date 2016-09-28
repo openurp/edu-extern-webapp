@@ -65,8 +65,8 @@
     }
     
     function exportCET(form){
-        bg.form.addInput(form, "keys", "subject.name,std.name,std.gender.name,std.code,std.person.idType.name,std.person.code,std.education.name,std.duration,std.enrollOn,std.grade,std.department.name,std.major.name,std.adminclass.name");
-        bg.form.addInput(form, "titles", "报考科目,姓名,性别,学号,证件类型,证件号,学历层次,学制,入学年份,年级,院系,专业,班级");
+        bg.form.addInput(form, "keys", "subject.name,std.name,std.gender.name,std.code,std.person.idType.name,std.person.code,std.education.name,std.duration,std.enrollOn,std.grade,std.department.name,std.major.name,std.adminclass.name,std.adminclass.code");
+        bg.form.addInput(form, "titles", "报考科目,姓名,性别,学号,证件类型,证件号,学历层次,学制,入学年份,年级,院系,专业,班级名称,班级代码");
         bg.form.addInput(form, "fileName", "四六级报名数据");
         bg.form.submit(form, "manage!export.action","_self");
     }
