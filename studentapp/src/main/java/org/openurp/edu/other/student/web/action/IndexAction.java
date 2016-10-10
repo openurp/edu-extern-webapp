@@ -48,7 +48,7 @@ import org.openurp.edu.other.service.OtherExamSignUpLoggerService;
 import org.openurp.edu.other.service.OtherExamSignUpService;
 import org.openurp.edu.other.service.checker.OtherExamSignUpChecker;
 import org.openurp.edu.other.service.checker.OtherExamSuperCategoryChecker;
-import org.openurp.edu.web.action.AbstractStudentProjectSupportAction;
+import org.openurp.edu.web.action.StudentProjectSupport;
 import org.openurp.fee.code.model.PayState;
 import org.openurp.fee.model.Bill;
 import org.openurp.fee.model.BillLog.BillLogType;
@@ -64,7 +64,7 @@ import org.openurp.fee.service.impl.PaymentContext;
  * 
  * @author chaostone
  */
-public class IndexAction extends AbstractStudentProjectSupportAction {
+public class IndexAction extends StudentProjectSupport {
 
   protected OtherExamSignUpChecker otherExamSignUpChecker;
 
