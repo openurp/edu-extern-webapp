@@ -157,7 +157,7 @@ public class ManageAction extends SemesterSupportAction {
     if (getLong("fake.signupSeason.id") != null) {
       Long seasonId = getLong("fake.signupSeason.id");
       OtherExamSignUpConfig season = entityDao.get(OtherExamSignUpConfig.class, seasonId);
-      builder.where("otherExamSignUp.signUpAt between :startAt and :endAt", season.getBeginAt(),
+      builder.where("otherExamSignUp.signUpAt between :beginAt and :endAt", season.getBeginAt(),
           season.getEndAt());
     }
     return builder;
