@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.beangle</groupId>
     <artifactId>beangle-java</artifactId>
-    <version>23.4</version>
+    <version>24.0</version>
   </parent>
   <groupId>org.openurp.edu.other</groupId>
   <artifactId>openurp-edu-other-webapp</artifactId>
