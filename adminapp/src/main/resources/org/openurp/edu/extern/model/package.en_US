@@ -1,0 +1,86 @@
+
+ExamGradeAlterInfoBean=Other Grade Alter Info
+ExamGradeAlterInfoBean.grade=Grade
+ExamGradeAlterInfoBean.scoreBefore=Score Before
+ExamGradeAlterInfoBean.scoreAfter=Score After
+ExamGradeAlterInfoBean.updatedAt=Updated At
+ExamGradeAlterInfoBean.remark=Remark
+ExamGradeAlterInfoBean.modifier=Modifier
+
+ExamGradeBean=Other Grade
+ExamGradeBean.std=Std
+ExamGradeBean.semester=Semester
+ExamGradeBean.alterInfos=Alter Infos
+ExamGradeBean.score=Score
+ExamGradeBean.scoreText=Score Text
+ExamGradeBean.passed=Passed
+ExamGradeBean.status=Status
+ExamGradeBean.markStyle=Mark Style
+ExamGradeBean.subject=Subject
+ExamGradeBean.certificateNumber=Certificate Number
+ExamGradeBean.examNo=Exam No
+
+ExamSignUpSettingBean=Other Exam Sign Up Setting
+ExamSignUpSettingBean.subject=Subject
+ExamSignUpSettingBean.config=Config
+ExamSignUpSettingBean.feeOfSignUp=Fee Of Sign Up
+ExamSignUpSettingBean.feeOfMaterial=Fee Of Material
+ExamSignUpSettingBean.feeOfOutline=Fee Of Outline
+ExamSignUpSettingBean.maxStd=Max Std
+ExamSignUpSettingBean.gradePermited=Grade Permited
+ExamSignUpSettingBean.grade=Grade
+ExamSignUpSettingBean.permitStds=Permit Stds
+ExamSignUpSettingBean.forbiddenStds=Forbidden Stds
+ExamSignUpSettingBean.superSubject=Super Subject
+ExamSignUpSettingBean.reExamAllowed=Re Exam Allowed
+ExamSignUpSettingBean.beginAt=Begin At
+ExamSignUpSettingBean.endAt=End At
+ExamSignUpSettingBean.fieldVisable=Field Visable
+ExamSignUpSettingBean.havePaid=Have Paid
+
+ExamSignUpLoggerBean=Other Exam Sign Up Logger
+ExamSignUpLoggerBean.code=Code
+ExamSignUpLoggerBean.stdCode=Std Code
+ExamSignUpLoggerBean.logAt=Log At
+ExamSignUpLoggerBean.semester=Semester
+ExamSignUpLoggerBean.subject=Subject
+ExamSignUpLoggerBean.actionType=Action Type
+ExamSignUpLoggerBean.remoteAddr=Remote Addr
+
+ExamSignUpConfigBean=Other Exam Sign Up Config
+ExamSignUpConfigBean.category=Category
+ExamSignUpConfigBean.code=Code
+ExamSignUpConfigBean.project=Project
+ExamSignUpConfigBean.name=Name
+ExamSignUpConfigBean.settings=Settings
+ExamSignUpConfigBean.beginAt=Begin At
+ExamSignUpConfigBean.endAt=End At
+ExamSignUpConfigBean.opened=Opened
+ExamSignUpConfigBean.remark=Remark
+ExamSignUpConfigBean.notice=Notice
+ExamSignUpConfigBean.campuses=Campuses
+ExamSignUpConfigBean.exclusiveSubjects=Exclusive Subjects
+ExamSignUpConfigBean.semester=Semester
+
+ExamSignUpBean=Other Exam Sign Up
+ExamSignUpBean.std=Std
+ExamSignUpBean.semester=Semester
+ExamSignUpBean.subject=Subject
+ExamSignUpBean.feeOfSignUp=Fee Of Sign Up
+ExamSignUpBean.feeOfOutline=Fee Of Outline
+ExamSignUpBean.feeOfMaterial=Fee Of Material
+ExamSignUpBean.signUpAt=Sign Up At
+ExamSignUpBean.examNo=Exam No
+ExamSignUpBean.campus=Campus
+ExamSignUpBean.takeBus=Take Bus
+ExamSignUpBean.payState=Pay State
+ExamSignUpBean.bill=Bill
+
+ExamFeeConfigBean=Other Exam Fee Config
+ExamFeeConfigBean.semester=Semester
+ExamFeeConfigBean.project=Project
+
+ExclusiveSubjectBean=Exclusive Subject
+ExclusiveSubjectBean.config=Config
+ExclusiveSubjectBean.subjectOne=Subject One
+ExclusiveSubjectBean.subjectTwo=Subject Two

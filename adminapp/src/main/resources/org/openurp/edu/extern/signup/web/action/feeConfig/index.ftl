@@ -1,0 +1,25 @@
+[#ftl]
+[@b.head/]
+[@b.toolbar title="校外考试缴费设置"/]
+[@eams.semesterBar name="project.id" semesterEmpty=false semesterName="semester.id" semesterValue=semester/]
+[@b.grid items=configs var="otherExamFeeConfig"]
+    [@b.gridbar]
+        bar.addItem("${b.text('action.add')}",action.add());
+        bar.addItem("${b.text('action.edit')}",action.edit());
+        bar.addItem("${b.text('action.delete')}",action.remove());
+    [/@]
+    [@b.row]
+        [@b.boxcol/]
+        [@b.col property="feeType.name" title="收费项目"/]
+        [@b.col property="opened" title="是否开放"]${otherExamFeeConfig.opened?string('开放','关闭')}[/@]
+        [@b.col property="openAt" title="开放时间"]${(otherExamFeeConfig.openAt?string('yyyy-MM-dd HH:mm:ss'))!('未设置')}[/@]
+        [@b.col property="closeAt" title="关闭时间"]${(otherExamFeeConfig.closeAt?string('yyyy-MM-dd HH:mm:ss'))!('未设置')}[/@]
+        [#--
+        [@b.col property="deadLine" title="最后截止时间"]${(otherExamFeeConfig.deadLine?string('yyyy-MM-dd HH:mm:ss'))!('未设置')}[/@]
+        [@b.col property="payDuration" title="有效支付周期"]
+            [#if otherExamFeeConfig.payDuration??]${otherExamFeeConfig.payDuration/1000}秒[/#if]
+        [/@]
+        --]
+    [/@]
+[/@]
+[@b.foot/]
