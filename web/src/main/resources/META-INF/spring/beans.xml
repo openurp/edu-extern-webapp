@@ -3,5 +3,5 @@
     "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-    <bean class="org.openurp.edu.other.OtherServiceModule"/>
+    <bean class="org.openurp.edu.extern.OtherServiceModule"/>
 </beans>

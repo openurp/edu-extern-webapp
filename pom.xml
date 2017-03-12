@@ -5,15 +5,15 @@
     <artifactId>beangle-java</artifactId>
     <version>24.0</version>
   </parent>
-  <groupId>org.openurp.edu.other</groupId>
-  <artifactId>openurp-edu-other-webapp</artifactId>
+  <groupId>org.openurp.edu.extern</groupId>
+  <artifactId>openurp-edu-extern-webapp</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Openurp Edu Other Webapp</name>
+  <name>Openurp Edu Extern Webapp</name>
 
   <properties>
-    <bundle.symbolicName>org.openurp.edu.other.webapp</bundle.symbolicName>
-    <bundle.namespace>org.openurp.edu.other</bundle.namespace>
+    <bundle.symbolicName>org.openurp.edu.extern.webapp</bundle.symbolicName>
+    <bundle.namespace>org.openurp.edu.extern</bundle.namespace>
     <lesson.core.version>0.0.1-SNAPSHOT</lesson.core.version>
     <servletapi.version>3.1.0</servletapi.version>
   </properties>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <groupId>org.openurp.edu.other</groupId>
-    <artifactId>openurp-edu-other-webapp</artifactId>
+    <groupId>org.openurp.edu.extern</groupId>
+    <artifactId>openurp-edu-extern-webapp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>org.openurp.edu.other</groupId>
-  <artifactId>openurp-edu-other-web</artifactId>
+  <groupId>org.openurp.edu.extern</groupId>
+  <artifactId>openurp-edu-extern-web</artifactId>
   <modelVersion>4.0.0</modelVersion>
   <packaging>jar</packaging>
-  <name>OpenURP Edu Teach Other Web</name>
+  <name>OpenURP Edu Extern Web</name>
   <properties>
-    <bundle.symbolicName>org.openurp.edu.other.web</bundle.symbolicName>
-    <bundle.namespace>org.openurp.edu.other</bundle.namespace>
+    <bundle.symbolicName>org.openurp.edu.extern.web</bundle.symbolicName>
+    <bundle.namespace>org.openurp.edu.extern</bundle.namespace>
   </properties>
 </project>

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <groupId>org.openurp.edu.other</groupId>
-    <artifactId>openurp-edu-other-webapp</artifactId>
+    <groupId>org.openurp.edu.extern</groupId>
+    <artifactId>openurp-edu-extern-webapp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>org.openurp.edu.other</groupId>
-  <artifactId>openurp-edu-other-adminapp</artifactId>
+  <groupId>org.openurp.edu.extern</groupId>
+  <artifactId>openurp-edu-extern-adminapp</artifactId>
   <modelVersion>4.0.0</modelVersion>
   <packaging>war</packaging>
-  <name>OpenURP Edu Teach Other Admin App</name>
+  <name>OpenURP Edu Extern Admin App</name>
   <properties>
-    <bundle.symbolicName>org.openurp.edu.other.adminapp</bundle.symbolicName>
-    <bundle.namespace>org.openurp.edu.other</bundle.namespace>
+    <bundle.symbolicName>org.openurp.edu.extern.adminapp</bundle.symbolicName>
+    <bundle.namespace>org.openurp.edu.extern</bundle.namespace>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>org.openurp.edu.other</groupId>
-      <artifactId>openurp-edu-other-web</artifactId>
+      <groupId>org.openurp.edu.extern</groupId>
+      <artifactId>openurp-edu-extern-web</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
