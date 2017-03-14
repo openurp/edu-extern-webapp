@@ -29,7 +29,7 @@ import org.beangle.commons.transfer.importer.listener.ItemImporterListener;
 import org.openurp.base.model.Semester;
 import org.openurp.edu.base.model.Project;
 import org.openurp.edu.grade.course.service.GradeRateService;
-import org.openurp.edu.extern.model.ExamGrade;
+import org.openurp.edu.extern.model.ExternExamGrade;
 
 /**
  * 成绩导入监听器,实现全部数据导入的完整性。<br>
@@ -37,7 +37,7 @@ import org.openurp.edu.extern.model.ExamGrade;
  * 
  * @author chaostone
  */
-public class ExamGradeImportListener extends ItemImporterListener {
+public class ExternExamGradeImportListener extends ItemImporterListener {
 
   private EntityDao entityDao;
 
@@ -45,11 +45,11 @@ public class ExamGradeImportListener extends ItemImporterListener {
 
   protected GradeRateService gradeRateService;
 
-  public ExamGradeImportListener() {
+  public ExternExamGradeImportListener() {
     super();
   }
 
-  public ExamGradeImportListener(EntityDao entityDao, Project project, GradeRateService gradeRateService) {
+  public ExternExamGradeImportListener(EntityDao entityDao, Project project, GradeRateService gradeRateService) {
     super();
     this.entityDao = entityDao;
     this.project = project;
@@ -61,20 +61,20 @@ public class ExamGradeImportListener extends ItemImporterListener {
     tr.getMsgs().addAll(tr.getErrs());
     tr.getErrs().clear();
     Map<String, Object> datas = importer.getCurData();
-    String stdCode = (String) datas.get("otherGrade.std.code");
-    String semesterSchoolYear = (String) datas.get("otherGrade.semester.schoolYear");
-    String semesterName = (String) datas.get("otherGrade.semester.name");
-    String subjectName = (String) datas.get("otherGrade.subject.name");
-    OqlBuilder<ExamGrade> builder = OqlBuilder.from(ExamGrade.class, "otherGrade");
-    builder.where("otherGrade.std.code = :stdCode", stdCode);
-    builder.where("otherGrade.semester.schoolYear = :semesterSchoolYear", semesterSchoolYear);
-    builder.where("otherGrade.semester.name = :semesterName", semesterName);
-    builder.where("otherGrade.subject.name = :subjectName", subjectName);
-    List<ExamGrade> otherGrades = entityDao.search(builder);
+    String stdCode = (String) datas.get("examGrade.std.code");
+    String semesterSchoolYear = (String) datas.get("examGrade.semester.schoolYear");
+    String semesterName = (String) datas.get("examGrade.semester.name");
+    String subjectName = (String) datas.get("examGrade.subject.name");
+    OqlBuilder<ExternExamGrade> builder = OqlBuilder.from(ExternExamGrade.class, "examGrade");
+    builder.where("examGrade.std.code = :stdCode", stdCode);
+    builder.where("examGrade.semester.schoolYear = :semesterSchoolYear", semesterSchoolYear);
+    builder.where("examGrade.semester.name = :semesterName", semesterName);
+    builder.where("examGrade.subject.name = :subjectName", subjectName);
+    List<ExternExamGrade> examGrades = entityDao.search(builder);
 
     Map currentMap = (Map) importer.getCurrent();
-    if (otherGrades.size() > 0) {
-      currentMap.put("otherGrade", otherGrades.get(0));
+    if (examGrades.size() > 0) {
+      currentMap.put("examGrade", examGrades.get(0));
     }
   }
 
@@ -94,61 +94,61 @@ public class ExamGradeImportListener extends ItemImporterListener {
   @Override
   public void onItemFinish(TransferResult tr) {
     Map datas = (Map) importer.getCurrent();
-    ExamGrade otherGrade = (ExamGrade) datas.get("otherGrade");
-    if (otherGrade.isTransient()) {
-      String semesterSchoolYear = (String) importer.getCurData().get("otherGrade.semester.schoolYear");
-      String semesterName = (String) importer.getCurData().get("otherGrade.semester.name");
-      otherGrade.setSemester(getSemester(semesterSchoolYear, semesterName, project));
+    ExternExamGrade examGrade = (ExternExamGrade) datas.get("examGrade");
+    if (examGrade.isTransient()) {
+      String semesterSchoolYear = (String) importer.getCurData().get("examGrade.semester.schoolYear");
+      String semesterName = (String) importer.getCurData().get("examGrade.semester.name");
+      examGrade.setSemester(getSemester(semesterSchoolYear, semesterName, project));
     }
-    if (otherGradeVilidate(otherGrade, tr)) {
-//      if (otherGrade.isTransient()) {
-//        otherGrade.setCreatedAt(new Date(System.currentTimeMillis()));
+    if (examGradeVilidate(examGrade, tr)) {
+//      if (examGrade.isTransient()) {
+//        examGrade.setCreatedAt(new Date(System.currentTimeMillis()));
 //      }
-//      otherGrade.setUpdatedAt(new Date(System.currentTimeMillis()));
-      otherGrade.setScoreText(gradeRateService.getConverter(project, otherGrade.getMarkStyle()).convert(otherGrade.getScore()));
-      entityDao.saveOrUpdate(otherGrade);
+//      examGrade.setUpdatedAt(new Date(System.currentTimeMillis()));
+      examGrade.setScoreText(gradeRateService.getConverter(project, examGrade.getMarkStyle()).convert(examGrade.getScore()));
+      entityDao.saveOrUpdate(examGrade);
     }
   }
 
-  private boolean otherGradeVilidate(ExamGrade otherGrade, TransferResult tr) {
+  private boolean examGradeVilidate(ExternExamGrade examGrade, TransferResult tr) {
     boolean bool = true;
     // 验证学号
-    if (null == otherGrade.getStd()) {
+    if (null == examGrade.getStd()) {
       tr.addFailure("学号不能为空", "");
       bool = false;
     }
 
     // 考试科目
-    if (null == otherGrade.getSubject()) {
+    if (null == examGrade.getSubject()) {
       tr.addFailure("考试科目不能为空", "");
       bool = false;
     }
 
     // 验证分数
-    if (null == otherGrade.getScore()) {
+    if (null == examGrade.getScore()) {
       tr.addFailure("分数不能为空", "");
       bool = false;
     } else {
-      float score = otherGrade.getScore();
+      float score = examGrade.getScore();
       if (score < 0) {
-        tr.addFailure("分数不能小于0", otherGrade.getScore());
+        tr.addFailure("分数不能小于0", examGrade.getScore());
         bool = false;
       }
     }
 
     // 验证学年度-学期
-    if (null == otherGrade.getSemester()) {
+    if (null == examGrade.getSemester()) {
       tr.addFailure("查询不到学年度学期", "");
       bool = false;
     }
 
     // 验证成绩记录方式
-    if (null == otherGrade.getMarkStyle()) {
+    if (null == examGrade.getMarkStyle()) {
       tr.addFailure("成绩记录方式不能为空", "");
       bool = false;
     }
 
-    String passed = (String) importer.getCurData().get("otherGrade.passed");
+    String passed = (String) importer.getCurData().get("examGrade.passed");
     if (null == passed) {
       tr.addFailure("是否合格不能为空", "");
       bool = false;

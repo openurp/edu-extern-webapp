@@ -30,7 +30,7 @@ import org.openurp.fee.code.model.FeeType;
 
 public class FeeConfigAction extends SemesterSupportAction {
 
-  protected ExamFeeConfigService otherExamFeeConfigService;
+  protected ExamFeeConfigService examFeeConfigService;
 
   @Override
   protected String getEntityName() {
@@ -39,7 +39,7 @@ public class FeeConfigAction extends SemesterSupportAction {
 
   @Override
   protected void indexSetting() {
-    put("configs", otherExamFeeConfigService.getConfigs(getProject(), getSemester()));
+    put("configs", examFeeConfigService.getConfigs(getProject(), getSemester()));
   }
 
   @Override
@@ -92,7 +92,7 @@ public class FeeConfigAction extends SemesterSupportAction {
   protected String saveAndForward(Entity<?> entity) {
     ExamFeeConfig config = (ExamFeeConfig) entity;
     if (config.isTransient()) {
-      ExamFeeConfig persistedConfig = otherExamFeeConfigService.getConfig(config);
+      ExamFeeConfig persistedConfig = examFeeConfigService.getConfig(config);
       if (null != persistedConfig) { return redirect("index", "设置的开放时间段已存在"
           + persistedConfig.getFeeType().getName() + "的缴费设置"); }
     }
@@ -103,7 +103,7 @@ public class FeeConfigAction extends SemesterSupportAction {
       config.setPayDuration(payDuration);
     }
     try {
-      otherExamFeeConfigService.saveOrUpdate(config);
+      examFeeConfigService.saveOrUpdate(config);
       return redirect("index", "info.save.success");
     } catch (Exception e) {
       logger.info("info.save.failure", e);
@@ -122,8 +122,8 @@ public class FeeConfigAction extends SemesterSupportAction {
     return redirect("index", "info.remove.success");
   }
 
-  public void setExamFeeConfigService(ExamFeeConfigService otherExamFeeConfigService) {
-    this.otherExamFeeConfigService = otherExamFeeConfigService;
+  public void setExamFeeConfigService(ExamFeeConfigService examFeeConfigService) {
+    this.examFeeConfigService = examFeeConfigService;
   }
 
 }

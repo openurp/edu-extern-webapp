@@ -20,17 +20,17 @@ package org.openurp.edu.extern.service.checker;
 
 import org.beangle.commons.dao.EntityDao;
 import org.openurp.edu.base.model.Student;
-import org.openurp.edu.extern.dao.ExamSignUpDao;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
-import org.openurp.edu.extern.service.ExamGradeService;
+import org.openurp.edu.extern.dao.ExamSignupDao;
+import org.openurp.edu.extern.model.ExamSignupSetting;
+import org.openurp.edu.extern.service.ExternExamGradeService;
 
-public abstract class AbstarctExamSignUpChecker implements ExamSignUpChecker {
+public abstract class AbstarctExamSignupChecker implements ExamSignupChecker {
 
-  protected ExamGradeService otherGradeService;
+  protected ExternExamGradeService examGradeService;
 
-  protected ExamSignUpDao otherExamSignUpDao;
+  protected ExamSignupDao examSignupDao;
 
-  public String check(Student student, ExamSignUpSetting setting) {
+  public String check(Student student, ExamSignupSetting setting) {
     if (!except(student, setting)) { return doCheck(student, setting); }
     return null;
   }
@@ -42,9 +42,9 @@ public abstract class AbstarctExamSignUpChecker implements ExamSignUpChecker {
    * @param setting
    * @return
    */
-  abstract protected String doCheck(Student student, ExamSignUpSetting setting);
+  abstract protected String doCheck(Student student, ExamSignupSetting setting);
 
-  public boolean hasExamGrade(Student student, EntityDao entityDao, String code) {
+  public boolean hasExternExamGrade(Student student, EntityDao entityDao, String code) {
     return false;
   }
 
@@ -55,15 +55,15 @@ public abstract class AbstarctExamSignUpChecker implements ExamSignUpChecker {
    * @param setting
    * @return
    */
-  protected boolean except(Student student, ExamSignUpSetting setting) {
+  protected boolean except(Student student, ExamSignupSetting setting) {
     return false;
   }
 
-  public void setExamGradeService(ExamGradeService otherGradeService) {
-    this.otherGradeService = otherGradeService;
+  public void setExternExamGradeService(ExternExamGradeService examGradeService) {
+    this.examGradeService = examGradeService;
   }
 
-  public void setExamSignUpDao(ExamSignUpDao otherExamSignUpDao) {
-    this.otherExamSignUpDao = otherExamSignUpDao;
+  public void setExamSignupDao(ExamSignupDao examSignupDao) {
+    this.examSignupDao = examSignupDao;
   }
 }

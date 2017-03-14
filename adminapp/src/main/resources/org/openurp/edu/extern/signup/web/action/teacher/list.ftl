@@ -3,29 +3,29 @@
 <table id="bar"></table>
 <@table.table id="id" sortable="true" width="100%">
  <@table.thead>
-  <@table.selectAllTd id="otherExamSignUpId"/>
-  <@table.sortTd id="otherExamSignUp.std.code" text="学号"/>
-  <@table.sortTd id="otherExamSignUp.std.name" text="姓名"/>
-  <@table.sortTd id="otherExamSignUp.category.name" text="考试科目"/>
-  <@table.sortTd id="otherExamSignUp.feeOfSignUp" text="报名费"/>
-  <@table.sortTd id="otherExamSignUp.feeOfMaterial" text="材料费"/>
-  <@table.sortTd id="otherExamSignUp.feeOfOutline" text="考纲费"/>
-  <@table.sortTd id="otherExamSignUp.district.name" text="校区"/>
-  <@table.sortTd id="otherExamSignUp.semester.name" text="学期"/>
+  <@table.selectAllTd id="examSignupId"/>
+  <@table.sortTd id="examSignup.std.code" text="学号"/>
+  <@table.sortTd id="examSignup.std.name" text="姓名"/>
+  <@table.sortTd id="examSignup.category.name" text="考试科目"/>
+  <@table.sortTd id="examSignup.feeOfSignup" text="报名费"/>
+  <@table.sortTd id="examSignup.feeOfMaterial" text="材料费"/>
+  <@table.sortTd id="examSignup.feeOfOutline" text="考纲费"/>
+  <@table.sortTd id="examSignup.district.name" text="校区"/>
+  <@table.sortTd id="examSignup.semester.name" text="学期"/>
  </@>
- <@table.tbody datas=otherExamSignUps;otherExamSignUp>
-  <@table.selectTd id="otherExamSignUpId" value=otherExamSignUp.id/>
-  <td><a href="${base}/studentSearch!info.action?studentId=${otherExamSignUp.std.id}" title="学生详细信息">${otherExamSignUp.std.code}</a></td>
-  <td><a href="${base}/signUpByTeacher!info.action?otherExamSignUp.id=${otherExamSignUp.id}" title="报名详情">${otherExamSignUp.std.name}</a></td>
-  <td>${otherExamSignUp.category.name}</td>
-  <td>${otherExamSignUp.feeOfSignUp?default("")}</td>
-  <td>${otherExamSignUp.feeOfMaterial?default("")}</td>
-  <td>${otherExamSignUp.feeOfOutline?default("")}</td>
-  <td>${(otherExamSignUp.district.name)?default("")}</td>
-  <td>${otherExamSignUp.semester.schoolYear}&nbsp;${otherExamSignUp.semester.name}</td>
+ <@table.tbody datas=examSignups;examSignup>
+  <@table.selectTd id="examSignupId" value=examSignup.id/>
+  <td><a href="${base}/studentSearch!info.action?studentId=${examSignup.std.id}" title="学生详细信息">${examSignup.std.code}</a></td>
+  <td><a href="${base}/signupByTeacher!info.action?examSignup.id=${examSignup.id}" title="报名详情">${examSignup.std.name}</a></td>
+  <td>${examSignup.category.name}</td>
+  <td>${examSignup.feeOfSignup?default("")}</td>
+  <td>${examSignup.feeOfMaterial?default("")}</td>
+  <td>${examSignup.feeOfOutline?default("")}</td>
+  <td>${(examSignup.district.name)?default("")}</td>
+  <td>${examSignup.semester.schoolYear}&nbsp;${examSignup.semester.name}</td>
  </@>
 </@>
-<@htm.actionForm name="actionForm" method="post" entity="otherExamSignUp" action="signUpByTeacher.action">
+<@htm.actionForm name="actionForm" method="post" entity="examSignup" action="signupByTeacher.action">
     <input type="hidden" name="configId" id="configId" />
 </@>
 <script language="javascript">
@@ -47,7 +47,7 @@
       exportList();
    }
    function exportData(){
-     addInput(form,"keys","std.code,std.name,std.grade,std.gender.name,std.person.code,std.major.name,std.major.code,std.department.name,category.name,category.code,semester.name,feeOfSignUp,feeOfMaterial,feeOfOutline,total,signUpAt,district.name");
+     addInput(form,"keys","std.code,std.name,std.grade,std.gender.name,std.person.code,std.major.name,std.major.code,std.department.name,category.name,category.code,semester.name,feeOfSignup,feeOfMaterial,feeOfOutline,total,signupAt,district.name");
      addInput(form,"titles","学号,姓名,年级,性别,身份证号,专业,专业代码,所属院系,科目,科目代码,学期,报名费,材料费,考纲费,合计,报名时间,考试校区");
      addInput(form,"fileName","校外考试报名数据");
      exportCommon();

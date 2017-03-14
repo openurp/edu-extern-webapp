@@ -1,25 +1,25 @@
 <#include "/template/head.ftl"/>
-<script type='text/javascript' src='${base}/dwr/interface/otherExamSignUpService.js'></script>
+<script type='text/javascript' src='${base}/dwr/interface/examSignupService.js'></script>
 <BODY LEFTMARGIN="0" TOPMARGIN="0">
 <table id="bar"></table>
    <table class="frameTable">
    <tr>
     <td  style="width:160px"  class="frameTable_view">
-    <form name="actionForm" action="signUpByTeacher!search.action" method="post" target="contentFrame">
+    <form name="actionForm" action="signupByTeacher!search.action" method="post" target="contentFrame">
      <table class="searchTable" onkeypress="dwr.util.onReturn(event, search)">
       <tr>
-       <td>学号:</td><td><input name="otherExamSignUp.std.code" value="" style="width:100px" maxLength="15"></td>
+       <td>学号:</td><td><input name="examSignup.std.code" value="" style="width:100px" maxLength="15"></td>
       </tr>
       <tr>
-       <td>姓名:</td><td><input name="otherExamSignUp.std.name" value="" style="width:100px" maxLength="15"></td>
+       <td>姓名:</td><td><input name="examSignup.std.name" value="" style="width:100px" maxLength="15"></td>
       </tr>
       <tr>
-       <td>年级:</td><td><input name="otherExamSignUp.std.grade" value="" style="width:100px" maxLength="6"></td>
+       <td>年级:</td><td><input name="examSignup.std.grade" value="" style="width:100px" maxLength="6"></td>
       </tr>
       <tr>
        <td>院系:</td>
        <td>
-         <select name="otherExamSignUp.std.department.id" style="width:100px" id="categoryId">
+         <select name="examSignup.std.department.id" style="width:100px" id="categoryId">
          <option value="">....</option>
          <#list departments?sort_by("code") as depar>
          <option value="${depar.id}" title="${depar.name}">${depar.name}</option>
@@ -30,9 +30,9 @@
      <tr>
        <td>考试类型:</td>
        <td>
-         <select name="otherExamSignUp.category.kind.id" id="kindId" style="width:100px" onchange="kindIdSelect()">
+         <select name="examSignup.category.kind.id" id="kindId" style="width:100px" onchange="kindIdSelect()">
          <option value="">....</option>
-         <#list otherExamKinds as kind>
+         <#list examKinds as kind>
          <option value="${kind.id}" title="${kind.name}">${kind.name}</option>
          </#list>
          </select>
@@ -41,9 +41,9 @@
       <tr>
        <td>考试科目:</td>
        <td>
-         <select name="otherExamSignUp.category.id" style="width:100px" id="categoryId">
+         <select name="examSignup.category.id" style="width:100px" id="categoryId">
          <option value="">....</option>
-         <#list otherExamCategories as category>
+         <#list examCategories as category>
          <option value="${category.id}" title="${category.name}">${category.name}</option>
          </#list>
          </select>
@@ -57,7 +57,7 @@
             <option value=""></option>
             </select>
             </div>
-            <select id="year" name="otherExamSignUp.semester.schoolYear" style="width:100px;">
+            <select id="year" name="examSignup.semester.schoolYear" style="width:100px;">
                 <option value=""></option>
             </select>
         </td>
@@ -65,14 +65,14 @@
       <tr>
         <td style="width:50px;"><@text name="attr.term"/>:</td>
         <td style="width:50px;">
-            <select id="term" name="otherExamSignUp.semester.name" style="width:100px;">
+            <select id="term" name="examSignup.semester.name" style="width:100px;">
                 <option value=""></option>
             </select>
        </td>
       </tr>
       <tr>
          <td>考试校区:</td>
-        <td><select name="otherExamSignUp.district.id" style="width:100px">
+        <td><select name="examSignup.district.id" style="width:100px">
             <option value="">....</option>
             <#list campuss as district>
                 <option value="${district.id}" title="${district.name}">${district.name}</option>

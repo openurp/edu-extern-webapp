@@ -33,17 +33,17 @@ import org.openurp.base.model.Semester;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamSignUp;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
-import org.openurp.edu.extern.service.ExamSignUpService;
+import org.openurp.edu.extern.model.ExamSignup;
+import org.openurp.edu.extern.model.ExamSignupSetting;
+import org.openurp.edu.extern.service.ExamSignupService;
 import org.openurp.edu.web.action.RestrictionSupportAction;
 
 public class TeacherAction extends RestrictionSupportAction {
-  protected ExamSignUpService signUpByTeacherService;
+  protected ExamSignupService signupByTeacherService;
 
   public String index() {
-    put("otherExternExamSubjects", codeService.getCodes(ExamSubject.class));
-    put("otherExternExamCategorys", codeService.getCodes(ExamCategory.class));
+    put("examSubjects", codeService.getCodes(ExamSubject.class));
+    put("examCategorys", codeService.getCodes(ExamCategory.class));
     put("campuss", baseInfoService.getBaseInfos(Campus.class, getProject().getSchool()));
     put("semesters", entityDao.getAll(Semester.class));
     put("departments", getTeachDeparts());
@@ -52,15 +52,15 @@ public class TeacherAction extends RestrictionSupportAction {
   }
 
   @SuppressWarnings("unchecked")
-  public void editSetting(Entity otherGrade) {
-    put("otherExamCategories", codeService.getCodes(ExamCategory.class));
+  public void editSetting(Entity examGrade) {
+    put("examCategories", codeService.getCodes(ExamCategory.class));
     put("campuss", baseInfoService.getBaseInfos(Campus.class, getProject().getSchool()));
     put("semesters", entityDao.search(OqlBuilder.from("from Semester")));
     List<Calendar> calendars = semesterService.getCalendars(getProjects());
-    if (otherGrade.isTransient() && CollectUtils.isNotEmpty(calendars)) {
+    if (examGrade.isTransient() && CollectUtils.isNotEmpty(calendars)) {
       Semester semester = semesterService.getCurSemester((Calendar) calendars.get(0));
       if (null != semester) {
-        ((ExamSignUp) otherGrade).setSemester(semester);
+        ((ExamSignup) examGrade).setSemester(semester);
       }
     }
     put("departments", getTeachDeparts());
@@ -68,41 +68,41 @@ public class TeacherAction extends RestrictionSupportAction {
 
   protected String saveAndForward(Entity entity) {
     // 根据学号得到学生
-    Student student = (Student) entityDao.get(Student.class, getLong("otherExamSignUp.std.id"));
+    Student student = (Student) entityDao.get(Student.class, getLong("examSignup.std.id"));
     // 得到选择的科目
-    ExamCategory otherExternExamCategory = (ExamCategory) entityDao.get(ExamCategory.class,
-        getInt("otherExamSignUp.category.id"));
+    ExamCategory examCategory = (ExamCategory) entityDao.get(ExamCategory.class,
+        getInt("examSignup.category.id"));
     // 学年学期
-    Semester semester = (Semester) entityDao.get(Semester.class, getInt("otherExamSignUp.semester.id"));
+    Semester semester = (Semester) entityDao.get(Semester.class, getInt("examSignup.semester.id"));
     // 资格考试报名科目设置
-    OqlBuilder settingQuery = OqlBuilder.from(ExamSignUpSetting.class, "otherExamSignUpSetting");
-    settingQuery.where("otherExamSignUpSetting.category =:category", otherExternExamCategory);
-    settingQuery.where("otherExamSignUpSetting.config.semester =:semester", semester);
+    OqlBuilder settingQuery = OqlBuilder.from(ExamSignupSetting.class, "examSignupSetting");
+    settingQuery.where("examSignupSetting.category =:category", examCategory);
+    settingQuery.where("examSignupSetting.config.semester =:semester", semester);
     List settings = entityDao.search(settingQuery);
-    ExamSignUpSetting setting = null;
+    ExamSignupSetting setting = null;
     if (settings.size() != 0) {
-      setting = (ExamSignUpSetting) settings.get(0);
+      setting = (ExamSignupSetting) settings.get(0);
       // 检查是够可以报名
-      String msg = signUpByTeacherService.canSignUp(student, setting);
+      String msg = signupByTeacherService.canSignup(student, setting);
       if (Strings.isNotEmpty(msg)) {
         return redirect("search", msg);
       } else {
-        ExamSignUp signUp = (ExamSignUp) entity;
+        ExamSignup signup = (ExamSignup) entity;
         // 不能重复
-        if (signUp.isTransient()) {
-          OqlBuilder query = OqlBuilder.from(ExamSignUp.class, "signUp");
-          query.where("signUp.std=:std", signUp.getStd());
-          query.where("signUp.semester=:semester", signUp.getSemester());
-          query.where("signUp.category=:category", signUp.getSubject());
+        if (signup.isTransient()) {
+          OqlBuilder query = OqlBuilder.from(ExamSignup.class, "signup");
+          query.where("signup.std=:std", signup.getStd());
+          query.where("signup.semester=:semester", signup.getSemester());
+          query.where("signup.category=:category", signup.getSubject());
 
-          List existSignUps = (List) entityDao.search(query);
-          if (!existSignUps.isEmpty()) { return redirect("edit", "info.save.failure"); }
+          List existSignups = (List) entityDao.search(query);
+          if (!existSignups.isEmpty()) { return redirect("edit", "info.save.failure"); }
         }
         saveOrUpdate(Collections.singletonList(entity));
         boolean addNext = getBool("addNext");
         if (addNext) {
-          getFlash().put("otherExamSignUp.semester.id", signUp.getSemester().getId());
-          getFlash().put("otherExamSignUp.category.id", signUp.getSubject().getId());
+          getFlash().put("examSignup.semester.id", signup.getSemester().getId());
+          getFlash().put("examSignup.category.id", signup.getSubject().getId());
           return redirect("edit", "info.save.success");
         }
         return redirect("search", "info.save.success");
@@ -113,9 +113,9 @@ public class TeacherAction extends RestrictionSupportAction {
   }
 
   protected OqlBuilder getQueryBuilder() {
-    OqlBuilder query = OqlBuilder.from(ExamSignUp.class, "otherExamSignUp");
+    OqlBuilder query = OqlBuilder.from(ExamSignup.class, "examSignup");
     populateConditions(query, "adminClassesName");
-    query.join("otherExamSignUp.std", "std");
+    query.join("examSignup.std", "std");
     query.where(QueryHelper.extractConditions(Student.class, "std", null));
 
     String adminClass = get("adminClassesName");
@@ -127,8 +127,8 @@ public class TeacherAction extends RestrictionSupportAction {
     return query;
   }
 
-  public void setSignUpByTeacherService(ExamSignUpService signUpByTeacherService) {
-    this.signUpByTeacherService = signUpByTeacherService;
+  public void setSignupByTeacherService(ExamSignupService signupByTeacherService) {
+    this.signupByTeacherService = signupByTeacherService;
   }
 
 }

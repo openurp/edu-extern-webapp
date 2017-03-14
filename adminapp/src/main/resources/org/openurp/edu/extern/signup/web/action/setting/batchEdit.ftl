@@ -10,36 +10,36 @@
         obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
     }
 [/@]
-[@b.form name="otherExamSignUpSettingListForm" action="!batchSave" theme="list"]
-    [@b.grid items=otherExamSignUpSettings var="otherExamSignUpSetting"]
+[@b.form name="examSignupSettingListForm" action="!batchSave" theme="list"]
+    [@b.grid items=examSignupSettings var="examSignupSetting"]
         <table class="formTable" align="center" width="90%">
-            <input type="hidden" name="otherExamSignUpSetting.config.id" value="${config.id}"/>
-            <input type="hidden" name="settingSize" value="${otherExamSignUpSettings?size}"/>
+            <input type="hidden" name="examSignupSetting.config.id" value="${config.id}"/>
+            <input type="hidden" name="settingSize" value="${examSignupSettings?size}"/>
             <tr class="darkColumn">
                   <td width="25%">报考科目名称</td>  
                   <td width="15%" id="f_settingFeeOfMaterial">材料费</td> 
-                  <td width="15%" id="f_settingFeeOfSignUp">报名费</td> 
+                  <td width="15%" id="f_settingFeeOfSignup">报名费</td> 
                   <td width="15%" id="f_settingFeeOfOutline">考纲费</td>
                   <td width="15%" id="f_settingMaxStd">最大学生数</td> 
                   
             </tr>
-            [#list otherExamSignUpSettings as setting]
+            [#list examSignupSettings as setting]
             <tr>
                  <td>${(setting.subject.name)!}</td>
                  <td>
-                      [@b.textfield label="" name="otherExamSignUpSetting${setting_index}.feeOfMaterial"  maxLength="10" value="${(setting.feeOfMaterial)!}" request="true" style="width:75%" onBlur="clearNoNum(this)"/]
+                      [@b.textfield label="" name="examSignupSetting${setting_index}.feeOfMaterial"  maxLength="10" value="${(setting.feeOfMaterial)!}" request="true" style="width:75%" onBlur="clearNoNum(this)"/]
                  </td>
                  <td>
-                     [@b.textfield label="" name="otherExamSignUpSetting${setting_index}.feeOfSignUp"  maxLength="10" value="${(setting.feeOfSignUp)!}" style="width:75%" onBlur="clearNoNum(this)"/]
+                     [@b.textfield label="" name="examSignupSetting${setting_index}.feeOfSignup"  maxLength="10" value="${(setting.feeOfSignup)!}" style="width:75%" onBlur="clearNoNum(this)"/]
                  </td>
                  <td>
-                      [@b.textfield label="" name="otherExamSignUpSetting${setting_index}.feeOfOutline"  maxLength="10" value="${(setting.feeOfOutline)!}"  style="width:75%" onBlur="clearNoNum(this)"/]
+                      [@b.textfield label="" name="examSignupSetting${setting_index}.feeOfOutline"  maxLength="10" value="${(setting.feeOfOutline)!}"  style="width:75%" onBlur="clearNoNum(this)"/]
                  </td>
                  <td>
-                   [@b.textfield label="" name="otherExamSignUpSetting${setting_index}.maxStd"  maxLength="10" value="${(setting.maxStd)!}"  style="width:75%" onBlur="clearNoNum(this)"/]
+                   [@b.textfield label="" name="examSignupSetting${setting_index}.maxStd"  maxLength="10" value="${(setting.maxStd)!}"  style="width:75%" onBlur="clearNoNum(this)"/]
                  </td>
             </tr>
-            <input type="hidden" name="otherExamSignUpSetting${setting_index}.id" value="${setting.id?if_exists}"/>
+            <input type="hidden" name="examSignupSetting${setting_index}.id" value="${setting.id?if_exists}"/>
             [/#list]
             <tr class="darkColumn">
                 <td colspan="6" align="center">

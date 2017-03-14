@@ -1,26 +1,26 @@
 [#ftl/]
 [@b.head/]
-[@b.form name="otherExamSignUpListForm" action="!search" target="otherExamSignUpList"]
-    [@b.grid items=otherExamSignUps var="otherExamSignUp"]
+[@b.form name="examSignupListForm" action="!search" target="examSignupList"]
+    [@b.grid items=examSignups var="examSignup"]
         [#if !info?exists]
         [@b.gridbar]
                 bar.addItem("${b.text("action.new")}",action.add());
                 bar.addItem("${b.text("action.modify")}",action.edit());
                 bar.addItem("${b.text("action.delete")}",action.remove());
                 
-                m=bar.addMenu("${b.text("action.export")}","exportList(document.otherExamSignUpsearchForm)");
-                m.addItem("按四六级格式导出","exportCET(document.otherExamSignUpsearchForm)");
-                m.addItem("按计算机格式导出","exportComputer(document.otherExamSignUpsearchForm)");
-                m.addItem("按普通话格式导出","exportPTH(document.otherExamSignUpsearchForm)");
+                m=bar.addMenu("${b.text("action.export")}","exportList(document.examSignupsearchForm)");
+                m.addItem("按四六级格式导出","exportCET(document.examSignupsearchForm)");
+                m.addItem("按计算机格式导出","exportComputer(document.examSignupsearchForm)");
+                m.addItem("按普通话格式导出","exportPTH(document.examSignupsearchForm)");
                 bar.addItem("${b.text("action.export")}学生照片","downloadAvatorBatch()");
                 function downloadAvatorBatch(){
-                    var form = document.otherExamSignUpListForm;
-                    var ids = bg.input.getCheckBoxValues("otherExamSignUp.id");
+                    var form = document.examSignupListForm;
+                    var ids = bg.input.getCheckBoxValues("examSignup.id");
                     if(ids ==null || ids ==""){
                         alert("请至少选择一条");
                         return;
                     }
-                    bg.form.addInput(form,"otherExamSignUp.ids",ids);
+                    bg.form.addInput(form,"examSignup.ids",ids);
                     bg.form.submit(form,"${b.url('manage!downloadAvatorBatch')}","_self");
                 }
         [/@]
@@ -28,37 +28,37 @@
         [@b.row]
             [@b.boxcol width="4%"/]
             [@b.col property="std.code" title="std.code" width="12%"]
-                [@b.a target="_blank" href="studentSearch!info?student.id="+otherExamSignUp.std.id title="${b.text('info.user.std')}" ]${(otherExamSignUp.std.code)!}[/@]
+                [@b.a target="_blank" href="studentSearch!info?student.id="+examSignup.std.id title="${b.text('info.user.std')}" ]${(examSignup.std.code)!}[/@]
             [/@]
             [@b.col property="std.name" title="姓名" width="10%"]
-                [@b.a href="manage!info?otherExamSignUp.id="+otherExamSignUp.id title="${b.text('ui.otherExamSignUp.frame')}" ]${(otherExamSignUp.std.name)!}[/@]
+                [@b.a href="manage!info?examSignup.id="+examSignup.id title="${b.text('ui.examSignup.frame')}" ]${(examSignup.std.name)!}[/@]
             [/@]
             [@b.col property="std.state.department.name" title="院系" width="14%"/]
-            [@b.col property="std.stdType.name" title="学生类别" width="8%"]${(otherExamSignUp.std.stdType.name)!}[/@]
+            [@b.col property="std.stdType.name" title="学生类别" width="8%"]${(examSignup.std.stdType.name)!}[/@]
             [@b.col property="subject.category.name" title="考试类型" width="9%"/]
             [@b.col property="subject.name" title="报名科目" width="16%"/]
             [@b.col property="campus.name" title="校区" width="9%"/]
-            [@b.col property="semester.id" title="common.semester" width="10%"]${otherExamSignUp.semester.schoolYear}(${otherExamSignUp.semester.name})[/@]
-            [@b.col property="signUpAt" title="报名时间" width="9%"]${((otherExamSignUp.signUpAt)?string("MM-dd HH:mm"))!}[/@]
+            [@b.col property="semester.id" title="common.semester" width="10%"]${examSignup.semester.schoolYear}(${examSignup.semester.name})[/@]
+            [@b.col property="signupAt" title="报名时间" width="9%"]${((examSignup.signupAt)?string("MM-dd HH:mm"))!}[/@]
         [/@]
     [/@]
 [/@]
 <script>
-    var form = document.otherExamSignUpListForm;
+    var form = document.examSignupListForm;
     function savePayState(state){
-        var ids = bg.input.getCheckBoxValues("otherExamSignUp.id");
+        var ids = bg.input.getCheckBoxValues("examSignup.id");
         if(ids==""){
             alert("请选择一条记录");
             return;
         }
-        bg.form.addInput(form,"otherExamSignUpIds",ids,"hidden");
-        bg.form.addInput(form,"otherExamSignUp.payState.id",state,"hidden");
-        form.action="manage!savePayState.action?otherExamSignUp.payState="+state;
+        bg.form.addInput(form,"examSignupIds",ids,"hidden");
+        bg.form.addInput(form,"examSignup.payState.id",state,"hidden");
+        form.action="manage!savePayState.action?examSignup.payState="+state;
         bg.form.submit(form);
     }    
             
     function exportList(form){
-        bg.form.addInput(form, "keys", "std.code,std.name,std.grade,std.gender.name,std.major.name,std.major.code,std.department.name,subject.category.name,subject.name,semester.schoolYear,semester.name,feeOfSignUp,feeOfMaterial,feeOfOutline,total,signUpAt,campus.name");
+        bg.form.addInput(form, "keys", "std.code,std.name,std.grade,std.gender.name,std.major.name,std.major.code,std.department.name,subject.category.name,subject.name,semester.schoolYear,semester.name,feeOfSignup,feeOfMaterial,feeOfOutline,total,signupAt,campus.name");
         bg.form.addInput(form, "titles", "学号,姓名,年级,性别,专业,专业代码,所属院系,考试类型,报名科目,学年,学期,报名费,材料费,考纲费,合计,报名时间,考试校区");
         bg.form.addInput(form, "fileName", "校外考试报名数据");
         bg.form.submit(form, "manage!export.action","_self");

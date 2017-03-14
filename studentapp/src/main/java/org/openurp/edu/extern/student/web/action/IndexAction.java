@@ -37,16 +37,16 @@ import org.openurp.edu.base.model.Project;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamSubject;
 import org.openurp.edu.extern.model.ExamFeeConfig;
-import org.openurp.edu.extern.model.ExamSignUp;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.model.ExamSignUpLogger;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
-import org.openurp.edu.extern.model.ExamGrade;
+import org.openurp.edu.extern.model.ExamSignup;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExamSignupLogger;
+import org.openurp.edu.extern.model.ExamSignupSetting;
+import org.openurp.edu.extern.model.ExternExamGrade;
 import org.openurp.edu.extern.service.ExamFeeConfigService;
-import org.openurp.edu.extern.service.ExamSignUpCalculator;
-import org.openurp.edu.extern.service.ExamSignUpLoggerService;
-import org.openurp.edu.extern.service.ExamSignUpService;
-import org.openurp.edu.extern.service.checker.ExamSignUpChecker;
+import org.openurp.edu.extern.service.ExamSignupCalculator;
+import org.openurp.edu.extern.service.ExamSignupLoggerService;
+import org.openurp.edu.extern.service.ExamSignupService;
+import org.openurp.edu.extern.service.checker.ExamSignupChecker;
 import org.openurp.edu.extern.service.checker.ExamSuperCategoryChecker;
 import org.openurp.edu.web.action.StudentProjectSupport;
 import org.openurp.fee.code.model.PayState;
@@ -66,17 +66,17 @@ import org.openurp.fee.service.impl.PaymentContext;
  */
 public class IndexAction extends StudentProjectSupport {
 
-  protected ExamSignUpChecker otherExamSignUpChecker;
+  protected ExamSignupChecker examSignupChecker;
 
-  protected ExamSignUpService otherExamSignUpService;
+  protected ExamSignupService examSignupService;
 
-  protected ExamSignUpLoggerService otherExamSignUpLoggerService;
+  protected ExamSignupLoggerService examSignupLoggerService;
 
-  protected BillCodeGenerator otherExamBillCodeGenerator;
+  protected BillCodeGenerator examBillCodeGenerator;
 
-  protected ExamFeeConfigService otherExamFeeConfigService;
+  protected ExamFeeConfigService examFeeConfigService;
 
-  private ExamSuperCategoryChecker otherExamSuperCategoryChecker;
+  private ExamSuperCategoryChecker examSuperCategoryChecker;
 
   protected PaymentService paymentService;
 
@@ -86,34 +86,34 @@ public class IndexAction extends StudentProjectSupport {
 
   @Override
   protected String getEntityName() {
-    return ExamSignUp.class.getName();
+    return ExamSignup.class.getName();
   }
 
   @Override
   public String innerIndex() {
     Student std = getLoginStudent();
-    OqlBuilder<ExamSignUp> builder = OqlBuilder.from(ExamSignUp.class, "signUp").where(
-        "signUp.std =:std", std);
-    List<ExamSignUp> signUpList = entityDao.search(builder);
-    for (ExamSignUp otherExamSignUp : signUpList) {
-      Bill bill = otherExamSignUp.getBill();
+    OqlBuilder<ExamSignup> builder = OqlBuilder.from(ExamSignup.class, "signup").where(
+        "signup.std =:std", std);
+    List<ExamSignup> signupList = entityDao.search(builder);
+    for (ExamSignup examSignup : signupList) {
+      Bill bill = examSignup.getBill();
       if (null != bill && bill.getState().getId().equals(PayState.UNPAID)) {
         if (paymentService.checkBillOnPurpose(bill)) {
           paymentService.updatePayInfo(bill, BillLogType.PAID_SEARCH);
         }
       } else if (null != bill && bill.getState().getId().equals(PayState.PAID)
-          && otherExamSignUp.getPayState().getId().equals(PayState.UNPAID)) {
+          && examSignup.getPayState().getId().equals(PayState.UNPAID)) {
         if (paymentService.checkBillOnPurpose(bill)) {
-          otherExamSignUp.setPayState(Model.newInstance(PayState.class, PayState.PAID));
-          entityDao.save(otherExamSignUp);
+          examSignup.setPayState(Model.newInstance(PayState.class, PayState.PAID));
+          entityDao.save(examSignup);
         }
       }
     }
     // 查询已有成绩
-    OqlBuilder<ExamGrade> gradeBuilder = OqlBuilder.from(ExamGrade.class, "grade").where("grade.std =:std",
+    OqlBuilder<ExternExamGrade> gradeBuilder = OqlBuilder.from(ExternExamGrade.class, "grade").where("grade.std =:std",
         std);
     put("grades", entityDao.search(gradeBuilder));
-    put("signUps", signUpList);
+    put("signups", signupList);
     put("unpaid", PayState.UNPAID);
     return forward();
   }
@@ -130,46 +130,46 @@ public class IndexAction extends StudentProjectSupport {
   public String configList() {
     Student student = getLoginStudent();
     // 可以开放的期号设置
-    List<ExamSignUpConfig> configs = otherExamSignUpService.getOpenedConfigs(student.getProject());
+    List<ExamSignupConfig> configs = examSignupService.getOpenedConfigs(student.getProject());
     // 本次报名记录
-    List<ExamSignUp> signUpList = new ArrayList<ExamSignUp>();
-    for (Iterator<ExamSignUpConfig> iter = configs.iterator(); iter.hasNext();) {
-      ExamSignUpConfig config = (ExamSignUpConfig) iter.next();
-      List<ExamSignUp> signUps = otherExamSignUpService.getSignUps(student, config);
-      signUpList.addAll(signUps);
+    List<ExamSignup> signupList = new ArrayList<ExamSignup>();
+    for (Iterator<ExamSignupConfig> iter = configs.iterator(); iter.hasNext();) {
+      ExamSignupConfig config = (ExamSignupConfig) iter.next();
+      List<ExamSignup> signups = examSignupService.getSignups(student, config);
+      signupList.addAll(signups);
     }
-    for (ExamSignUp otherExamSignUp : signUpList) {
-      Bill bill = otherExamSignUp.getBill();
+    for (ExamSignup examSignup : signupList) {
+      Bill bill = examSignup.getBill();
       if (null != bill && bill.getState().getId().equals(PayState.UNPAID)) {
         if (paymentService.checkBillOnPurpose(bill)) {
           paymentService.updatePayInfo(bill, BillLogType.PAID_SEARCH);
         }
       } else if (null != bill && bill.getState().getId().equals(PayState.PAID)
-          && otherExamSignUp.getPayState().getId().equals(PayState.UNPAID)) {
+          && examSignup.getPayState().getId().equals(PayState.UNPAID)) {
         boolean paid = paymentService.checkBillOnPurpose(bill);
         if (paid) {
-          otherExamSignUp.setPayState(Model.newInstance(PayState.class, PayState.PAID));
-          entityDao.save(otherExamSignUp);
+          examSignup.setPayState(Model.newInstance(PayState.class, PayState.PAID));
+          entityDao.save(examSignup);
         }
       }
     }
-    if (!signUpList.isEmpty()) {
-      put("signUpSubjects", CollectUtils.collect(signUpList, new PropertyTransformer("subject")));
+    if (!signupList.isEmpty()) {
+      put("signupSubjects", CollectUtils.collect(signupList, new PropertyTransformer("subject")));
     }
     // 查询已有成绩
-    List<ExamGrade> grades = entityDao.get(ExamGrade.class, "std", student);
+    List<ExternExamGrade> grades = entityDao.get(ExternExamGrade.class, "std", student);
     Set<ExamSubject> passedSubjects = CollectUtils.newHashSet();
-    for (ExamGrade otherGrade : grades) {
-      if (otherGrade.isPassed()) {
-        passedSubjects.add(otherGrade.getSubject());
+    for (ExternExamGrade examGrade : grades) {
+      if (examGrade.isPassed()) {
+        passedSubjects.add(examGrade.getSubject());
       }
     }
     put("passedSubjects", passedSubjects);
-    put("signUpList", signUpList);
+    put("signupList", signupList);
     put("configs", configs);
     put("student", student);
     Project project = student.getProject();
-    put("feeOpen", !otherExamFeeConfigService
+    put("feeOpen", !examFeeConfigService
         .getOpenConfigs(project, semesterService.getCurSemester(project)).isEmpty());
     put("unpaid", PayState.UNPAID);
     put("avatarUrl", Urp.Instance.getServicePath("/sns/photo/"
@@ -188,19 +188,19 @@ public class IndexAction extends StudentProjectSupport {
    * @return @
    */
   public String notice() {
-    ExamSignUpSetting setting = (ExamSignUpSetting) getEntity(ExamSignUpSetting.class,
+    ExamSignupSetting setting = (ExamSignupSetting) getEntity(ExamSignupSetting.class,
         "setting");
     Student student = getLoginStudent();
     if (setting.getSuperSubject() != null) {
-      String message = otherExamSuperCategoryChecker.check(student, setting);
+      String message = examSuperCategoryChecker.check(student, setting);
       if (null != message) {
         addFlashError(message);
         return redirect("configList");
       }
     }
 
-    ExamSignUpConfig config = setting.getConfig();
-    List<ExamSignUpConfig> configs = otherExamSignUpService.getOpenedConfigs(student.getProject());
+    ExamSignupConfig config = setting.getConfig();
+    List<ExamSignupConfig> configs = examSignupService.getOpenedConfigs(student.getProject());
     if (!configs.contains(config)) {
       addFlashError("你不能报名此考试科目");
       return redirect("configList");
@@ -212,11 +212,11 @@ public class IndexAction extends StudentProjectSupport {
   /**
    * 显示报名数据表单(操作第三步)
    */
-  public String signUpForm() {
+  public String signupForm() {
     Student student = getLoginStudent();
-    ExamSignUpSetting setting = (ExamSignUpSetting) getEntity(ExamSignUpSetting.class,
+    ExamSignupSetting setting = (ExamSignupSetting) getEntity(ExamSignupSetting.class,
         "setting");
-    List<ExamSignUpConfig> configs = otherExamSignUpService.getOpenedConfigs(student.getProject());
+    List<ExamSignupConfig> configs = examSignupService.getOpenedConfigs(student.getProject());
     if (!configs.contains(setting.getConfig())) {
       addFlashError("你不能报名此考试科目");
       return redirect("configList");
@@ -227,7 +227,7 @@ public class IndexAction extends StudentProjectSupport {
         addFlashError("你不能报名此考试科目");
         return redirect("configList");
       }
-      msg = otherExamSignUpService.canSignUp(student, setting);
+      msg = examSignupService.canSignup(student, setting);
     }
     if (Strings.isNotEmpty(msg)) {
       addFlashError(msg);
@@ -244,47 +244,47 @@ public class IndexAction extends StudentProjectSupport {
    */
   public String save() {
     Student student = getLoginStudent();
-    ExamSignUp signUp = populateEntity(ExamSignUp.class, getShortName());
-    if (signUp.isPersisted()) {
-      ExamSignUp persistedSignup = entityDao.get(ExamSignUp.class, signUp.getId());
+    ExamSignup signup = populateEntity(ExamSignup.class, getShortName());
+    if (signup.isPersisted()) {
+      ExamSignup persistedSignup = entityDao.get(ExamSignup.class, signup.getId());
       if (!(student.equals(persistedSignup.getStd()) && null != persistedSignup.getStd() && persistedSignup
-          .getStd().equals(signUp.getStd()))) { return forwardError("非法操作!"); }
+          .getStd().equals(signup.getStd()))) { return forwardError("非法操作!"); }
     }
-    ExamSignUpSetting setting = (ExamSignUpSetting) entityDao.get(ExamSignUpSetting.class,
+    ExamSignupSetting setting = (ExamSignupSetting) entityDao.get(ExamSignupSetting.class,
         getLong("setting.id"));
-    signUp.setStd(student);
+    signup.setStd(student);
     Boolean needMaterial = getBoolean("needMaterial");
     if (Boolean.TRUE.equals(needMaterial)) {
-      signUp.setFeeOfMaterial(setting.getFeeOfMaterial());
+      signup.setFeeOfMaterial(setting.getFeeOfMaterial());
     }
     Boolean needOutline = getBoolean("needOutline");
     if (Boolean.TRUE.equals(needOutline)) {
-      signUp.setFeeOfOutline(setting.getFeeOfOutline());
+      signup.setFeeOfOutline(setting.getFeeOfOutline());
     }
-    signUp.setFeeOfSignUp(setting.getFeeOfSignUp());
-    signUp.setSignUpAt(new Timestamp(System.currentTimeMillis()));
-    Boolean takeBus = getBoolean("otherExamSignUp.takeBus");
+    signup.setFeeOfSignup(setting.getFeeOfSignup());
+    signup.setSignupAt(new Timestamp(System.currentTimeMillis()));
+    Boolean takeBus = getBoolean("examSignup.takeBus");
     if (Boolean.TRUE.equals(takeBus)) {
-      signUp.setTakeBus(takeBus);
+      signup.setTakeBus(takeBus);
     }
     String msg = "";
     Project project = student.getProject();
     Semester semester = semesterService.getCurSemester(project);
-    msg = otherExamSignUpService.signUp(signUp, setting);
-    List<ExamFeeConfig> configs = otherExamFeeConfigService.getOpenConfigs(project, semester);
+    msg = examSignupService.signup(signup, setting);
+    List<ExamFeeConfig> configs = examFeeConfigService.getOpenConfigs(project, semester);
     if (configs.size() == 1 && Strings.isEmpty(msg)) {
       ExamFeeConfig config = configs.get(0);
       if (config.getFeeType() != null) {
         BillGenContext context = BillGenContext.create(student, config.getFeeType(), semester,
-            ExamSignUpCalculator.calExamFee(signUp)).setRemark("PAYFOROTHEREXAM");
-        context.put("otherExamSignUpConfig", config).setBillCodeGenerator(otherExamBillCodeGenerator);
+            ExamSignupCalculator.calExamFee(signup)).setRemark("PAYFOROTHEREXAM");
+        context.put("examSignupConfig", config).setBillCodeGenerator(examBillCodeGenerator);
         Bill bill = billService.genBill(config, context);
-        signUp.setBill(bill);
-        billService.saveOrUpdate(bill, BillLogType.CREATED, signUp);
+        signup.setBill(bill);
+        billService.saveOrUpdate(bill, BillLogType.CREATED, signup);
         msg = "info.signup.success";
         String remoteAddr = getRemoteAddr();
-        otherExamSignUpLoggerService.logger(signUp.getStd().getCode(), ExamSignUpLogger.CREATE,
-            remoteAddr, signUp);
+        examSignupLoggerService.logger(signup.getStd().getCode(), ExamSignupLogger.CREATE,
+            remoteAddr, signup);
       } else {
         msg = "收费项目尚未设置";
       }
@@ -292,63 +292,63 @@ public class IndexAction extends StudentProjectSupport {
     return redirect("configList", Strings.isEmpty(msg) ? "info.signup.success" : msg);
   }
 
-  public String cancelSignUp() {
-    ExamSignUp signUp = getEntity(ExamSignUp.class, "signUp");
+  public String cancelSignup() {
+    ExamSignup signup = getEntity(ExamSignup.class, "signup");
     Student student = getLoginStudent();
-    if (signUp.isPersisted()) {
-      List<ExamSignUpConfig> configs = otherExamSignUpService.getOpenedConfigs(student.getProject());
+    if (signup.isPersisted()) {
+      List<ExamSignupConfig> configs = examSignupService.getOpenedConfigs(student.getProject());
       boolean openConfig = false;
-      for (ExamSignUpConfig otherExamSignUpConfig : configs) {
-        if (otherExamSignUpService.getSignUps(student, otherExamSignUpConfig).contains(signUp)) {
+      for (ExamSignupConfig examSignupConfig : configs) {
+        if (examSignupService.getSignups(student, examSignupConfig).contains(signup)) {
           openConfig = true;
           break;
         }
       }
-      if (openConfig && signUp.getStd().equals(student)) {
-        Bill bill = signUp.getBill();
+      if (openConfig && signup.getStd().equals(student)) {
+        Bill bill = signup.getBill();
         if (null != bill) {
           if (PayState.UNPAID.equals(bill.getState().getId()) && !paymentService.checkBillOnPurpose(bill)) {
             bill.setState(Model.newInstance(PayState.class, PayState.CANCEL));
             billService.cancel(bill);
-            signUp.setBill(null);
+            signup.setBill(null);
           } else {
             return redirect("configList", "取消报名失败!");
           }
         }
-        entityDao.remove(signUp);
+        entityDao.remove(signup);
         String remoteAddr = getRemoteAddr();
-        otherExamSignUpLoggerService.logger(signUp.getStd().getCode(), ExamSignUpLogger.DELETE,
-            remoteAddr, signUp);
+        examSignupLoggerService.logger(signup.getStd().getCode(), ExamSignupLogger.DELETE,
+            remoteAddr, signup);
         return redirect("configList", "取消报名成功!");
       }
     }
     return redirect("configList", "取消报名失败!");
   }
 
-  public void setExamSignUpService(ExamSignUpService otherExamSignUpService) {
-    this.otherExamSignUpService = otherExamSignUpService;
+  public void setExamSignupService(ExamSignupService examSignupService) {
+    this.examSignupService = examSignupService;
   }
 
-  public void setExamSignUpLoggerService(ExamSignUpLoggerService otherExamSignUpLoggerService) {
-    this.otherExamSignUpLoggerService = otherExamSignUpLoggerService;
+  public void setExamSignupLoggerService(ExamSignupLoggerService examSignupLoggerService) {
+    this.examSignupLoggerService = examSignupLoggerService;
   }
 
-  public void setExamSignUpChecker(ExamSignUpChecker otherExamSignUpChecker) {
-    this.otherExamSignUpChecker = otherExamSignUpChecker;
+  public void setExamSignupChecker(ExamSignupChecker examSignupChecker) {
+    this.examSignupChecker = examSignupChecker;
   }
 
   protected void preparePaymentContext(PaymentContext context) {
-    Long signUpId = getLong("signUpId");
-    if (null != signUpId) {
-      ExamSignUp signUp = entityDao.get(ExamSignUp.class, signUpId);
-      Project project = signUp.getStd().getProject();
-      Semester semester = signUp.getSemester();
+    Long signupId = getLong("signupId");
+    if (null != signupId) {
+      ExamSignup signup = entityDao.get(ExamSignup.class, signupId);
+      Project project = signup.getStd().getProject();
+      Semester semester = signup.getSemester();
       context.put("student", getLoginStudent());
       context.put("semester", semester);
       context.put("project", project);
-      context.put("feeConfigs", otherExamFeeConfigService.getOpenConfigs(project, semester));
-      context.put("billId", signUp.getBill().getId());
-      context.setBill(signUp.getBill());
+      context.put("feeConfigs", examFeeConfigService.getOpenConfigs(project, semester));
+      context.put("billId", signup.getBill().getId());
+      context.setBill(signup.getBill());
     }
     String remoteAddr = getRemoteAddr();
     context.put("remoteAddr", remoteAddr);
@@ -358,10 +358,10 @@ public class IndexAction extends StudentProjectSupport {
     PaymentContext context = PaymentContext.create();
     context.put("request", getRequest());
     context.put("response", getResponse());
-    Long signUpId = getLong("signUpId");
-    if (null != signUpId) {
-      ExamSignUp signUp = entityDao.get(ExamSignUp.class, signUpId);
-      if (signUp.getBill() == null) { return redirect("configList", "此报名记录未生成订单。请取消后重新报名"); }
+    Long signupId = getLong("signupId");
+    if (null != signupId) {
+      ExamSignup signup = entityDao.get(ExamSignup.class, signupId);
+      if (signup.getBill() == null) { return redirect("configList", "此报名记录未生成订单。请取消后重新报名"); }
     }
     preparePaymentContext(context);
     context.put("paymentAction", this.getClass());
@@ -381,12 +381,12 @@ public class IndexAction extends StudentProjectSupport {
     return forward();
   }
 
-  public void setExamFeeConfigService(ExamFeeConfigService otherExamFeeConfigService) {
-    this.otherExamFeeConfigService = otherExamFeeConfigService;
+  public void setExamFeeConfigService(ExamFeeConfigService examFeeConfigService) {
+    this.examFeeConfigService = examFeeConfigService;
   }
 
-  public void setExamBillCodeGenerator(BillCodeGenerator otherExamBillCodeGenerator) {
-    this.otherExamBillCodeGenerator = otherExamBillCodeGenerator;
+  public void setExamBillCodeGenerator(BillCodeGenerator examBillCodeGenerator) {
+    this.examBillCodeGenerator = examBillCodeGenerator;
   }
 
   public void setPaymentService(PaymentService paymentService) {
@@ -401,8 +401,8 @@ public class IndexAction extends StudentProjectSupport {
     this.checkers = checkers;
   }
 
-  public void setExamSuperCategoryChecker(ExamSuperCategoryChecker otherExamSuperCategoryChecker) {
-    this.otherExamSuperCategoryChecker = otherExamSuperCategoryChecker;
+  public void setExamSuperCategoryChecker(ExamSuperCategoryChecker examSuperCategoryChecker) {
+    this.examSuperCategoryChecker = examSuperCategoryChecker;
   }
 
 }

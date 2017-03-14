@@ -27,11 +27,11 @@ import org.openurp.base.model.Semester;
 import org.openurp.edu.base.model.Project;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamSignUp;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
+import org.openurp.edu.extern.model.ExamSignup;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExamSignupSetting;
 
-public interface ExamSignUpService {
+public interface ExamSignupService {
 
   /**
    * 报名(成功时，保存报名记录)<br>
@@ -41,10 +41,10 @@ public interface ExamSignUpService {
    * 3.不能重复报名<br>
    * 4.在同一时间段内不能同时报两种以上(含)的考试类别 --（5.不能报已经通过的科目,但是六级可以）
    * 
-   * @param signUp
+   * @param signup
    * @return 返回""如果成功,否则返回错误信息
    */
-  public String signUp(ExamSignUp signUp, ExamSignUpSetting setting);
+  public String signup(ExamSignup signup, ExamSignupSetting setting);
 
   /**
    * 取消报名<br>
@@ -54,7 +54,7 @@ public interface ExamSignUpService {
    * @param setting
    * @return
    */
-  public String cancelSignUp(Student std, ExamSignUpSetting setting);
+  public String cancelSignup(Student std, ExamSignupSetting setting);
 
   /**
    * 查询在特定设置条件下的报名记录
@@ -63,7 +63,7 @@ public interface ExamSignUpService {
    * @param setting
    * @return
    */
-  public ExamSignUp getExamSignUp(Student std, ExamSignUpSetting setting);
+  public ExamSignup getExamSignup(Student std, ExamSignupSetting setting);
 
   /**
    * 查询在特定设置条件下的报名记录
@@ -73,7 +73,7 @@ public interface ExamSignUpService {
    * @param setting
    * @return
    */
-  public ExamSignUp getExamSignUp(Student std, Semester semester, ExamSignUpSetting setting);
+  public ExamSignup getExamSignup(Student std, Semester semester, ExamSignupSetting setting);
 
   /**
    * 查询在一定时间段内的学生的报名记录
@@ -83,16 +83,16 @@ public interface ExamSignUpService {
    * @param end
    * @return
    */
-  public List<ExamSignUp> getExamSignUps(Student std, Date start, Date end);
+  public List<ExamSignup> getExamSignups(Student std, Date start, Date end);
 
   /**
    * 返回现在开放，并且在时间内的设置
    * 
    * @return
    */
-  public List<ExamSignUpSetting> getOpenedSettings(Project project);
+  public List<ExamSignupSetting> getOpenedSettings(Project project);
 
-  public List<ExamSignUpConfig> getConfigs(Long kindId);
+  public List<ExamSignupConfig> getConfigs(Long kindId);
 
   public List<ExamSubject> getSubjects(Long kindId);
 
@@ -107,7 +107,7 @@ public interface ExamSignUpService {
    * @param setting
    * @return
    */
-  public String canSignUp(Student student, ExamSignUpSetting setting);
+  public String canSignup(Student student, ExamSignupSetting setting);
 
   /**
    * 获得学生这次期号中的报名记录
@@ -116,14 +116,14 @@ public interface ExamSignUpService {
    * @param config
    * @return
    */
-  public List<ExamSignUp> getSignUps(Student std, ExamSignUpConfig config);
+  public List<ExamSignup> getSignups(Student std, ExamSignupConfig config);
 
   /**
    * 获得这次期号中某门科目开放的期号
    * 
    * @return
    */
-  public List<ExamSignUpConfig> getOpenedConfigs(Project project);
+  public List<ExamSignupConfig> getOpenedConfigs(Project project);
 
   /**
    * 根据期号和科目来找到唯一的科目设
@@ -132,11 +132,11 @@ public interface ExamSignUpService {
    * @param subjectId
    * @return
    */
-  public ExamSignUpSetting getSettingByConfigCategory(Long configId, Long subjectId);
+  public ExamSignupSetting getSettingByConfigCategory(Long configId, Long subjectId);
 
   public boolean isFree(Student student, ExamSubject subject);
 
-  public boolean isExist(ExamSignUp signUp);
+  public boolean isExist(ExamSignup signup);
 
-  public List<ExamSignUpConfig> getOpenedConfigs(Project project, ExamSignUpSetting setting);
+  public List<ExamSignupConfig> getOpenedConfigs(Project project, ExamSignupSetting setting);
 }

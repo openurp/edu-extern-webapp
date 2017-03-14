@@ -24,11 +24,11 @@ import java.util.List;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamGrade;
+import org.openurp.edu.extern.model.ExternExamGrade;
 
-public interface ExamGradeService {
+public interface ExternExamGradeService {
 
-  public void saveOrUpdate(ExamGrade otherGrade);
+  public void saveOrUpdate(ExternExamGrade examGrade);
 
   /**
    * FIXME 目前资格考试的功能还未移植，表没有，今后还需要建表
@@ -37,10 +37,10 @@ public interface ExamGradeService {
    * @param category
    * @return
    */
-  public ExamGrade getBestGrade(Student std, ExamCategory category);
+  public ExternExamGrade getBestGrade(Student std, ExamCategory category);
 
   /** 查询通过的考试成绩 */
-  public List<ExamGrade> getPassGradesOf(Student std, Collection<ExamSubject> otherExternExamSubjects);
+  public List<ExternExamGrade> getPassGradesOf(Student std, Collection<ExamSubject> examSubjects);
 
   /**
    * 查询某类成绩类型是否通过
@@ -54,5 +54,5 @@ public interface ExamGradeService {
    * @param isBest
    * @return
    */
-  public Collection<ExamGrade> getExamGrades(Student std, Boolean isBest);
+  public Collection<ExternExamGrade> getExternExamGrades(Student std, Boolean isBest);
 }

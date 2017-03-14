@@ -24,7 +24,7 @@ import org.beangle.commons.dao.impl.BaseServiceImpl;
 import org.beangle.commons.entity.metadata.Model;
 import org.beangle.commons.event.Event;
 import org.beangle.commons.event.EventListener;
-import org.openurp.edu.extern.model.ExamSignUp;
+import org.openurp.edu.extern.model.ExamSignup;
 import org.openurp.fee.code.model.PayState;
 import org.openurp.fee.event.BillStateChangeEvent;
 import org.openurp.fee.model.Bill;
@@ -35,11 +35,11 @@ public class ExamBillStateChangeEventListener extends BaseServiceImpl implements
   public void onEvent(BillStateChangeEvent event) {
     Bill bill = event.getSource();
     if (!bill.getState().getId().equals(PayState.PAID)) { return; }
-    List<ExamSignUp> signUps = entityDao.get(ExamSignUp.class, "bill", bill);
-    if (!signUps.isEmpty()) {
-      ExamSignUp signUp = signUps.get(0);
-      signUp.setPayState(Model.newInstance(PayState.class, PayState.PAID));
-      entityDao.saveOrUpdate(signUp);
+    List<ExamSignup> signups = entityDao.get(ExamSignup.class, "bill", bill);
+    if (!signups.isEmpty()) {
+      ExamSignup signup = signups.get(0);
+      signup.setPayState(Model.newInstance(PayState.class, PayState.PAID));
+      entityDao.saveOrUpdate(signup);
     }
   }
 

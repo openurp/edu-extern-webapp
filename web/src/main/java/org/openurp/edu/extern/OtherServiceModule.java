@@ -19,45 +19,45 @@
 package org.openurp.edu.extern;
 
 import org.beangle.commons.inject.bind.AbstractBindModule;
-import org.openurp.edu.extern.dao.internal.ExamSignUpDaoHibernate;
+import org.openurp.edu.extern.dao.internal.ExamSignupDaoHibernate;
 import org.openurp.edu.extern.service.checker.ExamExistChecker;
-import org.openurp.edu.extern.service.checker.ExamGradeChecker;
+import org.openurp.edu.extern.service.checker.ExamConditionChecker;
 import org.openurp.edu.extern.service.checker.ExamPaymentChecker;
 import org.openurp.edu.extern.service.checker.ExamSignBuildInChecker;
 import org.openurp.edu.extern.service.checker.ExamSuperCategoryChecker;
 import org.openurp.edu.extern.service.checker.ExamTimeChecker;
 import org.openurp.edu.extern.service.impl.ExamExportServiceImpl;
 import org.openurp.edu.extern.service.impl.ExamFeeConfigServiceImpl;
-import org.openurp.edu.extern.service.impl.ExamSignUpConfigServiceImpl;
-import org.openurp.edu.extern.service.impl.ExamSignUpLoggerServiceImpl;
-import org.openurp.edu.extern.service.impl.ExamSignUpServiceImpl;
-import org.openurp.edu.extern.service.impl.ExamGradeServiceImpl;
+import org.openurp.edu.extern.service.impl.ExamSignupConfigServiceImpl;
+import org.openurp.edu.extern.service.impl.ExamSignupLoggerServiceImpl;
+import org.openurp.edu.extern.service.impl.ExamSignupServiceImpl;
+import org.openurp.edu.extern.service.impl.ExternExamGradeServiceImpl;
 import org.openurp.edu.extern.service.listener.ExamBillStateChangeEventListener;
 import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 
 public class OtherServiceModule extends AbstractBindModule {
   @Override
   protected void doBinding() {
-    bind("otherExamExportService", ExamExportServiceImpl.class);
-    bind("otherExamSignUpConfigService", ExamSignUpConfigServiceImpl.class);
-    bind("otherExamSignUpLoggerService", ExamSignUpLoggerServiceImpl.class);
-    bind("otherGradeService", ExamGradeServiceImpl.class);
-    bind("otherExamSignUpDao", TransactionProxyFactoryBean.class).proxy("target",
-        ExamSignUpDaoHibernate.class).parent("baseTransactionProxy");
+    bind("examExportService", ExamExportServiceImpl.class);
+    bind("examSignupConfigService", ExamSignupConfigServiceImpl.class);
+    bind("examSignupLoggerService", ExamSignupLoggerServiceImpl.class);
+    bind("examGradeService", ExternExamGradeServiceImpl.class);
+    bind("examSignupDao", TransactionProxyFactoryBean.class).proxy("target",
+        ExamSignupDaoHibernate.class).parent("baseTransactionProxy");
 
-    bind("otherExamSignBuildInChecker", ExamSignBuildInChecker.class);
-    bind("otherExamExistChecker", ExamExistChecker.class);
-    bind("otherExamGradeChecker", ExamGradeChecker.class);
-    bind("otherExamSuperCategoryChecker", ExamSuperCategoryChecker.class);
-    bind("otherExamTimeChecker", ExamTimeChecker.class);
+    bind("examSignBuildInChecker", ExamSignBuildInChecker.class);
+    bind("examExistChecker", ExamExistChecker.class);
+    bind("examConditionChecker", ExamConditionChecker.class);
+    bind("examSuperCategoryChecker", ExamSuperCategoryChecker.class);
+    bind("examTimeChecker", ExamTimeChecker.class);
 
-    bind("otherExamSignUpService", ExamSignUpServiceImpl.class).property(
+    bind("examSignupService", ExamSignupServiceImpl.class).property(
         "checkerStack",
-        list(ref("otherExamSignBuildInChecker"), ref("otherExamExistChecker"), ref("otherExamGradeChecker"),
-            ref("otherExamSuperCategoryChecker")));
+        list(ref("examSignBuildInChecker"), ref("examExistChecker"), ref("examConditionChecker"),
+            ref("examSuperCategoryChecker")));
 
-    bind("otherExamFeeConfigService", ExamFeeConfigServiceImpl.class);
-    bind("otherExamPaymentChecker", ExamPaymentChecker.class);
+    bind("examFeeConfigService", ExamFeeConfigServiceImpl.class);
+    bind("examPaymentChecker", ExamPaymentChecker.class);
     bind(ExamBillStateChangeEventListener.class);
   }
 }

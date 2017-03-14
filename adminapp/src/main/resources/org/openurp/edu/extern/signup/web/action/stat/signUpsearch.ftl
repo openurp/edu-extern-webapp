@@ -1,19 +1,19 @@
 [#ftl]
 [@b.head/]
 <script type='text/javascript' src='${base}/dwr/engine.js'></script>
-<script type='text/javascript' src='${base}/dwr/interface/otherExamSignUpService.js'></script>
+<script type='text/javascript' src='${base}/dwr/interface/examSignupService.js'></script>
 [@b.toolbar title="校外考试报名统计"]
     bar.addBack("${b.text("action.back")}");
 [/@]
 <table class="indexpanel">
 <tr>
     <td class="index_view">
-            <form name="otherExamSignUpStatsearchForm" action="!signUpInfo"  target="otherExamSignUpStatList" >
+            <form name="examSignupStatsearchForm" action="!signupInfo"  target="examSignupStatList" >
                <table>
                 <tr>
                   <td>学期:</td>
                  <td>
-                    [@b.select  name="signUp.semester.id" required="true" id="semestersId"  label="学年学期"]
+                    [@b.select  name="signup.semester.id" required="true" id="semestersId"  label="学年学期"]
                        <option>...</option>
                         [#list semesters?sort_by("code")?reverse as se]
                         <option value="${se.id}">${se.schoolYear}&nbsp;${se.name}</option>
@@ -22,11 +22,11 @@
                 </td>
                 <td>考试类型:</td>
                 <td>
-                  [@b.select name="signUp.subject.category.id" id="categoryId" label="考试类型" items=otherExamCategories onchange="kindIdSelect()" empty="..." /]
+                  [@b.select name="signup.subject.category.id" id="categoryId" label="考试类型" items=examCategories onchange="kindIdSelect()" empty="..." /]
                 </td>
                 <td name="subjectId">科目名称:</td>
                 <td>
-                 [@b.select name="signUp.subject.id" id="subjectId" label="科目名称" items=otherExternExamSubjects empty="..." /]
+                 [@b.select name="signup.subject.id" id="subjectId" label="科目名称" items=examSubjects empty="..." /]
                 </td>
                 
                   <td colspan="2" align="center">
@@ -39,22 +39,22 @@
 </tr>
 <tr>
       <td class="index_content">
-        [@b.div id="otherExamSignUpStatList" href="!signUpInfo" /]
+        [@b.div id="examSignupStatList" href="!signupInfo" /]
     </td>
 </tr>
 </table>
 <script>
-        var otherExamSignUpStatsearchForm=document.otherExamSignUpStatsearchForm;
+        var examSignupStatsearchForm=document.examSignupStatsearchForm;
         function search(){
-              bg.form.submit(otherExamSignUpStatsearchForm);
+              bg.form.submit(examSignupStatsearchForm);
         }
        function kindIdSelect(){
                var categoryId=document.getElementById("categoryId").value;
                if(categoryId==null || categoryId==""){
                    return;
                }
-               //otherExamSignUpService.getConfigs(categoryId,setSelectConfig);
-               otherExamSignUpService.getSubjects(categoryId,setSelectSubject);
+               //examSignupService.getConfigs(categoryId,setSelectConfig);
+               examSignupService.getSubjects(categoryId,setSelectSubject);
        }
            function setSelectConfig(configs){
                 subjectList=document.getElementById("configId");

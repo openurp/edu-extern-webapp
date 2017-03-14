@@ -30,7 +30,7 @@ import org.openurp.base.model.Department;
 import org.openurp.base.model.Semester;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamSignUp;
+import org.openurp.edu.extern.model.ExamSignup;
 import org.openurp.edu.web.action.SemesterSupportAction;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -47,7 +47,7 @@ public class SummaryAction extends SemesterSupportAction {
     // FIXME zhouqi 2011-06-10 下面的变量没有人使用
     Semester defulteSemester = null;
     Integer semesterId = getInt("semester.id");
-    put("otherExamKindList", codeService.getCodes(ExamCategory.class));
+    put("examKindList", codeService.getCodes(ExamCategory.class));
     if (null == semesterId) {
       defulteSemester = (Semester) ActionContext.getContext().getContextMap().get("semester");
     } else {
@@ -61,14 +61,14 @@ public class SummaryAction extends SemesterSupportAction {
    * 
    * @return
    */
-  public String signUpSummaryByDept() {
+  public String signupSummaryByDept() {
     Semester semester = entityDao.get(Semester.class, getInt("semester.id"));
-    Integer otherExamKindId = getInt("otherExternExamCategory.id");
-    ExamCategory otherExternExamCategory = null;
-    if (null != otherExamKindId) {
-      otherExternExamCategory = entityDao.get(ExamCategory.class, otherExamKindId);
-      put("categorys", getCategory(otherExternExamCategory));
-      put("signUpMap", buildSumMap(getSignUpSum(semester, otherExternExamCategory)));
+    Integer examKindId = getInt("examCategory.id");
+    ExamCategory examCategory = null;
+    if (null != examKindId) {
+      examCategory = entityDao.get(ExamCategory.class, examKindId);
+      put("categorys", getCategory(examCategory));
+      put("signupMap", buildSumMap(getSignupSum(semester, examCategory)));
     }
     put("depts", getDeparts());
     put("semester", semester);
@@ -101,13 +101,13 @@ public class SummaryAction extends SemesterSupportAction {
    * @return
    */
   private List getDeptSumDetail(Department dept, ExamCategory category, Semester semester) {
-    OqlBuilder sumDetailQuery = OqlBuilder.from(ExamSignUp.class, "signUp");
-    sumDetailQuery.from("ExamSignUp signUp,Student std");
-    sumDetailQuery.where("signUp.std=std");
+    OqlBuilder sumDetailQuery = OqlBuilder.from(ExamSignup.class, "signup");
+    sumDetailQuery.from("ExamSignup signup,Student std");
+    sumDetailQuery.where("signup.std=std");
     sumDetailQuery.where("std.department=:dept", dept);
     sumDetailQuery.join("left", "std.adminClasses", "adminClass");
-    sumDetailQuery.where("signUp.category=:category", category);
-    sumDetailQuery.where("signUp.semester=:semester", semester);
+    sumDetailQuery.where("signup.category=:category", category);
+    sumDetailQuery.where("signup.semester=:semester", semester);
     sumDetailQuery.select("adminClass.name,count(*)");
     sumDetailQuery.orderBy("adminClass.name");
     sumDetailQuery.groupBy("adminClass.name");
@@ -122,15 +122,15 @@ public class SummaryAction extends SemesterSupportAction {
    * @return
    */
   private Map buildSumMap(List sumList) {
-    Map signUpMap = new HashMap();
+    Map signupMap = new HashMap();
     if (!CollectUtils.isEmpty(sumList)) {
       for (int i = 0; i < sumList.size(); i++) {
         Object[] sumArray = (Object[]) sumList.get(i);
         String key = sumArray[0].toString() + "_" + sumArray[1].toString();
-        signUpMap.put(key, sumArray[2]);
+        signupMap.put(key, sumArray[2]);
       }
     }
-    return signUpMap;
+    return signupMap;
   }
 
   /**
@@ -139,23 +139,23 @@ public class SummaryAction extends SemesterSupportAction {
    * @param semester
    * @return
    */
-  private List getSignUpSum(Semester semester, ExamCategory otherExternExamCategory) {
-    OqlBuilder sumQuery = OqlBuilder.from(ExamSignUp.class, "signUp");
-    sumQuery.from("ExamSignUp signUp,Student std ,Department dept");
-    sumQuery.where("signUp.std=std");
+  private List getSignupSum(Semester semester, ExamCategory examCategory) {
+    OqlBuilder sumQuery = OqlBuilder.from(ExamSignup.class, "signup");
+    sumQuery.from("ExamSignup signup,Student std ,Department dept");
+    sumQuery.where("signup.std=std");
     sumQuery.where("std.department =dept");
     sumQuery.where("dept in(:depts)", getDeparts());
-    sumQuery.where("signUp.semester=:semester", semester);
-    if (otherExternExamCategory != null) {
-      sumQuery.where("exists(select 1 from ExamCategory other "
-          + " where other=signUp.category and other.enabled =true and other.kind=:otherExternExamCategory)",
-          otherExternExamCategory);
+    sumQuery.where("signup.semester=:semester", semester);
+    if (examCategory != null) {
+      sumQuery.where("exists(select 1 from ExamCategory ec "
+          + " where ec=signup.category and ec.enabled =true and ec.kind=:examCategory)",
+          examCategory);
     } else {
-      sumQuery.where("exists(select 1 from ExamCategory other "
-          + " where other=signUp.category and other.enabled =true )");
+      sumQuery.where("exists(select 1 from ExamCategory ec "
+          + " where ec=signup.category and ec.enabled =true )");
     }
-    sumQuery.groupBy("dept.id,signUp.category.id");
-    sumQuery.select("dept.id,signUp.category.id,count(*)");
+    sumQuery.groupBy("dept.id,signup.category.id");
+    sumQuery.select("dept.id,signup.category.id,count(*)");
     List sumList = entityDao.search(sumQuery);
     return sumList;
   }
@@ -165,11 +165,11 @@ public class SummaryAction extends SemesterSupportAction {
    * 
    * @return
    */
-  private List<ExamSubject> getCategory(ExamCategory otherExternExamCategory) {
+  private List<ExamSubject> getCategory(ExamCategory examCategory) {
     OqlBuilder<ExamSubject> query = OqlBuilder.from(ExamSubject.class, "subject");
     query.where("subject.endOn is null or subject.endOn > :nowAt", new Date());
-    if (null != otherExternExamCategory) {
-      query.where("subject.category = :category", otherExternExamCategory);
+    if (null != examCategory) {
+      query.where("subject.category = :category", examCategory);
     }
     query.orderBy(Order.parse("category.code"));
     return entityDao.search(query);

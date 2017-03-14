@@ -1,9 +1,9 @@
 [#ftl/]
 [@b.head /]
 [@b.toolbar title="校外考试报名名单"][/@]
-[#list otherExamSignUps?keys as Key]
+[#list examSignups?keys as Key]
 <p>&nbsp;</p>
-<h5>班级：${Key.code}&nbsp;&nbsp;&nbsp;&nbsp;人数:${otherExamSignUps.get(Key)?size}</h5>
+<h5>班级：${Key.code}&nbsp;&nbsp;&nbsp;&nbsp;人数:${examSignups.get(Key)?size}</h5>
 <table  id="id" sortable="true" width="100%" class="gridtable">
      <thead class="gridhead">
       <td  width="2%">序号</td>
@@ -14,21 +14,21 @@
       <td  width="8%">学期</td>
     </thead>
  [#assign index=0]
- [#list otherExamSignUps as otherExamSignUp]
+ [#list examSignups as examSignup]
      <tbody>
-     <!--<tbody datas=otherExamSignUps.get(Key);otherExamSignUp>-->
+     <!--<tbody datas=examSignups.get(Key);examSignup>-->
      [#assign index=index+1]
           <td>${index}</td>
-          <td>${otherExamSignUp.std.code}</td>
-          <td>${otherExamSignUp.std.name}</td>
-          <td>${(otherExamSignUp.std.person.code)?if_exists}</td>
-          <td>${otherExamSignUp.category.name}</td>
-          <td>${otherExamSignUp.semester.schoolYear}&nbsp;${otherExamSignUp.semester.name}</td>
+          <td>${examSignup.std.code}</td>
+          <td>${examSignup.std.name}</td>
+          <td>${(examSignup.std.person.code)?if_exists}</td>
+          <td>${examSignup.category.name}</td>
+          <td>${examSignup.semester.schoolYear}&nbsp;${examSignup.semester.name}</td>
      </tbody>
  [/#list]
 </table>
 [/#list]
-[@b.form  name="actionForm" method="post" entity="otherExamSignUp" action="!printShow"]
+[@b.form  name="actionForm" method="post" entity="examSignup" action="!printShow"]
      <input type="hidden" name="configId" id="configId" />
 [/@]
 <script language="javascript">

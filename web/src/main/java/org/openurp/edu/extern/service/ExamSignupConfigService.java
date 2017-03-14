@@ -18,17 +18,17 @@
  */
 package org.openurp.edu.extern.service;
 
-import java.util.Collection;
+import org.openurp.edu.extern.code.model.ExamCategory;
+import org.openurp.edu.extern.model.ExamSignupConfig;
 
-import org.openurp.edu.extern.model.ExamSignUp;
-import org.openurp.edu.extern.model.ExamSignUpLogger;
+public interface ExamSignupConfigService {
 
-public interface ExamSignUpLoggerService {
+  // public void createDefaultCategory(ExamCategory examCategory, ExamSignupConfig
+  // config);
 
-  public void logger(String code, String actionType, String remoteAddr, ExamSignUp signUp);
+  public void createDefaultSubject(ExamCategory examCategory, ExamSignupConfig config);
 
-  public void logger(ExamSignUpLogger logger);
+  public ExamSignupConfig configDefaultSubject(ExamCategory examCategory,
+      ExamSignupConfig config);
 
-  public void logger(String code, String actionType, String remoteAddr,
-      Collection<ExamSignUp> otherExamSignUps);
 }

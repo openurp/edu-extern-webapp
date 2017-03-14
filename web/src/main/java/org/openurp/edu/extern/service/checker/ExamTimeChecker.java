@@ -19,11 +19,11 @@
 package org.openurp.edu.extern.service.checker;
 
 import org.openurp.edu.base.model.Student;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
+import org.openurp.edu.extern.model.ExamSignupSetting;
 
-public class ExamTimeChecker extends AbstarctExamSignUpChecker {
+public class ExamTimeChecker extends AbstarctExamSignupChecker {
 
-  public String doCheck(Student student, ExamSignUpSetting setting) {
+  public String doCheck(Student student, ExamSignupSetting setting) {
     // 判断时间
     if (!setting.getConfig().isOpened() || !setting.getConfig().isTimeSuitable()) { return notInTime; }
     return null;

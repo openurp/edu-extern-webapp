@@ -30,8 +30,8 @@ import org.openurp.edu.base.code.model.ScoreMarkStyle;
 import org.openurp.edu.grade.course.service.GradeRateService;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.model.ExamGrade;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExternExamGrade;
 import org.openurp.edu.web.action.SemesterSupportAction;
 
 public class SearchAction extends SemesterSupportAction {
@@ -42,13 +42,13 @@ public class SearchAction extends SemesterSupportAction {
    * 主页面
    */
   public String index() {
-    OqlBuilder<ExamSignUpConfig> seasonQuery = OqlBuilder.from(ExamSignUpConfig.class, "season");
+    OqlBuilder<ExamSignupConfig> seasonQuery = OqlBuilder.from(ExamSignupConfig.class, "season");
     seasonQuery.where("season.project = :project", getProject());
     seasonQuery.orderBy("season.beginAt desc");
     put("seasons", entityDao.search(seasonQuery));
 
-    put("otherExternExamSubjects", codeService.getCodes(ExamSubject.class));
-    put("otherExamCategories", codeService.getCodes(ExamCategory.class));
+    put("examSubjects", codeService.getCodes(ExamSubject.class));
+    put("examCategories", codeService.getCodes(ExamCategory.class));
     // put("calendars", semesterService.getCalendars(getProjects()));
     put("markStyles", codeService.getCodes(ScoreMarkStyle.class));
     put("departments", getTeachDeparts());
@@ -61,32 +61,32 @@ public class SearchAction extends SemesterSupportAction {
    * 查询
    */
   public String search() {
-    put("otherGrades", entityDao.search(getQueryBuilder()));
+    put("examGrades", entityDao.search(getQueryBuilder()));
     return forward();
   }
 
   @Override
   protected <T extends Entity<?>> OqlBuilder<T> getQueryBuilder() {
-    OqlBuilder<T> builder = OqlBuilder.from(ExamGrade.class.getName(), "otherGrade");
+    OqlBuilder<T> builder = OqlBuilder.from(ExternExamGrade.class.getName(), "examGrade");
     populateConditions(builder);
     Float from = getFloat("from");
     Float to = getFloat("to");
     if (null != from) {
       if (null != to) {
-        builder.where("otherGrade.score between :F and :T", from, to);
+        builder.where("examGrade.score between :F and :T", from, to);
       } else {
-        builder.where("otherGrade.score >=:F", from);
+        builder.where("examGrade.score >=:F", from);
       }
     } else if (null != to) {
-      builder.where("otherGrade.score <=:T", to);
+      builder.where("examGrade.score <=:T", to);
     }
     Integer semesterId = getInt("semester.id");
     if (null != semesterId) {
-      builder.where("otherGrade.semester.id = :semesterId", semesterId);
+      builder.where("examGrade.semester.id = :semesterId", semesterId);
     } else {
-      builder.where("otherGrade.semester = :semester", getSemester());
+      builder.where("examGrade.semester = :semester", getSemester());
     }
-    builder.where("otherGrade.std.project = :cproject", getProject());
+    builder.where("examGrade.std.project = :cproject", getProject());
 //    restrictionContext.applyRestriction(builder);
     builder.orderBy(get(Order.ORDER_STR)).limit(getPageLimit());
     return builder;
@@ -103,9 +103,9 @@ public class SearchAction extends SemesterSupportAction {
    */
   @Override
   protected Collection<?> getExportDatas() {
-    Long[] otherGrades = Strings.splitToLong(get("otherGradeIds"));
-    if (otherGrades.length != 0) {
-      return entityDao.get(ExamGrade.class, otherGrades);
+    Long[] examGrades = Strings.splitToLong(get("examGradeIds"));
+    if (examGrades.length != 0) {
+      return entityDao.get(ExternExamGrade.class, examGrades);
     } else {
       return entityDao.search(getQueryBuilder().limit(null));
     }
@@ -127,11 +127,11 @@ public class SearchAction extends SemesterSupportAction {
    * @return
    */
   public String printShow() {
-    Long[] otherGrades = Strings.splitToLong(get("otherGradeIds"));
-    if (otherGrades.length != 0) {
-      put("otherGrades", entityDao.get(ExamGrade.class, otherGrades));
+    Long[] examGrades = Strings.splitToLong(get("examGradeIds"));
+    if (examGrades.length != 0) {
+      put("examGrades", entityDao.get(ExternExamGrade.class, examGrades));
     } else {
-      put("otherGrades", entityDao.search(getQueryBuilder().limit(null)));
+      put("examGrades", entityDao.search(getQueryBuilder().limit(null)));
     }
     return forward();
   }

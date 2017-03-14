@@ -1,7 +1,7 @@
 <#include "/template/head.ftl"/>
  <#include "sum.ftl"/>
 <body >
-  <table id="otherExamSumBar" width="100%"></table>
+  <table id="examSumBar" width="100%"></table>
   <@table.table  id="listTable" sortable="true" width="100%">
     <@table.thead>
       <td>班级</td>
@@ -16,7 +16,7 @@
         <input type="hidden" id="key" name="key" value="" />
     </form>
     <script>
-     var bar=new ToolBar('otherExamSumBar','校外考试报名汇总',null,true,true);
+     var bar=new ToolBar('examSumBar','校外考试报名汇总',null,true,true);
      bar.setMessage('<@getMessage/>');
      
    

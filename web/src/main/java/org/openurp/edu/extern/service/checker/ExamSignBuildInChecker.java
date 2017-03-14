@@ -26,23 +26,23 @@ import org.beangle.commons.collection.CollectUtils;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamSubject;
 import org.openurp.edu.extern.model.ExclusiveSubject;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExamSignupSetting;
 
-public class ExamSignBuildInChecker extends AbstarctExamSignUpChecker {
+public class ExamSignBuildInChecker extends AbstarctExamSignupChecker {
 
-  public String doCheck(Student student, ExamSignUpSetting setting) {
-    if (!student.getState().isInschool()) { return "other.failure.isInSchoolOrIsInValidLimit"; }
+  public String doCheck(Student student, ExamSignupSetting setting) {
+    if (!student.getState().isInschool()) { return "extern.exam.failure.isInSchoolOrIsInValidLimit"; }
 
     // 不能重复报名
-    if (otherExamSignUpDao.isRepeatSignUp(student, setting)) { return "other.failure.repeatSignUp"; }
+    if (examSignupDao.isRepeatSignup(student, setting)) { return "extern.exam.failure.repeatSignup"; }
 
     // FIXME zhouqi 2011-06-10 下面一段还需要修改
     // 通过科目冲突表来查看是否有冲突
     // 这次已经报名的科目和现在要报名的科目比较，是否冲突
-    ExamSignUpConfig config = setting.getConfig();
+    ExamSignupConfig config = setting.getConfig();
     if (CollectUtils.isNotEmpty(config.getExclusiveSubjects())) {
-      Set<ExamSubject> categories = new HashSet<ExamSubject>(otherExamSignUpDao.getSignUpSubjects(
+      Set<ExamSubject> categories = new HashSet<ExamSubject>(examSignupDao.getSignupSubjects(
           student, setting.getConfig()));
       if (CollectUtils.isNotEmpty(categories)) {
         ExamSubject subject = setting.getSubject();
@@ -50,29 +50,29 @@ public class ExamSignBuildInChecker extends AbstarctExamSignUpChecker {
           if ((exclusiveSubject.getSubjectOne().equals(subject) && categories.contains(exclusiveSubject
               .getSubjectTwo()))
               || (exclusiveSubject.getSubjectTwo().equals(subject) && categories.contains(exclusiveSubject
-                  .getSubjectOne()))) { return "other.failure.categoryExclusive"; }
+                  .getSubjectOne()))) { return "extern.exam.failure.categoryExclusive"; }
         }
       }
     }
 
     // 科目冲突(根据时间)
-    if (isTimeCollision(setting, student)) { return "other.failure.categoryExclusive"; }
+    if (isTimeCollision(setting, student)) { return "extern.exam.failure.categoryExclusive"; }
 
     // 所有科目只要通过了就不能再报名
     if (!setting.isReExamAllowed()) {
-      if (otherGradeService.isPass(student, setting.getSubject())) { return "other.failure.isHasPassed"; }
+      if (examGradeService.isPass(student, setting.getSubject())) { return "extern.exam.failure.isHasPassed"; }
     }
     return null;
   }
 
-  public boolean isRepeatSignUp() {
+  public boolean isRepeatSignup() {
     return false;
   }
 
-  private boolean isTimeCollision(ExamSignUpSetting setting, Student student) {
-    ExamSignUpConfig config = setting.getConfig();
-    List<ExamSignUpSetting> signedSettings = otherExamSignUpDao.getSignedSettings(student, config);
-    for (ExamSignUpSetting existed : signedSettings) {
+  private boolean isTimeCollision(ExamSignupSetting setting, Student student) {
+    ExamSignupConfig config = setting.getConfig();
+    List<ExamSignupSetting> signedSettings = examSignupDao.getSignedSettings(student, config);
+    for (ExamSignupSetting existed : signedSettings) {
       if (existed.isTimeCollision(setting)) { return true; }
     }
     return false;

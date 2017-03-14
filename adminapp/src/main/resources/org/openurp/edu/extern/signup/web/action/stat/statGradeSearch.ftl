@@ -1,26 +1,26 @@
 [#ftl]
 [@b.head/]
 <script type='text/javascript' src='${base}/dwr/engine.js'></script>
-<script type='text/javascript' src='${base}/dwr/interface/otherExamSignUpService.js'></script>
+<script type='text/javascript' src='${base}/dwr/interface/examSignupService.js'></script>
 [@b.toolbar title="校外考试成绩统计"]
     bar.addBack("${b.text("action.back")}");
 [/@]
 <table class="indexpanel">
 <tr>
     <td class="index_view">
-    [@b.form name="otherExamSignUpStatGradesearchForm" action="!statGrade" title="ui.searchForm" target="otherExamSignUpStatGradeList" ]
+    [@b.form name="examSignupStatGradesearchForm" action="!statGrade" title="ui.searchForm" target="examSignupStatGradeList" ]
      <table>
                 <tr>
                   <td>
-                   [@b.textfield name="otherExamSignUp.std.grade" label="年级"/]
+                   [@b.textfield name="examSignup.std.grade" label="年级"/]
                   </td>
                 <td>考试类型:</td>
                 <td>
-                  [@b.select name="otherExamSignUp.subject.category.id" id="categoryId" label="考试类型" items=otherExamCategories onchange="kindIdSelect()" empty="..." /]
+                  [@b.select name="examSignup.subject.category.id" id="categoryId" label="考试类型" items=examCategories onchange="kindIdSelect()" empty="..." /]
                 </td>
                 <td name="subjectId">科目名称:</td>
                 <td>
-                 [@b.select name="otherExamSignUp.subject.id" id="subjectId" label="科目名称" items=otherExternExamSubjects empty="..." /]
+                 [@b.select name="examSignup.subject.id" id="subjectId" label="科目名称" items=examSubjects empty="..." /]
                 </td>
                 <td align="center">
                      <button onclick="stat()">统计</button>
@@ -33,14 +33,14 @@
 </tr>
 <tr>
     <td class="index_content">
-        [@b.div id="otherExamSignUpStatGradeList" href="!statGrade" /]
+        [@b.div id="examSignupStatGradeList" href="!statGrade" /]
     </td>
 </tr>
 </table>
 <script language="javascript">
-   var form=document.otherExamSignUpStatGradesearchForm;
+   var form=document.examSignupStatGradesearchForm;
     function stat(){
-       form.action="otherExamSignUpStat.action?method=statGrade";
+       form.action="examSignupStat.action?method=statGrade";
        bg.form.submit(form);
     }
    function kindIdSelect(){
@@ -48,8 +48,8 @@
            if(categoryId==null || categoryId==""){
                return;
            }
-           //otherExamSignUpService.getConfigs(categoryId,setSelectConfig);
-           otherExamSignUpService.getSubjects(categoryId,setSelectSubject);
+           //examSignupService.getConfigs(categoryId,setSelectConfig);
+           examSignupService.getSubjects(categoryId,setSelectSubject);
    }
    function setSelectConfig(configs){
         subjectList=document.getElementById("configId");

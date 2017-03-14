@@ -18,12 +18,17 @@
  */
 package org.openurp.edu.extern.service;
 
-import org.openurp.edu.extern.model.ExamSignUp;
+import java.util.Collection;
 
-public class ExamSignUpCalculator {
+import org.openurp.edu.extern.model.ExamSignup;
+import org.openurp.edu.extern.model.ExamSignupLogger;
 
-  public static int calExamFee(ExamSignUp signUp) {
-    return signUp.getTotalPrice();
-  }
+public interface ExamSignupLoggerService {
 
+  public void logger(String code, String actionType, String remoteAddr, ExamSignup signup);
+
+  public void logger(ExamSignupLogger logger);
+
+  public void logger(String code, String actionType, String remoteAddr,
+      Collection<ExamSignup> examSignups);
 }

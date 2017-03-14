@@ -4,7 +4,7 @@
     [@b.toolbar title="校外考试报名(第"+toolBarTitle+"步)"]
         bar.addBack();
          
-        function signUp(){
+        function signup(){
             if(confirm("确定提交?")){
                 bg.form.submit(document.actionForm);
             }
@@ -50,21 +50,21 @@
             <td class="title">报名科目:</td>
             <td>${setting.subject.name}</td>
             <td class="title">报名费:</td>
-            <td>${setting.feeOfSignUp?default(0)} RMB</td>   
+            <td>${setting.feeOfSignup?default(0)} RMB</td>   
         </tr>
         <tr>
             <td class="title">考试校区:</td>
             <td colspan="3">
             [#if setting.config.allowCrossCampus]
-                <select name="otherExamSignUp.campus.id" id="otherExamSignUp.campuses.id">
+                <select name="examSignup.campus.id" id="examSignup.campuses.id">
                     [#list (setting.config.campuses)?sort_by("name") as campus]
                            <option value="${campus.id}">${campus.name}</option>
                     [/#list]
                 </select>
-                <span style="display:none">是否乘坐班车:<select name="signUp.takeBus" id="signUp.takeBus" style="width:100px"><option value="0">否</option><option value="1">是</option></select></span>
+                <span style="display:none">是否乘坐班车:<select name="signup.takeBus" id="signup.takeBus" style="width:100px"><option value="0">否</option><option value="1">是</option></select></span>
             </td>
             [#else]
-                <select name="otherExamSignUp.campus.id" id="otherExamSignUp.campuses.id">
+                <select name="examSignup.campus.id" id="examSignup.campuses.id">
                      <option value="${(student.state.campus.id)!}">${(student.state.campus.name)!}</option>
                 </select>
             [/#if]
@@ -97,7 +97,7 @@
         </tr>
         [/#if]
         <tr>
-            <td colspan="4" align="center"><input type="button" onclick="signUp()" style="width:80px" value="报名"/></td>
+            <td colspan="4" align="center"><input type="button" onclick="signup()" style="width:80px" value="报名"/></td>
         </tr>
     </table>
 [/@]

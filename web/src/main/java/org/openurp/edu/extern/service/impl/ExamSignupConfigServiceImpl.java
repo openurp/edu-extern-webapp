@@ -23,13 +23,14 @@ import java.util.List;
 
 import org.beangle.commons.dao.impl.BaseServiceImpl;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
+import org.beangle.commons.lang.time.HourMinute;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
-import org.openurp.edu.extern.service.ExamSignUpConfigService;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExamSignupSetting;
+import org.openurp.edu.extern.service.ExamSignupConfigService;
 
-public class ExamSignUpConfigServiceImpl extends BaseServiceImpl implements ExamSignUpConfigService {
+public class ExamSignupConfigServiceImpl extends BaseServiceImpl implements ExamSignupConfigService {
 
   /**
    * 根据考试类型和期号来创建默认的某个期号的科目设置
@@ -37,21 +38,20 @@ public class ExamSignUpConfigServiceImpl extends BaseServiceImpl implements Exam
    * @param examCategory
    * @param config
    */
-  public void createDefaultSubject(ExamCategory examCategory, ExamSignUpConfig config) {
+  public void createDefaultSubject(ExamCategory examCategory, ExamSignupConfig config) {
     OqlBuilder<ExamSubject> query = OqlBuilder.from(ExamSubject.class, "subject");
     query.where("subject.category = :category", examCategory);
     List<ExamSubject> subjectList = entityDao.search(query);
     for (int i = 0; i < subjectList.size(); i++) {
       ExamSubject subject = subjectList.get(i);
-      Date beginAt = config.getBeginAt();
-      Date endAt = config.getEndAt();
-      config.addSetting(new ExamSignUpSetting(subject, beginAt, endAt));
+      java.sql.Date examOn = new java.sql.Date(config.getBeginAt().getTime());
+      config.addSetting(new ExamSignupSetting(subject, examOn, HourMinute.of(config.getBeginAt()), HourMinute
+          .of(config.getEndAt())));
     }
-    entityDao.saveOrUpdate(ExamSignUpConfig.class.getName(), config);
+    entityDao.saveOrUpdate(ExamSignupConfig.class.getName(), config);
   }
 
-  public ExamSignUpConfig configDefaultSubject(ExamCategory examCategory,
-      ExamSignUpConfig config) {
+  public ExamSignupConfig configDefaultSubject(ExamCategory examCategory, ExamSignupConfig config) {
     OqlBuilder<ExamSubject> query = OqlBuilder.from(ExamSubject.class, "subject");
     query.where("subject.category = :category", examCategory);
     query.where("subject.beginOn <= :now and (subject.endOn is null or subject.endOn >= :now)",
@@ -59,11 +59,10 @@ public class ExamSignUpConfigServiceImpl extends BaseServiceImpl implements Exam
     List<ExamSubject> subjectList = entityDao.search(query);
     for (int i = 0; i < subjectList.size(); i++) {
       ExamSubject subject = subjectList.get(i);
-      Date beginAt = config.getBeginAt();
-      Date endAt = config.getEndAt();
-      config.addSetting(new ExamSignUpSetting(subject, beginAt, endAt));
+      java.sql.Date examOn = new java.sql.Date(config.getBeginAt().getTime());
+      config.addSetting(new ExamSignupSetting(subject, examOn, HourMinute.of(config.getBeginAt()), HourMinute
+          .of(config.getEndAt())));
     }
     return config;
   }
-
 }

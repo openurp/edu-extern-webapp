@@ -1,19 +1,19 @@
 [#ftl]
 [@b.head/]
 <script type='text/javascript' src='${base}/dwr/engine.js'></script>
-<script type='text/javascript' src='${base}/dwr/interface/otherExamSignUpService.js'></script>
+<script type='text/javascript' src='${base}/dwr/interface/examSignupService.js'></script>
 [@b.toolbar title="校外考试及格率统计"]
   bar.addBack("${b.text("action.back")}");
 [/@]
 <table class="indexpanel">
 <tr>
     <td class="index_view">
-    [@b.form name="otherExamSignUpStatRatesearchForm" action="!passRate" title="ui.searchForm" target="otherExamSignUpStatRateList"]
+    [@b.form name="examSignupStatRatesearchForm" action="!passRate" title="ui.searchForm" target="examSignupStatRateList"]
      <table>
          <tr>
                  <td>学期:</td>
                  <td>
-                    [@b.select  name="otherExamSignUp.semester.id" required="true" id="semestersId"  label="学年学期"]
+                    [@b.select  name="examSignup.semester.id" required="true" id="semestersId"  label="学年学期"]
                         <option>...</option>
                         [#list semesters?sort_by("code")?reverse as se]
                         <option value="${se.id}">${se.schoolYear}&nbsp;${se.name}</option>
@@ -22,11 +22,11 @@
                 </td>
                 <td>考试类型:</td>
                 <td>
-                  [@b.select name="otherExamSignUp.subject.category.id" id="categoryId" label="考试类型" items=otherExamCategories onchange="kindIdSelect()" empty="..." /]
+                  [@b.select name="examSignup.subject.category.id" id="categoryId" label="考试类型" items=examCategories onchange="kindIdSelect()" empty="..." /]
                 </td>
                 <td name="subjectId">科目名称:</td>
                 <td>
-                 [@b.select name="otherExamSignUp.subject.id" id="subjectId" label="科目名称" items=otherExternExamSubjects empty="..." /]
+                 [@b.select name="examSignup.subject.id" id="subjectId" label="科目名称" items=examSubjects empty="..." /]
                 </td>
                 <td align="center">
                      <button onclick="stat()">统计</button>
@@ -39,14 +39,14 @@
 </tr>
 <tr>
    <td class="index_content">
-            [@b.div id="otherExamSignUpStatRateList" href="!passRate" /]
+            [@b.div id="examSignupStatRateList" href="!passRate" /]
    </td>
 </tr>
 </table>
 <script language="javascript">
-  var form=document.otherExamSignUpStatRatesearchForm;
+  var form=document.examSignupStatRatesearchForm;
     function stat(){
-       form.action="otherExamSignUpStat.action?method=passRate";
+       form.action="examSignupStat.action?method=passRate";
        bg.form.submit(form);
     }
    function kindIdSelect(){
@@ -54,8 +54,8 @@
            if(categoryId==null || categoryId==""){
                return;
            }
-           //otherExamSignUpService.getConfigs(categoryId,setSelectConfig);
-           otherExamSignUpService.getSubjects(categoryId,setSelectSubject);
+           //examSignupService.getConfigs(categoryId,setSelectConfig);
+           examSignupService.getSubjects(categoryId,setSelectSubject);
    }
    function setSelectConfig(configs){
         subjectList=document.getElementById("configId");

@@ -18,17 +18,12 @@
  */
 package org.openurp.edu.extern.service;
 
-import org.openurp.edu.extern.code.model.ExamCategory;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
+import org.openurp.edu.extern.model.ExamSignup;
 
-public interface ExamSignUpConfigService {
+public class ExamSignupCalculator {
 
-  // public void createDefaultCategory(ExamCategory examCategory, ExamSignUpConfig
-  // config);
-
-  public void createDefaultSubject(ExamCategory examCategory, ExamSignUpConfig config);
-
-  public ExamSignUpConfig configDefaultSubject(ExamCategory examCategory,
-      ExamSignUpConfig config);
+  public static int calExamFee(ExamSignup signup) {
+    return signup.getTotalPrice();
+  }
 
 }

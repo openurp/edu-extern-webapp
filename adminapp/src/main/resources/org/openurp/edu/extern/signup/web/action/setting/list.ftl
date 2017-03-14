@@ -3,7 +3,7 @@
 [@b.toolbar title="开关科目维护"]
     bar.addBack();
 [/@]
-[@b.grid items=otherExamSignUpSettings var="otherExamSignUpSetting" ]
+[@b.grid items=examSignupSettings var="examSignupSetting" ]
     [@b.gridbar]
         bar.addItem("${b.text("action.add")}","add()");
         bar.addItem("${b.text("action.edit")}","edit()");
@@ -12,62 +12,61 @@
     [/@]
     [@b.row]
         [@b.boxcol/]
-        [@b.col property="subject.name" title="报名科目" width="20%"/]
-        [@b.col property="subject.code" title="科目代码"/]
-        [@b.col property="feeOfSignUp" title="报名费"/]
-        [@b.col property="feeOfMaterial" title="材料费"/]
-        [@b.col property="feeOfOutline" title="考纲费"/]
-        [@b.col property="maxStd" title="最大学生数"/]
-        [@b.col property="grade" title="年级"]${otherExamSignUpSetting.gradePermited?string('允许','限制')}:${(otherExamSignUpSetting.grade)!('无')}[/@]
-        [@b.col property="reExamAllowed" title="能够重考"]${(otherExamSignUpSetting.reExamAllowed?default(false))?string("${b.text('common.yes')}","${b.text('common.no')}")}[/@]
-        [@b.col property="superSubject.name" title="须过科目"/]
-        [@b.col property="beginAt" title="考试开始时间" width="10%"]${(otherExamSignUpSetting.beginAt?string("yy-MM-dd HH:mm"))?if_exists}[/@]
-        [@b.col property="endAt" title="考试结束时间" width="10%"]${(otherExamSignUpSetting.endAt?string("yy-MM-dd HH:mm"))?if_exists}[/@]
+        [@b.col property="subject.name" title="报名科目" width="19%"/]
+        [@b.col property="feeOfSignup" title="报名费" width="6%"/]
+        [@b.col property="feeOfMaterial" title="材料费" width="6%"/]
+        [@b.col property="feeOfOutline" title="考纲费" width="6%"/]
+        [@b.col property="maxStd" title="最大人数" width="7%"/]
+        [@b.col title="条件" width="15%"][#list examSignupSetting.conditions as con] ${con.inclusive?string('允许','限制')}:${(con.grades)!('无')}  ${(con.education.name)!}[#if con_has_next]<br>[/#if][/#list][/@]
+        [@b.col property="reExamAllowed" title="能够重考" width="7%"]${(examSignupSetting.reExamAllowed?default(false))?string("${b.text('common.yes')}","${b.text('common.no')}")}[/@]
+        [@b.col property="superSubject.name" title="须过科目" width="10%"/]
+        [@b.col property="examOn" title="考试日期" width="10%"/]
+        [@b.col property="examBeginAt" title="考试时间" width="10%"][#if examSignupSetting.examBeginAt?string!='00:00']${examSignupSetting.examBeginAt}～${examSignupSetting.examEndAt}[#else]&nbsp;[/#if][/@]
     [/@]
 [/@]
 
-[@b.form name="otherExamSignUpSettingPublicForm" target="otherExamSignUpConfigList"]
-    <input type="hidden" name="otherExamSignUpSetting.config.id" id="otherExamSignUpSetting.config.id" value="${(config.id)!}"/>
+[@b.form name="examSignupSettingPublicForm" target="examSignupConfigList"]
+    <input type="hidden" name="examSignupSetting.config.id" id="examSignupSetting.config.id" value="${(config.id)!}"/>
 [/@]
 
 <script>
     function batchEdit(){
-        document.otherExamSignUpSettingPublicForm.action="setting!batchEdit.action";
-        var settingIds=bg.input.getCheckBoxValues("otherExamSignUpSetting.id");
+        document.examSignupSettingPublicForm.action="setting!batchEdit.action";
+        var settingIds=bg.input.getCheckBoxValues("examSignupSetting.id");
         if(settingIds==""){
             alert("请至少选择一个进行操作!");
             return false;
         }
-        bg.form.addInput(document.otherExamSignUpSettingPublicForm,"otherExamSignUpSettingIds",settingIds);
-        bg.form.submit(document.otherExamSignUpSettingPublicForm);
+        bg.form.addInput(document.examSignupSettingPublicForm,"examSignupSettingIds",settingIds);
+        bg.form.submit(document.examSignupSettingPublicForm);
         
     }
     
     function edit(){
-        document.otherExamSignUpSettingPublicForm.action="setting!edit.action";
-        var settingId=bg.input.getCheckBoxValues("otherExamSignUpSetting.id");
+        document.examSignupSettingPublicForm.action="setting!edit.action";
+        var settingId=bg.input.getCheckBoxValues("examSignupSetting.id");
         if(settingId==""||settingId.indexOf(',')!=-1){
             alert("请仅选择一个进行操作!");
             return;
         }
-        bg.form.addInput(document.otherExamSignUpSettingPublicForm,"otherExamSignUpSetting.id",settingId);
-        bg.form.submit(document.otherExamSignUpSettingPublicForm);
+        bg.form.addInput(document.examSignupSettingPublicForm,"examSignupSetting.id",settingId);
+        bg.form.submit(document.examSignupSettingPublicForm);
     }
     
     function add(){
-        document.otherExamSignUpSettingPublicForm.action="setting!edit.action";
-        bg.form.submit(document.otherExamSignUpSettingPublicForm);
+        document.examSignupSettingPublicForm.action="setting!edit.action";
+        bg.form.submit(document.examSignupSettingPublicForm);
     }
     
     function remove(){
-        document.otherExamSignUpSettingPublicForm.action="setting!remove.action";
-        var settingIds=bg.input.getCheckBoxValues("otherExamSignUpSetting.id");
+        document.examSignupSettingPublicForm.action="setting!remove.action";
+        var settingIds=bg.input.getCheckBoxValues("examSignupSetting.id");
         if(settingIds==""){
             alert("请至少选择一个进行操作!");
             return;
         }
-        bg.form.addInput(document.otherExamSignUpSettingPublicForm,"otherExamSignUpSetting.id",settingIds);
-        bg.form.submit(document.otherExamSignUpSettingPublicForm);
+        bg.form.addInput(document.examSignupSettingPublicForm,"examSignupSetting.id",settingIds);
+        bg.form.submit(document.examSignupSettingPublicForm);
     }
     
 </script>

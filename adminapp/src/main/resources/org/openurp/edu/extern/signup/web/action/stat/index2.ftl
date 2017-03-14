@@ -5,7 +5,7 @@
 <table class="indexpanel">
 <tr valign="top">
     <td  class="index_view">
-            [@b.form target="otherExamSignUpStatIndex" title="ui.searchForm" name="otherExamSignUpStatForm"]
+            [@b.form target="examSignupStatIndex" title="ui.searchForm" name="examSignupStatForm"]
             <input type="hidden" name="major.enabled" value="1">
             <input type="hidden" name="orderBy" value="">
                         <table class="search-widget">
@@ -22,7 +22,7 @@
                                </tr>
                                
                                 <tr>
-                                 <td class="padding" id="defaultItem" onclick="signUp()" onmouseover="MouseOver(event)" onmouseout="MouseOut(event)" title="点击按报名进行统计">
+                                 <td class="padding" id="defaultItem" onclick="signup()" onmouseover="MouseOver(event)" onmouseout="MouseOut(event)" title="点击按报名进行统计">
                                  &nbsp;&nbsp;<image src="${base}/static/images/action/list.gif" align="bottom" >报名统计
                                  </td>
                              </tr>
@@ -45,23 +45,23 @@
             [/@]
     </td>
     <td class="index_content">
-        [@b.div id="otherExamSignUpStatIndex" href="!signUpsearch" /]
+        [@b.div id="examSignupStatIndex" href="!signupsearch" /]
     </td>
 </tr>
 </table>
 </div>
 <script>
-    var form = document.otherExamSignUpStatForm;
-           function signUp(){
-                   form.action = "otherExamSignUpStat.action?method=signUpsearch"
+    var form = document.examSignupStatForm;
+           function signup(){
+                   form.action = "examSignupStat.action?method=signupsearch"
                    bg.form.submit(form);
            }
               function statGrade(){
-                   form.action = "otherExamSignUpStat.action?method=statGradeSearch"
+                   form.action = "examSignupStat.action?method=statGradeSearch"
                    bg.form.submit(form);
            }
               function passRate(){
-                   form.action = "otherExamSignUpStat.action?method=passRateSearch"
+                   form.action = "examSignupStat.action?method=passRateSearch"
                    bg.form.submit(form);
            }
            

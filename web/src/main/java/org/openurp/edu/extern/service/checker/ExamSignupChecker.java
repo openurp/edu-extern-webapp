@@ -20,23 +20,23 @@ package org.openurp.edu.extern.service.checker;
 
 import org.beangle.commons.dao.EntityDao;
 import org.openurp.edu.base.model.Student;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
+import org.openurp.edu.extern.model.ExamSignupSetting;
 
-public interface ExamSignUpChecker {
+public interface ExamSignupChecker {
 
   /** 没有完成要求的上级考试要求 */
-  public static final String notPassSuperCategory = "error.other.notPassSuperCategory";
+  public static final String notPassSuperCategory = "error.extern.exam.notPassSuperCategory";
 
   /** 重复报名 */
-  public static final String existExamSignUp = "error.other.existExamSignUp";
+  public static final String existExamSignup = "error.extern.exam.existExamSignup";
 
   /** 不再报名时间 */
-  public static final String notInTime = "error.other.notInTime";
+  public static final String notInTime = "error.extern.exam.notInTime";
 
   /** 通过的不能报名了 */
-  public static final String hasPassed = "error.other.isHasPassed";
+  public static final String hasPassed = "error.extern.exam.isHasPassed";
 
-  public String check(Student student, ExamSignUpSetting setting);
+  public String check(Student student, ExamSignupSetting setting);
 
-  public boolean hasExamGrade(Student student, EntityDao entityDao, String code);
+  public boolean hasExternExamGrade(Student student, EntityDao entityDao, String code);
 }

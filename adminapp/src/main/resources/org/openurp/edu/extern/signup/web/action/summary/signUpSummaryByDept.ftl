@@ -1,7 +1,7 @@
 <#include "/template/head.ftl"/>
  <#include "sum.ftl"/>
 <body >
-  <table id="otherExamSumBar" width="100%"></table>
+  <table id="examSumBar" width="100%"></table>
   <@table.table  id="listTable" sortable="true" width="100%">
     <@table.thead>
       <td>院系</td>
@@ -13,13 +13,13 @@
       <td>${dept.name}</td>
       <#list categorys as category>
       <#assign Key=dept.id+"_"+category.id />
-      <td><a href="otherExamSignUpSummary.action?method=showDeptDetail&key=${Key}&semester.id=${semester.id}">${signUpMap[Key]?default("0")}</a></td>
+      <td><a href="examSignupSummary.action?method=showDeptDetail&key=${Key}&semester.id=${semester.id}">${signupMap[Key]?default("0")}</a></td>
       </#list>
     </@>
     <tr>
     <td align="center"><b>总计</b></td>
       <#list categorys as category>
-          <@showSum signUpMap depts category/>
+          <@showSum signupMap depts category/>
       </#list>
     </tr>
    </@>
@@ -27,7 +27,7 @@
         <input type="hidden" id="key" name="key" value="" />
     </form>
     <script>
-     var bar=new ToolBar('otherExamSumBar','校外考试报名汇总',null,true,true);
+     var bar=new ToolBar('examSumBar','校外考试报名汇总',null,true,true);
      bar.setMessage('<@getMessage/>');
      
    

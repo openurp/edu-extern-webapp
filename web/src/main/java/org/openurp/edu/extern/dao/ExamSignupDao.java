@@ -24,18 +24,18 @@ import org.openurp.base.model.Semester;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamSignUp;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
+import org.openurp.edu.extern.model.ExamSignup;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExamSignupSetting;
 
-public interface ExamSignUpDao {
+public interface ExamSignupDao {
 
-  public int getSignUpCount(ExamSignUpSetting setting);
+  public int getSignupCount(ExamSignupSetting setting);
 
   /**
    * 根据学生id和试科目设置来判断一个学生是否重复报
    */
-  public boolean isRepeatSignUp(Student std, ExamSignUpSetting setting);
+  public boolean isRepeatSignup(Student std, ExamSignupSetting setting);
 
   /**
    * 根据期号和学生获得学生已经报名的科目
@@ -43,7 +43,7 @@ public interface ExamSignUpDao {
    * @param std
    * @param config
    */
-  public List<ExamCategory> getSignUpCategories(Student std, ExamSignUpConfig config);
+  public List<ExamCategory> getSignupCategories(Student std, ExamSignupConfig config);
 
   /**
    * 根据期号和学生获得学生已经报名的settings
@@ -52,11 +52,11 @@ public interface ExamSignUpDao {
    * @param config
    * @return
    */
-  public List<ExamSignUpSetting> getSignedSettings(Student std, ExamSignUpConfig config);
+  public List<ExamSignupSetting> getSignedSettings(Student std, ExamSignupConfig config);
 
-  public List<ExamSubject> getSignUpSubjects(Student std, ExamSignUpConfig config);
+  public List<ExamSubject> getSignupSubjects(Student std, ExamSignupConfig config);
 
-  public ExamSignUp getSignUp(Student std, ExamSignUpSetting setting);
+  public ExamSignup getSignup(Student std, ExamSignupSetting setting);
 
-  public ExamSignUp getSignUp(Student std, Semester semester, ExamSubject subject);
+  public ExamSignup getSignup(Student std, Semester semester, ExamSubject subject);
 }

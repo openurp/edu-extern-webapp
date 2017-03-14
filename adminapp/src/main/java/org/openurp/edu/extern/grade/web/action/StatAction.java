@@ -31,7 +31,7 @@ import org.openurp.edu.eams.util.stat.StatGroup;
 import org.openurp.edu.eams.util.stat.StatHelper;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamGrade;
+import org.openurp.edu.extern.model.ExternExamGrade;
 import org.openurp.edu.web.action.RestrictionSupportAction;
 
 /**
@@ -42,8 +42,8 @@ import org.openurp.edu.web.action.RestrictionSupportAction;
 public class StatAction extends RestrictionSupportAction {
 
   public String index() {
-    put("otherExternExamSubjects", codeService.getCodes(ExamSubject.class));
-    put("otherExamCategories", codeService.getCodes(ExamCategory.class));
+    put("examSubjects", codeService.getCodes(ExamSubject.class));
+    put("examCategories", codeService.getCodes(ExamCategory.class));
     return forward();
   }
 
@@ -52,7 +52,7 @@ public class StatAction extends RestrictionSupportAction {
     Integer categoryId = getInt("grade.subject.category.id");
     Integer subjectId = getInt("grade.subject.id");
     OqlBuilder<Student> stdquery = OqlBuilder.from(Student.class, "std");
-    OqlBuilder gradeQuery = OqlBuilder.from(ExamGrade.class, "grade");
+    OqlBuilder gradeQuery = OqlBuilder.from(ExternExamGrade.class, "grade");
     if (null != grade) {
       stdquery.where("std.grade like :grade", grade);
       gradeQuery.where(Condition.like("grade.std.grade", grade));

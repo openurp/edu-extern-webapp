@@ -37,29 +37,29 @@ import org.openurp.edu.eams.util.stat.StatGroup;
 import org.openurp.edu.eams.util.stat.StatHelper;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamSignUp;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
-import org.openurp.edu.extern.model.ExamGrade;
-import org.openurp.edu.extern.model.SignUpStat;
+import org.openurp.edu.extern.model.ExamSignup;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExamSignupSetting;
+import org.openurp.edu.extern.model.ExternExamGrade;
+import org.openurp.edu.extern.model.SignupStat;
 import org.openurp.edu.web.action.SemesterSupportAction;
 
 public class StatAction extends SemesterSupportAction {
 
   @Override
   protected String getEntityName() {
-    return ExamSignUp.class.getName();
+    return ExamSignup.class.getName();
   }
 
   @Override
   protected void indexSetting() {
-    put("otherExternExamSubjects", codeService.getCodes(ExamSubject.class));
-    put("otherExamCategories", codeService.getCodes(ExamCategory.class));
+    put("examSubjects", codeService.getCodes(ExamSubject.class));
+    put("examCategories", codeService.getCodes(ExamCategory.class));
     getSemester();
   }
 
   public String search() {
-    return forward(new Action("signUpInfo"));
+    return forward(new Action("signupInfo"));
   }
 
   /**
@@ -68,141 +68,141 @@ public class StatAction extends SemesterSupportAction {
    * @return
    */
   @SuppressWarnings("unchecked")
-  public String signUpInfo() {
-    Long semester = getLong("otherExamSignUp.semester.id");
-    Integer subject = getInt("otherExamSignUp.subject.id");
-    Integer category = getInt("otherExamSignUp.subject.category.id");
-    OqlBuilder<?> query = OqlBuilder.from(ExamSignUp.class, "otherExamSignUp");
+  public String signupInfo() {
+    Long semester = getLong("examSignup.semester.id");
+    Integer subject = getInt("examSignup.subject.id");
+    Integer category = getInt("examSignup.subject.category.id");
+    OqlBuilder<?> query = OqlBuilder.from(ExamSignup.class, "examSignup");
     // if(semester!=null||semester!=""||semester!="..."||category!=null||category!="..."||category!=""||subject!=null){
     if (semester != null) {
-      query.where("otherExamSignUp.semester.id =:semester", semester);
+      query.where("examSignup.semester.id =:semester", semester);
     }
     if (category != null && subject != null) {
-      query.where("otherExamSignUp.subject.category.id =:category", category);
-      query.where("otherExamSignUp.subject.id =:subject", subject);
+      query.where("examSignup.subject.category.id =:category", category);
+      query.where("examSignup.subject.id =:subject", subject);
     } else {
       if (subject != null) {
-        query.where("otherExamSignUp.subject.id =:subject", subject);
+        query.where("examSignup.subject.id =:subject", subject);
       }
 
     }
     query
-        .select("otherExamSignUp.semester.schoolYear,otherExamSignUp.semester.name,otherExamSignUp.subject.name,otherExamSignUp.subject.category.name,"
+        .select("examSignup.semester.schoolYear,examSignup.semester.name,examSignup.subject.name,examSignup.subject.category.name,"
             + "count(*),"
-            + "sum(otherExamSignUp.feeOfOutline),"
-            + "sum(otherExamSignUp.feeOfMaterial),"
-            + "sum(otherExamSignUp.feeOfSignUp),"
-            + "otherExamSignUp.semester.id,"
-            + "otherExamSignUp.subject.id");
+            + "sum(examSignup.feeOfOutline),"
+            + "sum(examSignup.feeOfMaterial),"
+            + "sum(examSignup.feeOfSignup),"
+            + "examSignup.semester.id,"
+            + "examSignup.subject.id");
     query
-        .groupBy("otherExamSignUp.semester.schoolYear,otherExamSignUp.semester.name,otherExamSignUp.subject.name,otherExamSignUp.subject.category.name,otherExamSignUp.semester.id,otherExamSignUp.subject.id");
+        .groupBy("examSignup.semester.schoolYear,examSignup.semester.name,examSignup.subject.name,examSignup.subject.category.name,examSignup.semester.id,examSignup.subject.id");
     populateConditions(query);
     Integer semesterId = getInt("semester.id");
     if (null != semesterId) {
-      query.where("otherExamSignUp.semester.id=:semesterId", semesterId);
+      query.where("examSignup.semester.id=:semesterId", semesterId);
       getSemester();
     }
     query.limit(getPageLimit());
     query.orderBy(Order.parse(get("orderBy")));
     List<Object[]> rows = (List<Object[]>) entityDao.search(query);
-    List<SignUpStat> signUpStatlist = CollectUtils.newArrayList(rows.size());
+    List<SignupStat> signupStatlist = CollectUtils.newArrayList(rows.size());
     Iterator<Object[]> iter = rows.iterator();
-    Object[] signUpObject;
-    SignUpStat signUpStat;
+    Object[] signupObject;
+    SignupStat signupStat;
 
-    OqlBuilder<ExamSignUpSetting> settingQuery = OqlBuilder
-        .from(ExamSignUpSetting.class, "setting");
-    List<ExamSignUpSetting> list2 = entityDao.search(settingQuery);
+    OqlBuilder<ExamSignupSetting> settingQuery = OqlBuilder
+        .from(ExamSignupSetting.class, "setting");
+    List<ExamSignupSetting> list2 = entityDao.search(settingQuery);
     while (iter.hasNext()) {
-      signUpObject = iter.next();
-      signUpStat = new SignUpStat();
+      signupObject = iter.next();
+      signupStat = new SignupStat();
 
-      ExamSignUpSetting setting = null;
+      ExamSignupSetting setting = null;
       for (int i1 = 0; i1 < list2.size(); i1++) {
-        if (list2.get(i1).getConfig().getSemester().getId() == signUpObject[8]
-            && list2.get(i1).getSubject().getId() == signUpObject[9]) {
+        if (list2.get(i1).getConfig().getSemester().getId() == signupObject[8]
+            && list2.get(i1).getSubject().getId() == signupObject[9]) {
           setting = list2.get(i1);
           break;
         }
       }
       if (setting == null) {
-        setting = Model.newInstance(ExamSignUpSetting.class);
+        setting = Model.newInstance(ExamSignupSetting.class);
         setting.setFeeOfMaterial(0.0);
         setting.setFeeOfOutline(0.0);
-        setting.setFeeOfSignUp(0.0);
+        setting.setFeeOfSignup(0.0);
 
       }
 
-      signUpStat.setSchoolYear(signUpObject[0].toString());
-      signUpStat.setSemesterName(signUpObject[1].toString());
-      signUpStat.setSubjectName(signUpObject[2].toString());
-      signUpStat.setCategoryName(signUpObject[3].toString());
-      signUpStat.setCount(signUpObject[4].toString());
-      signUpStat.setSumOfOutline((Long) signUpObject[4] * setting.getFeeOfOutline());
-      signUpStat.setSumOfMaterial((Long) signUpObject[4] * setting.getFeeOfMaterial());
-      signUpStat.setSumOfSignUp((Long) signUpObject[4] * setting.getFeeOfSignUp());
-      signUpStatlist.add(signUpStat);
+      signupStat.setSchoolYear(signupObject[0].toString());
+      signupStat.setSemesterName(signupObject[1].toString());
+      signupStat.setSubjectName(signupObject[2].toString());
+      signupStat.setCategoryName(signupObject[3].toString());
+      signupStat.setCount(signupObject[4].toString());
+      signupStat.setSumOfOutline((Long) signupObject[4] * setting.getFeeOfOutline());
+      signupStat.setSumOfMaterial((Long) signupObject[4] * setting.getFeeOfMaterial());
+      signupStat.setSumOfSignup((Long) signupObject[4] * setting.getFeeOfSignup());
+      signupStatlist.add(signupStat);
     }
-    put("signUpStats", signUpStatlist);
-    put("otherExternExamSubjects", codeService.getCodes(ExamSubject.class));
-    put("otherExamCategories", codeService.getCodes(ExamCategory.class));
-    put("otherExamSignUpConfigs", entityDao.getAll(ExamSignUpConfig.class));
+    put("signupStats", signupStatlist);
+    put("examSubjects", codeService.getCodes(ExamSubject.class));
+    put("examCategories", codeService.getCodes(ExamCategory.class));
+    put("examSignupConfigs", entityDao.getAll(ExamSignupConfig.class));
     put("semesters", entityDao.getAll(Semester.class));
-    return forward("signUpInfo");
+    return forward("signupInfo");
   }
 
   // 统计实收报名费
   // @SuppressWarnings("unchecked")
-  // public String signUpInfo() {
-  // Long semester = getLong("otherExamSignUp.semester.id");
-  // Long subject = getLong("otherExamSignUp.subject.id");
-  // Long category = getLong("otherExamSignUp.subject.category.id");
-  // OqlBuilder<?> query = OqlBuilder.from(ExamSignUp.class, "otherExamSignUp");
+  // public String signupInfo() {
+  // Long semester = getLong("examSignup.semester.id");
+  // Long subject = getLong("examSignup.subject.id");
+  // Long category = getLong("examSignup.subject.category.id");
+  // OqlBuilder<?> query = OqlBuilder.from(ExamSignup.class, "examSignup");
   // //
   // if(semester!=null||semester!=""||semester!="..."||category!=null||category!="..."||category!=""||subject!=null){
   // if (semester != null) {
-  // query.where("otherExamSignUp.semester.id =:semester", semester);
+  // query.where("examSignup.semester.id =:semester", semester);
   // }
   // if (category != null && subject != null) {
-  // query.where("otherExamSignUp.subject.category.id =:category", category);
-  // query.where("otherExamSignUp.subject.id =:subject", subject);
+  // query.where("examSignup.subject.category.id =:category", category);
+  // query.where("examSignup.subject.id =:subject", subject);
   // } else {
   // if (subject != null) {
-  // query.where("otherExamSignUp.subject.id =:subject", subject);
+  // query.where("examSignup.subject.id =:subject", subject);
   // }
   //
   // }
-  // query.select("otherExamSignUp.semester.schoolYear,otherExamSignUp.semester.name,otherExamSignUp.subject.name,otherExamSignUp.subject.category.name,"
+  // query.select("examSignup.semester.schoolYear,examSignup.semester.name,examSignup.subject.name,examSignup.subject.category.name,"
   // + "count(*),"
-  // + "sum(otherExamSignUp.feeOfOutline),"
-  // + "sum(otherExamSignUp.feeOfMaterial),"
-  // + "sum(otherExamSignUp.feeOfSignUp)");
-  // query.groupBy("otherExamSignUp.semester.schoolYear,otherExamSignUp.semester.name,otherExamSignUp.subject.name,otherExamSignUp.subject.category.name");
+  // + "sum(examSignup.feeOfOutline),"
+  // + "sum(examSignup.feeOfMaterial),"
+  // + "sum(examSignup.feeOfSignup)");
+  // query.groupBy("examSignup.semester.schoolYear,examSignup.semester.name,examSignup.subject.name,examSignup.subject.category.name");
   // populateConditions(query);
   // query.limit(getPageLimit());
   // query.orderBy(Order.parse(get("orderBy")));
   // List<Object[]> list = (List<Object[]>) entityDao.search(query);
-  // List<SignUpStat> signUpStatlist = CollectUtils.newArrayList(list.size());
+  // List<SignupStat> signupStatlist = CollectUtils.newArrayList(list.size());
   // Iterator<Object[]> iter = list.iterator();
-  // Object[] signUpObject;
-  // SignUpStat signUpStat;
+  // Object[] signupObject;
+  // SignupStat signupStat;
   // while (iter.hasNext()) {
-  // signUpObject = iter.next();
-  // signUpStat = new SignUpStat();
-  // signUpStat.setSchoolYear(signUpObject[0].toString());
-  // signUpStat.setSemesterName(signUpObject[1].toString());
-  // signUpStat.setSubjectName(signUpObject[2].toString());
-  // signUpStat.setCategoryName(signUpObject[3].toString());
-  // signUpStat.setCount(signUpObject[4].toString());
-  // signUpStat.setSumOfOutline((Double) signUpObject[5]);
-  // signUpStat.setSumOfMaterial((Double) signUpObject[6]);
-  // signUpStat.setSumOfSignUp((Double) signUpObject[7]);
-  // signUpStatlist.add(signUpStat);
+  // signupObject = iter.next();
+  // signupStat = new SignupStat();
+  // signupStat.setSchoolYear(signupObject[0].toString());
+  // signupStat.setSemesterName(signupObject[1].toString());
+  // signupStat.setSubjectName(signupObject[2].toString());
+  // signupStat.setCategoryName(signupObject[3].toString());
+  // signupStat.setCount(signupObject[4].toString());
+  // signupStat.setSumOfOutline((Double) signupObject[5]);
+  // signupStat.setSumOfMaterial((Double) signupObject[6]);
+  // signupStat.setSumOfSignup((Double) signupObject[7]);
+  // signupStatlist.add(signupStat);
   // }
-  // put("signUpStats", signUpStatlist);
-  // put("otherExternExamSubjects", codeService.getCodes(ExamSubject.class));
-  // put("otherExamCategories", codeService.getCodes(ExamCategory.class));
-  // put("otherExamSignUpConfigs", entityDao.get(ExamSignUpConfig.class));
+  // put("signupStats", signupStatlist);
+  // put("examSubjects", codeService.getCodes(ExamSubject.class));
+  // put("examCategories", codeService.getCodes(ExamCategory.class));
+  // put("examSignupConfigs", entityDao.get(ExamSignupConfig.class));
   // put("semesters", entityDao.get(Semester.class));
   // return forward();
   // }
@@ -210,13 +210,13 @@ public class StatAction extends SemesterSupportAction {
   /*
    * @SuppressWarnings("unchecked")
    * public String statGrade() {
-   * String grade = get("otherExamSignUp.std.grade");
-   * Long subjectId = getLong("otherExamSignUp.subject.id");
-   * Long categoryId = getLong("otherExamSignUp.subject.category.id");
-   * // OqlBuilder<ExamSignUp> query = OqlBuilder.from(ExamSignUp.class,
-   * // "otherExamSignUp");
+   * String grade = get("examSignup.std.grade");
+   * Long subjectId = getLong("examSignup.subject.id");
+   * Long categoryId = getLong("examSignup.subject.category.id");
+   * // OqlBuilder<ExamSignup> query = OqlBuilder.from(ExamSignup.class,
+   * // "examSignup");
    * OqlBuilder<?> stdQuery = OqlBuilder.from(Student.class, "std");
-   * OqlBuilder<?> gradeQuery = OqlBuilder.from(ExamGrade.class, "grade");
+   * OqlBuilder<?> gradeQuery = OqlBuilder.from(ExternExamGrade.class, "grade");
    * if (Strings.isNotEmpty(grade)) {
    * stdQuery.where("std.grade like :grade", grade);
    * gradeQuery.where("grade.std.grade like :grade", grade);
@@ -267,13 +267,13 @@ public class StatAction extends SemesterSupportAction {
    */
   @SuppressWarnings("unchecked")
   public String statGrade() {
-    String grade = get("otherExamSignUp.std.grade");
-    Integer subjectId = getInt("otherExamSignUp.subject.id");
-    Integer categoryId = getInt("otherExamSignUp.subject.category.id");
-    // OqlBuilder<ExamSignUp> query = OqlBuilder.from(ExamSignUp.class,
-    // "otherExamSignUp");
+    String grade = get("examSignup.std.grade");
+    Integer subjectId = getInt("examSignup.subject.id");
+    Integer categoryId = getInt("examSignup.subject.category.id");
+    // OqlBuilder<ExamSignup> query = OqlBuilder.from(ExamSignup.class,
+    // "examSignup");
     OqlBuilder<?> stdQuery = OqlBuilder.from(Student.class, "std");
-    OqlBuilder<?> gradeQuery = OqlBuilder.from(ExamGrade.class, "grade");
+    OqlBuilder<?> gradeQuery = OqlBuilder.from(ExternExamGrade.class, "grade");
     if (Strings.isNotEmpty(grade)) {
       stdQuery.where("std.grade like :grade", grade);
       gradeQuery.where("grade.std.grade like :grade", grade);
@@ -322,27 +322,27 @@ public class StatAction extends SemesterSupportAction {
 
   @SuppressWarnings("unchecked")
   public String passRate() {
-    Integer semesterId = getInt("otherExamSignUp.semester.id");
-    Integer subjectId = getInt("otherExamSignUp.subject.id");
-    Integer categoryId = getInt("otherExamSignUp.subject.category.id");
+    Integer semesterId = getInt("examSignup.semester.id");
+    Integer subjectId = getInt("examSignup.subject.id");
+    Integer categoryId = getInt("examSignup.subject.category.id");
 
-    OqlBuilder<?> query = OqlBuilder.from(ExamSignUp.class, "otherExamSignUp");
-    OqlBuilder<?> gradeQuery = OqlBuilder.from(ExamGrade.class, "grade");
-    OqlBuilder<?> gdQuery = OqlBuilder.from(ExamGrade.class, "grade");
+    OqlBuilder<?> query = OqlBuilder.from(ExamSignup.class, "examSignup");
+    OqlBuilder<?> gradeQuery = OqlBuilder.from(ExternExamGrade.class, "grade");
+    OqlBuilder<?> gdQuery = OqlBuilder.from(ExternExamGrade.class, "grade");
     if (null != semesterId) {
       gradeQuery.where("grade.semester.id=:semesterId", semesterId);
       gdQuery.where("grade.semester.id=:semesterId", semesterId);
-      query.where("otherExamSignUp.semester.id=:semesterId", semesterId);
+      query.where("examSignup.semester.id=:semesterId", semesterId);
     }
     if (null != categoryId) {
       gradeQuery.where("grade.subject.category.id=:categoryId", categoryId);
       gdQuery.where("grade.subject.category.id=:categoryId", categoryId);
-      query.where("otherExamSignUp.subject.category.id=:categoryId", categoryId);
+      query.where("examSignup.subject.category.id=:categoryId", categoryId);
     }
     if (null != subjectId) {
       gradeQuery.where("grade.subject.id=:subjectId", subjectId);
       gdQuery.where("grade.subject.id=:subjectId", subjectId);
-      query.where("otherExamSignUp.subject.id=:subjectId", subjectId);
+      query.where("examSignup.subject.id=:subjectId", subjectId);
     }
     gradeQuery.select("grade.semester.id,count(*)");
     gradeQuery.groupBy("grade.semester.id");
@@ -353,11 +353,11 @@ public class StatAction extends SemesterSupportAction {
       SemesterMap.put(((Semester) data[0]).getId().toString(), data);
     }
     query
-        .where("exists(select signUp.std.id from "
-            + ExamSignUp.class.getName()
-            + " signUp where signUp.std.id = otherExamSignUp.std.id group by signUp.std.id having count(signUp.std.id)=1)");
-    query.select("otherExamSignUp.semester.id,count(*)");
-    query.groupBy("otherExamSignUp.semester.id");
+        .where("exists(select signup.std.id from "
+            + ExamSignup.class.getName()
+            + " signup where signup.std.id = examSignup.std.id group by signup.std.id having count(signup.std.id)=1)");
+    query.select("examSignup.semester.id,count(*)");
+    query.groupBy("examSignup.semester.id");
     List<Object[]> data5 = (List<Object[]>) entityDao.search(query);
     new StatHelper(entityDao).replaceIdWith(data5, new Class[] { Semester.class });
     Map<String, Object[]> firstMap = new HashMap<String, Object[]>();
@@ -372,7 +372,7 @@ public class StatAction extends SemesterSupportAction {
     for (Object[] data : data2) {
       gradeMap.put(((Semester) data[0]).getId().toString(), data);
     }
-    gdQuery.where("exists(select gd.std.id from " + ExamGrade.class.getName()
+    gdQuery.where("exists(select gd.std.id from " + ExternExamGrade.class.getName()
         + " gd where gd.std.id = grade.std.id group by gd.std.id having count(gd.std.id)=1)");
     gdQuery.select("grade.semester.id,count(*)");
     gdQuery.groupBy("grade.semester.id");
@@ -403,11 +403,11 @@ public class StatAction extends SemesterSupportAction {
   public String categorySubject() {
     Integer categoryId = getIntId("category");
     if (null != categoryId) {
-      OqlBuilder<ExamSubject> query = OqlBuilder.from(ExamSubject.class, "otherExternExamSubject");
-      query.where("otherExternExamSubject.category.id =:categoryId", categoryId);
+      OqlBuilder<ExamSubject> query = OqlBuilder.from(ExamSubject.class, "examSubject");
+      query.where("examSubject.category.id =:categoryId", categoryId);
       query
           .where(
-              "otherExternExamSubject.beginOn <= :now and (otherExternExamSubject.endOn is null or otherExternExamSubject.endOn >= :now)",
+              "examSubject.beginOn <= :now and (examSubject.endOn is null or examSubject.endOn >= :now)",
               new java.util.Date());
       put("subjects", entityDao.search(query));
     } else {

@@ -58,15 +58,15 @@ import org.openurp.edu.eams.web.util.DownloadHelper;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
 import org.openurp.edu.extern.model.ExamFeeConfig;
-import org.openurp.edu.extern.model.ExamSignUp;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.model.ExamSignUpLogger;
+import org.openurp.edu.extern.model.ExamSignup;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExamSignupLogger;
 import org.openurp.edu.extern.service.ExamFeeConfigService;
 import org.openurp.edu.extern.service.ExamPropertyExtractor;
-import org.openurp.edu.extern.service.ExamSignUpCalculator;
-import org.openurp.edu.extern.service.ExamSignUpLoggerService;
-import org.openurp.edu.extern.service.ExamSignUpService;
-import org.openurp.edu.extern.service.listener.ExamSignUpImportListener;
+import org.openurp.edu.extern.service.ExamSignupCalculator;
+import org.openurp.edu.extern.service.ExamSignupLoggerService;
+import org.openurp.edu.extern.service.ExamSignupService;
+import org.openurp.edu.extern.service.listener.ExamSignupImportListener;
 import org.openurp.edu.web.action.SemesterSupportAction;
 import org.openurp.fee.code.model.PayState;
 import org.openurp.fee.model.Bill;
@@ -80,19 +80,19 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class ManageAction extends SemesterSupportAction {
 
-  protected ExamSignUpService otherExamSignUpService;
+  protected ExamSignupService examSignupService;
 
   protected StudentService studentService;
 
   protected AvatarBase avatarBase;
 
-  protected ExamFeeConfigService otherExamFeeConfigService;
+  protected ExamFeeConfigService examFeeConfigService;
 
-  protected BillCodeGenerator otherExamBillCodeGenerator;
+  protected BillCodeGenerator examBillCodeGenerator;
 
   protected BillService billService;
 
-  protected ExamSignUpLoggerService otherExamSignUpLoggerService;
+  protected ExamSignupLoggerService examSignupLoggerService;
 
   protected PaymentService paymentService;
 
@@ -108,13 +108,13 @@ public class ManageAction extends SemesterSupportAction {
   }
 
   protected void indexSetting() {
-    OqlBuilder<ExamSignUpConfig> seasonQuery = OqlBuilder.from(ExamSignUpConfig.class, "season");
+    OqlBuilder<ExamSignupConfig> seasonQuery = OqlBuilder.from(ExamSignupConfig.class, "season");
     seasonQuery.where("season.project = :project", getProject());
     seasonQuery.orderBy("season.beginAt desc");
     put("seasons", entityDao.search(seasonQuery));
 
-    put("otherExamCategories", codeService.getCodes(ExamCategory.class));
-    put("otherExternExamSubjects", codeService.getCodes(ExamSubject.class));
+    put("examCategories", codeService.getCodes(ExamCategory.class));
+    put("examSubjects", codeService.getCodes(ExamSubject.class));
     put("campuses", baseInfoService.getBaseInfos(Campus.class, getProject().getSchool()));
 
     put("departments", getColleges());
@@ -130,34 +130,34 @@ public class ManageAction extends SemesterSupportAction {
     }
     put("payStates", entityDao.get(PayState.class, "id", PayState.PAID, PayState.UNPAID));
     put("canceled", entityDao.get(PayState.class, PayState.CANCEL));
-    put("payOpen", !otherExamFeeConfigService.getOpenConfigs(getProject(), getSemester()).isEmpty());
+    put("payOpen", !examFeeConfigService.getOpenConfigs(getProject(), getSemester()).isEmpty());
     return super.search();
   }
 
   @Override
   protected OqlBuilder<?> getQueryBuilder() {
     OqlBuilder<?> builder = (OqlBuilder<?>) super.getQueryBuilder();
-    Date signUpAt_start = getDate("signUpAt_start");
-    if (null != signUpAt_start) {
-      builder.where(getShortName() + ".signUpAt>=:start", signUpAt_start);
+    Date signupAt_start = getDate("signupAt_start");
+    if (null != signupAt_start) {
+      builder.where(getShortName() + ".signupAt>=:start", signupAt_start);
     }
-    Date signUpAt_end = getDate("signUpAt_end");
-    if (null != signUpAt_end) {
-      builder.where(getShortName() + ".signUpAt<=:end", signUpAt_end);
+    Date signupAt_end = getDate("signupAt_end");
+    if (null != signupAt_end) {
+      builder.where(getShortName() + ".signupAt<=:end", signupAt_end);
     }
-    builder.where("otherExamSignUp.std.project =:project", getProject());
+    builder.where("examSignup.std.project =:project", getProject());
     if (getInt("examType.id") != null) {
 
     }
     Integer semesterId = getInt("semester.id");
     if (null != semesterId) {
-      builder.where("otherExamSignUp.semester.id = :semesterId", semesterId);
+      builder.where("examSignup.semester.id = :semesterId", semesterId);
       getSemester();
     }
     if (getLong("fake.signupSeason.id") != null) {
       Long seasonId = getLong("fake.signupSeason.id");
-      ExamSignUpConfig season = entityDao.get(ExamSignUpConfig.class, seasonId);
-      builder.where("otherExamSignUp.signUpAt between :beginAt and :endAt", season.getBeginAt(),
+      ExamSignupConfig season = entityDao.get(ExamSignupConfig.class, seasonId);
+      builder.where("examSignup.signupAt between :beginAt and :endAt", season.getBeginAt(),
           season.getEndAt());
     }
     return builder;
@@ -175,29 +175,29 @@ public class ManageAction extends SemesterSupportAction {
   }
 
   public void editSetting(Entity<?> entity) {
-    put("otherExternExamSubjects", codeService.getCodes(ExamSubject.class));
+    put("examSubjects", codeService.getCodes(ExamSubject.class));
     put("campuses", baseInfoService.getBaseInfos(Campus.class, getProject().getSchool()));
     // Project project = getProject();
     // put("semesters", project.getCalendar().getSemesters());
     if (entity.isTransient()) {
       Semester semester = getSemester();
       if (null != semester) {
-        ((ExamSignUp) entity).setSemester(semester);
+        ((ExamSignup) entity).setSemester(semester);
       }
     }
   }
 
   public String updateBillState() {
-    List<ExamSignUp> signUps = getModels(ExamSignUp.class, getLongIds("otherExamSignUp"));
-    if (signUps.isEmpty()) {
-      OqlBuilder<ExamSignUp> builder = OqlBuilder.from(ExamSignUp.class, "signUp").where(
-          "(signUp.bill.state.id=" + PayState.UNPAID + ") or (signUp.payState.id=" + PayState.UNPAID
-              + " and signUp.bill is not null)");
-      signUps = entityDao.search(builder);
+    List<ExamSignup> signups = getModels(ExamSignup.class, getLongIds("examSignup"));
+    if (signups.isEmpty()) {
+      OqlBuilder<ExamSignup> builder = OqlBuilder.from(ExamSignup.class, "signup").where(
+          "(signup.bill.state.id=" + PayState.UNPAID + ") or (signup.payState.id=" + PayState.UNPAID
+              + " and signup.bill is not null)");
+      signups = entityDao.search(builder);
     }
     List<Bill> bills = CollectUtils.newArrayList();
-    for (ExamSignUp otherExamSignUp : signUps) {
-      Bill bill = otherExamSignUp.getBill();
+    for (ExamSignup examSignup : signups) {
+      Bill bill = examSignup.getBill();
       if (bill != null && bill.getState().getId().equals(PayState.UNPAID)
           && paymentService.checkBillOnPurpose(bill)) {
         bills.add(bill);
@@ -212,14 +212,14 @@ public class ManageAction extends SemesterSupportAction {
   }
 
   public String countNum() {
-    OqlBuilder<ExamSignUp> builder = OqlBuilder.from(ExamSignUp.class, "signUp").where(
-        "(signUp.bill.state.id=" + PayState.UNPAID + ") or (signUp.payState.id=" + PayState.UNPAID
-            + " and signUp.bill is not null)");
-    List<ExamSignUp> signUps = entityDao.search(builder);
-    List<ExamSignUp> paids = CollectUtils.newArrayList();
-    for (ExamSignUp otherExamSignUp : signUps) {
-      if (paymentService.checkBillOnPurpose(otherExamSignUp.getBill())) {
-        paids.add(otherExamSignUp);
+    OqlBuilder<ExamSignup> builder = OqlBuilder.from(ExamSignup.class, "signup").where(
+        "(signup.bill.state.id=" + PayState.UNPAID + ") or (signup.payState.id=" + PayState.UNPAID
+            + " and signup.bill is not null)");
+    List<ExamSignup> signups = entityDao.search(builder);
+    List<ExamSignup> paids = CollectUtils.newArrayList();
+    for (ExamSignup examSignup : signups) {
+      if (paymentService.checkBillOnPurpose(examSignup.getBill())) {
+        paids.add(examSignup);
       }
     }
     Workbook workbook = new HSSFWorkbook();
@@ -235,17 +235,17 @@ public class ManageAction extends SemesterSupportAction {
     row.createCell(6).setCellValue("报名记录状态");
     row.createCell(7).setCellValue("报名科目");
     row.createCell(8).setCellValue("报名日期");
-    for (ExamSignUp otherExamSignUp : paids) {
+    for (ExamSignup examSignup : paids) {
       row = sheet.createRow(i);
-      row.createCell(0).setCellValue(otherExamSignUp.getStd().getCode());
-      row.createCell(1).setCellValue(otherExamSignUp.getStd().getPerson().getName());
-      row.createCell(2).setCellValue(otherExamSignUp.getBill().getCode());
-      row.createCell(3).setCellValue(otherExamSignUp.getBill().getAmount());
-      row.createCell(4).setCellValue(otherExamSignUp.getBill().getPaid());
-      row.createCell(5).setCellValue(otherExamSignUp.getBill().getState().getName());
-      row.createCell(6).setCellValue(otherExamSignUp.getPayState().getName());
-      row.createCell(7).setCellValue(otherExamSignUp.getSubject().getName());
-      row.createCell(8).setCellValue(otherExamSignUp.getSignUpAt());
+      row.createCell(0).setCellValue(examSignup.getStd().getCode());
+      row.createCell(1).setCellValue(examSignup.getStd().getPerson().getName());
+      row.createCell(2).setCellValue(examSignup.getBill().getCode());
+      row.createCell(3).setCellValue(examSignup.getBill().getAmount());
+      row.createCell(4).setCellValue(examSignup.getBill().getPaid());
+      row.createCell(5).setCellValue(examSignup.getBill().getState().getName());
+      row.createCell(6).setCellValue(examSignup.getPayState().getName());
+      row.createCell(7).setCellValue(examSignup.getSubject().getName());
+      row.createCell(8).setCellValue(examSignup.getSignupAt());
       i++;
     }
     HttpServletResponse response = getResponse();
@@ -263,42 +263,42 @@ public class ManageAction extends SemesterSupportAction {
   }
 
   protected String saveAndForward(Entity<?> entity) {
-    ExamSignUp signUp = (ExamSignUp) entity;
+    ExamSignup signup = (ExamSignup) entity;
     Student student = null;
-    if (Strings.isNotBlank(get("otherExamSignUp.std.code"))) {
-      student = studentService.getStudent(getProject().getId(),get("otherExamSignUp.std.code"));
-      signUp.setStd(student);
+    if (Strings.isNotBlank(get("examSignup.std.code"))) {
+      student = studentService.getStudent(getProject().getId(),get("examSignup.std.code"));
+      signup.setStd(student);
     }
     if (student == null) { return redirect("search", "保存失败,学号不存在"); }
     // 记录不能重复
-    if (otherExamSignUpService.isExist(signUp)) { return redirect("search", "保存失败,报名重复"); }
-    if (signUp.isTransient()) {
-      signUp.setSignUpAt(new Date());
+    if (examSignupService.isExist(signup)) { return redirect("search", "保存失败,报名重复"); }
+    if (signup.isTransient()) {
+      signup.setSignupAt(new Date());
     }
-    Semester semester = entityDao.get(Semester.class, getInt("otherExamSignUp.semester.id"));
-    ExamSubject subject = entityDao.get(ExamSubject.class, getInt("otherExamSignUp.subject.id"));
-    signUp.setSemester(semester);
-    signUp.setSubject(subject);
+    Semester semester = entityDao.get(Semester.class, getInt("examSignup.semester.id"));
+    ExamSubject subject = entityDao.get(ExamSubject.class, getInt("examSignup.subject.id"));
+    signup.setSemester(semester);
+    signup.setSubject(subject);
     entityDao.saveOrUpdate(entity);
 
-    List<ExamFeeConfig> configs = otherExamFeeConfigService.getOpenConfigs(getProject(), semester);
+    List<ExamFeeConfig> configs = examFeeConfigService.getOpenConfigs(getProject(), semester);
     if (configs.size() == 1) {
       ExamFeeConfig config = configs.get(0);
       if (config.getFeeType() != null) {
         BillGenContext context = BillGenContext.create(student, config.getFeeType(), semester,
-            ExamSignUpCalculator.calExamFee(signUp)).setRemark("PAYFOROTHEREXAM");
-        context.put("otherExamSignUpConfig", config).setBillCodeGenerator(otherExamBillCodeGenerator);
+            ExamSignupCalculator.calExamFee(signup)).setRemark("PAYFOROTHEREXAM");
+        context.put("examSignupConfig", config).setBillCodeGenerator(examBillCodeGenerator);
         Bill bill = billService.genBill(config, context);
-        signUp.setBill(bill);
-        billService.saveOrUpdate(bill, BillLogType.CREATED, signUp);
+        signup.setBill(bill);
+        billService.saveOrUpdate(bill, BillLogType.CREATED, signup);
       }
     }
-    otherExamSignUpLoggerService.logger(getUsername(),
-        ExamSignUpLogger.CREATE, getRemoteAddr(), signUp);
+    examSignupLoggerService.logger(getUsername(),
+        ExamSignupLogger.CREATE, getRemoteAddr(), signup);
     boolean addNext = getBool("addNext");
     if (addNext) {
-      getFlash().put("otherExamSignUp.semester.id", signUp.getSemester().getId());
-      getFlash().put("otherExamSignUp.subject.id", signUp.getSubject().getId());
+      getFlash().put("examSignup.semester.id", signup.getSemester().getId());
+      getFlash().put("examSignup.subject.id", signup.getSubject().getId());
       return redirect("edit", "info.save.success");
     }
     return redirect("search", "info.save.success");
@@ -328,13 +328,13 @@ public class ManageAction extends SemesterSupportAction {
       for (int i = 0; i < queryList.size(); i++) {
         Object[] resultArr = queryList.get(i);
         if (resultMap.containsKey(resultArr[1])) {
-          List<Object> otherExamSignUpList = resultMap.get(resultArr[1]);
-          otherExamSignUpList.add(resultArr[0]);
-          resultMap.put(resultArr[1], otherExamSignUpList);
+          List<Object> examSignupList = resultMap.get(resultArr[1]);
+          examSignupList.add(resultArr[0]);
+          resultMap.put(resultArr[1], examSignupList);
         } else {
-          List<Object> otherExamSignUpList = CollectUtils.newArrayList();
-          otherExamSignUpList.add(resultArr[0]);
-          resultMap.put(resultArr[1], otherExamSignUpList);
+          List<Object> examSignupList = CollectUtils.newArrayList();
+          examSignupList.add(resultArr[0]);
+          resultMap.put(resultArr[1], examSignupList);
         }
       }
     }
@@ -371,28 +371,28 @@ public class ManageAction extends SemesterSupportAction {
   @SuppressWarnings("unchecked")
   @Override
   protected String removeAndForward(Collection<?> entities) {
-    List<ExamSignUp> otherExamSignUps = (List<ExamSignUp>) entities;
-    List<ExamSignUp> toRemoved = CollectUtils.newArrayList();
+    List<ExamSignup> examSignups = (List<ExamSignup>) entities;
+    List<ExamSignup> toRemoved = CollectUtils.newArrayList();
     List<Bill> toCancledBills = CollectUtils.newArrayList();
-    for (ExamSignUp otherExamSignUp : otherExamSignUps) {
-      Bill bill = otherExamSignUp.getBill();
+    for (ExamSignup examSignup : examSignups) {
+      Bill bill = examSignup.getBill();
       if (bill == null) {
-        if (!PayState.PAID.equals(otherExamSignUp.getPayState().getId())) {
-          toRemoved.add(otherExamSignUp);
+        if (!PayState.PAID.equals(examSignup.getPayState().getId())) {
+          toRemoved.add(examSignup);
         }
       } else if (bill.getState().getId().equals(PayState.UNPAID)
-          && otherExamFeeConfigService.getOpenConfigs(otherExamSignUp.getStd().getProject(),
-              otherExamSignUp.getSemester()).isEmpty() && !paymentService.checkBillOnPurpose(bill)) {
+          && examFeeConfigService.getOpenConfigs(examSignup.getStd().getProject(),
+              examSignup.getSemester()).isEmpty() && !paymentService.checkBillOnPurpose(bill)) {
         toCancledBills.add(bill);
-        otherExamSignUp.setBill(null);
-        toRemoved.add(otherExamSignUp);
+        examSignup.setBill(null);
+        toRemoved.add(examSignup);
       }
     }
     try {
       billService.cancel(toCancledBills);
       remove(toRemoved);
-      otherExamSignUpLoggerService.logger(getUsername(),
-          ExamSignUpLogger.DELETE, getRemoteAddr(), toRemoved);
+      examSignupLoggerService.logger(getUsername(),
+          ExamSignupLogger.DELETE, getRemoteAddr(), toRemoved);
     } catch (Exception e) {
       logger.info("removeAndForwad failure", e);
       return redirect("search", "info.delete.failure");
@@ -402,21 +402,21 @@ public class ManageAction extends SemesterSupportAction {
 
   @Override
   protected String getEntityName() {
-    return ExamSignUp.class.getName();
+    return ExamSignup.class.getName();
   }
 
   public String savePayState() {
-    String signUpIdSeq = get("otherExamSignUpIds");
-    if (Strings.isNotBlank(signUpIdSeq)) {
-      OqlBuilder<ExamSignUp> query = OqlBuilder.from(ExamSignUp.class, "otherExamSignUp");
-      query.where("otherExamSignUp.id in(:ids)", Strings.splitToLong(signUpIdSeq));
-      List<ExamSignUp> signUps = entityDao.search(query);
-      List<ExamSignUp> toChangeStates = CollectUtils.newArrayList();
-      for (ExamSignUp otherExamSignUp : signUps) {
-        if (null == otherExamSignUp.getBill()) {
-          Integer payStateId = getInt("otherExamSignUp.payState.id");
-          otherExamSignUp.setPayState(Model.newInstance(PayState.class, payStateId));
-          toChangeStates.add(otherExamSignUp);
+    String signupIdSeq = get("examSignupIds");
+    if (Strings.isNotBlank(signupIdSeq)) {
+      OqlBuilder<ExamSignup> query = OqlBuilder.from(ExamSignup.class, "examSignup");
+      query.where("examSignup.id in(:ids)", Strings.splitToLong(signupIdSeq));
+      List<ExamSignup> signups = entityDao.search(query);
+      List<ExamSignup> toChangeStates = CollectUtils.newArrayList();
+      for (ExamSignup examSignup : signups) {
+        if (null == examSignup.getBill()) {
+          Integer payStateId = getInt("examSignup.payState.id");
+          examSignup.setPayState(Model.newInstance(PayState.class, payStateId));
+          toChangeStates.add(examSignup);
         }
       }
       try {
@@ -441,11 +441,11 @@ public class ManageAction extends SemesterSupportAction {
 
   @SuppressWarnings("unchecked")
   public String downloadAvatorBatch() {
-    List<ExamSignUp> signUps = getModels(ExamSignUp.class, getLongIds("otherExamSignUp"));
-    if (signUps.isEmpty()) {
-      signUps = (List<ExamSignUp>) entityDao.search(getQueryBuilder().limit(null));
+    List<ExamSignup> signups = getModels(ExamSignup.class, getLongIds("examSignup"));
+    if (signups.isEmpty()) {
+      signups = (List<ExamSignup>) entityDao.search(getQueryBuilder().limit(null));
     }
-    List<String> usernames = CollectUtils.collect(signUps, new PropertyTransformer("std.code"));
+    List<String> usernames = CollectUtils.collect(signups, new PropertyTransformer("std.code"));
     List<String> filenames = CollectUtils.newArrayList();
     for (String username : usernames) {
       FileAvatar avatar = (FileAvatar) avatarBase.getAvatar(username);
@@ -453,7 +453,7 @@ public class ManageAction extends SemesterSupportAction {
         filenames.add(avatar.getFile().toString());
       }
     }
-    String tmpPath = System.getProperty("java.io.tmpdir") + "/eams-teach-other-photo.zip";
+    String tmpPath = System.getProperty("java.io.tmpdir") + "/openurp-edu-extern-exam-photo.zip";
     ZipUtils.zip(filenames, tmpPath);
     File tmpAvatar = new File(tmpPath);
     DownloadHelper.download(getRequest(), getResponse(), tmpAvatar, "学生照片打包下载");
@@ -464,11 +464,11 @@ public class ManageAction extends SemesterSupportAction {
   protected void configImporter(EntityImporter importer) {
     MultiEntityImporter mimporter = (MultiEntityImporter) importer;
     mimporter.addForeignedKeys("code");
-    mimporter.addEntity("otherExam", ExamSignUp.class);
+    mimporter.addEntity("exam", ExamSignup.class);
 
     ImporterForeignerListener l = new ImporterForeignerListener(entityDao);
     l.addForeigerKey("code");
-    importer.addListener(l).addListener(new ExamSignUpImportListener(entityDao));
+    importer.addListener(l).addListener(new ExamSignupImportListener(entityDao));
   }
 
   protected EntityImporter buildEntityImporter() {
@@ -488,7 +488,7 @@ public class ManageAction extends SemesterSupportAction {
         put("importer", importer);
         return importer;
       } else {
-        throw new RuntimeException("donot support other format except excel");
+        throw new RuntimeException("donot support format except excel");
       }
     } catch (Exception e) {
       logger.error("error", e);
@@ -496,8 +496,8 @@ public class ManageAction extends SemesterSupportAction {
     }
   }
 
-  public void setExamSignUpService(ExamSignUpService otherExamSignUpService) {
-    this.otherExamSignUpService = otherExamSignUpService;
+  public void setExamSignupService(ExamSignupService examSignupService) {
+    this.examSignupService = examSignupService;
   }
 
   public void setStudentService(StudentService studentService) {
@@ -508,20 +508,20 @@ public class ManageAction extends SemesterSupportAction {
     this.avatarBase = avatarBase;
   }
 
-  public void setExamFeeConfigService(ExamFeeConfigService otherExamFeeConfigService) {
-    this.otherExamFeeConfigService = otherExamFeeConfigService;
+  public void setExamFeeConfigService(ExamFeeConfigService examFeeConfigService) {
+    this.examFeeConfigService = examFeeConfigService;
   }
 
-  public void setExamBillCodeGenerator(BillCodeGenerator otherExamBillCodeGenerator) {
-    this.otherExamBillCodeGenerator = otherExamBillCodeGenerator;
+  public void setExamBillCodeGenerator(BillCodeGenerator examBillCodeGenerator) {
+    this.examBillCodeGenerator = examBillCodeGenerator;
   }
 
   public void setBillService(BillService billService) {
     this.billService = billService;
   }
 
-  public void setExamSignUpLoggerService(ExamSignUpLoggerService otherExamSignUpLoggerService) {
-    this.otherExamSignUpLoggerService = otherExamSignUpLoggerService;
+  public void setExamSignupLoggerService(ExamSignupLoggerService examSignupLoggerService) {
+    this.examSignupLoggerService = examSignupLoggerService;
   }
 
   public void setPaymentService(PaymentService paymentService) {

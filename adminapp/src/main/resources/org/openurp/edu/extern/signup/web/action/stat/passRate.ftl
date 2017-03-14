@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-[@b.grid items=signUpStats sortable="false" var="signUpStat"]
+[@b.grid items=signupStats sortable="false" var="signupStat"]
 <table class="gridtable" width="100%"  align="center">
    <thead  class="gridhead" align="center">
         <tr class="darkColumn" align="center">

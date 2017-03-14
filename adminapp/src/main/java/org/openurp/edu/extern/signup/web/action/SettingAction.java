@@ -18,10 +18,7 @@
  */
 package org.openurp.edu.extern.signup.web.action;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -30,10 +27,11 @@ import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.collection.Order;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Strings;
+import org.beangle.commons.lang.time.HourMinute;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.model.ExamSignUpSetting;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExamSignupSetting;
 import org.openurp.edu.web.action.RestrictionSupportAction;
 
 /**
@@ -45,7 +43,7 @@ public class SettingAction extends RestrictionSupportAction {
 
   @Override
   protected String getEntityName() {
-    return ExamSignUpSetting.class.getName();
+    return ExamSignupSetting.class.getName();
   }
 
   /**
@@ -53,15 +51,15 @@ public class SettingAction extends RestrictionSupportAction {
    */
 
   public String edit() {
-    ExamSignUpSetting setting = populateEntity(ExamSignUpSetting.class, "otherExamSignUpSetting");
-    ExamSignUpConfig config = getSignupConfig();
+    ExamSignupSetting setting = populateEntity(ExamSignupSetting.class, "examSignupSetting");
+    ExamSignupConfig config = getSignupConfig();
     Integer categoryId = config.getCategory().getId();
     // 查询报考科目
     OqlBuilder<ExamSubject> query = OqlBuilder.from(ExamSubject.class, "subject");
     query.where("subject.category.id = :categoryId", categoryId);
     query
         .where(
-            "not exists (from "+ExamSignUpSetting.class.getName()+" setting where setting.subject.id =subject.id and setting.config.id =:configId)",
+            "not exists (from "+ExamSignupSetting.class.getName()+" setting where setting.subject.id =subject.id and setting.config.id =:configId)",
             config.getId());
 
     Set<ExamSubject> set = CollectUtils.newHashSet();
@@ -76,7 +74,7 @@ public class SettingAction extends RestrictionSupportAction {
     OqlBuilder<ExamSubject> query2 = OqlBuilder.from(ExamSubject.class, "subject");
     query2.where("subject.category.id=:categoryId", categoryId);
     put("superSubjects", entityDao.search(query2));
-    put("otherExamSignUpSetting", setting);
+    put("examSignupSetting", setting);
     if (setting.isPersisted()) {
       Iterator<Student> permitIt = setting.getPermitStds().iterator();
       String permitSeq = "";
@@ -106,10 +104,10 @@ public class SettingAction extends RestrictionSupportAction {
    * 删除
    */
   public String remove() {
-    Long[] otherExamSignUpSettingIds = Strings.splitToLong(get("otherExamSignUpSetting.id"));
-    List<ExamSignUpSetting> otherExamSignUpSettingList = entityDao.get(ExamSignUpSetting.class,
-        otherExamSignUpSettingIds);
-    return removeAndForward(otherExamSignUpSettingList);
+    Long[] examSignupSettingIds = Strings.splitToLong(get("examSignupSetting.id"));
+    List<ExamSignupSetting> examSignupSettingList = entityDao.get(ExamSignupSetting.class,
+        examSignupSettingIds);
+    return removeAndForward(examSignupSettingList);
   }
 
   protected String removeAndForward(Collection<?> entities) {
@@ -117,20 +115,17 @@ public class SettingAction extends RestrictionSupportAction {
       remove(entities);
     } catch (Exception e) {
       logger.info("removeAndForwad failure", e);
-      return redirect("search", "info.delete.failure", "&otherExamSignUpSetting.config.id="
+      return redirect("search", "info.delete.failure", "&examSignupSetting.config.id="
           + getSignupConfig().getId());
     }
-    return redirect("search", "info.remove.success", "&otherExamSignUpSetting.config.id="
+    return redirect("search", "info.remove.success", "&examSignupSetting.config.id="
         + getSignupConfig().getId());
   }
 
   public String save() {
-    ExamSignUpSetting setting = populateEntity(ExamSignUpSetting.class, "otherExamSignUpSetting");
-    String beginAt1 = get("otherExamSignUpSetting.beginAt");
-    String endAt1 = get("otherExamSignUpSetting.endAt");
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    Date beginAt = null;
-    Date endAt = null;
+    ExamSignupSetting setting = populateEntity(ExamSignupSetting.class, "examSignupSetting");
+    String beginAt1 = get("examSignupSetting.beginAt");
+    String endAt1 = get("examSignupSetting.endAt");
     String permitStdCodes = get("permitStds");
     String forbiddenStdCodes = get("forbiddenStds");
     List<Student> permitStds = CollectUtils.newArrayList();
@@ -151,49 +146,45 @@ public class SettingAction extends RestrictionSupportAction {
         setting.addForbiddenStds(forbiddenStds);
       }
     }
-    try {
-      beginAt = sdf.parse(beginAt1);
-      endAt = sdf.parse(endAt1);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    setting.setBeginAt(beginAt);
-    setting.setEndAt(endAt);
-    put("otherExamSignUpSetting.config.id", setting.getConfig().getId());
+    String beginAt = get("examBeginAt");
+    String endAt = get("examEndAt");
+    setting.setExamBeginAt(new HourMinute(beginAt));
+    setting.setExamEndAt(new HourMinute(endAt));
+    
+    put("examSignupSetting.config.id", setting.getConfig().getId());
     try {
       saveOrUpdate(setting);
-      return redirect("search", "info.save.success", "&otherExamSignUpSetting.config.id="
+      return redirect("search", "info.save.success", "&examSignupSetting.config.id="
           + setting.getConfig().getId());
     } catch (Exception e) {
       logger.info("saveAndForwad failure", e);
-      return redirect("search", "info.save.failure", "&otherExamSignUpSetting.config.id="
+      return redirect("search", "info.save.failure", "&examSignupSetting.config.id="
           + setting.getConfig().getId());
     }
   }
 
   public String search() {
     getSignupConfig();
-    OqlBuilder<ExamSignUpSetting> query = OqlBuilder.from(ExamSignUpSetting.class,
-        "otherExamSignUpSetting");
+    OqlBuilder<ExamSignupSetting> query = OqlBuilder.from(ExamSignupSetting.class,
+        "examSignupSetting");
     populateConditions(query);
     query.limit(getPageLimit());
     query.orderBy(Order.parse(get("orderBy")));
-    put("otherExamSignUpSettings", entityDao.search(query));
+    put("examSignupSettings", entityDao.search(query));
     return forward();
   }
 
   public String batchEdit() {
-    put("otherExamSignUpSettings",
-        entityDao.get(ExamSignUpSetting.class, Strings.splitToLong(get("otherExamSignUpSettingIds"))));
+    put("examSignupSettings",
+        entityDao.get(ExamSignupSetting.class, Strings.splitToLong(get("examSignupSettingIds"))));
     getSignupConfig();
     return forward();
   }
 
-  ExamSignUpConfig getSignupConfig() {
-    Long configId = getLong("otherExamSignUpSetting.config.id");
+  ExamSignupConfig getSignupConfig() {
+    Long configId = getLong("examSignupSetting.config.id");
     if (configId != null) {
-      ExamSignUpConfig config = entityDao.get(ExamSignUpConfig.class, configId);
+      ExamSignupConfig config = entityDao.get(ExamSignupConfig.class, configId);
       if (config != null) {
         put("config", config);
         return config;
@@ -204,13 +195,13 @@ public class SettingAction extends RestrictionSupportAction {
 
   public String batchSave() {
     Integer settingSize = getInt("settingSize");
-    List<ExamSignUpSetting> settings = CollectUtils.newArrayList();
+    List<ExamSignupSetting> settings = CollectUtils.newArrayList();
     for (int i = 0; i < settingSize; i++) {
-      settings.add(populateEntity(ExamSignUpSetting.class, "otherExamSignUpSetting" + i));
+      settings.add(populateEntity(ExamSignupSetting.class, "examSignupSetting" + i));
     }
     entityDao.saveOrUpdate(settings);
 
-    return redirect("search", "info.save.success", "&otherExamSignUpSetting.config.id="
+    return redirect("search", "info.save.success", "&examSignupSetting.config.id="
         + getSignupConfig().getId());
   }
 }

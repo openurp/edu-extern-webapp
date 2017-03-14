@@ -34,36 +34,36 @@ import org.openurp.base.model.Campus;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
 import org.openurp.edu.extern.model.ExclusiveSubject;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.service.ExamSignUpConfigService;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.service.ExamSignupConfigService;
 import org.openurp.edu.web.action.RestrictionSupportAction;
 
 public class ConfigAction extends RestrictionSupportAction {
 
-  protected ExamSignUpConfigService otherExamSignUpConfigService;
+  protected ExamSignupConfigService examSignupConfigService;
 
-  public void setExamSignUpConfigService(ExamSignUpConfigService otherExamSignUpConfigService) {
-    this.otherExamSignUpConfigService = otherExamSignUpConfigService;
+  public void setExamSignupConfigService(ExamSignupConfigService examSignupConfigService) {
+    this.examSignupConfigService = examSignupConfigService;
   }
 
   @Override
   protected String getEntityName() {
-    return ExamSignUpConfig.class.getName();
+    return ExamSignupConfig.class.getName();
   }
 
   @Override
   public void indexSetting() {
-    put("otherExamCategries", codeService.getCodes(ExamCategory.class));
+    put("examCategries", codeService.getCodes(ExamCategory.class));
   }
 
   protected void editSetting(Entity<?> entity) {
     put("semesters",  getProject().getCalendars().get(0).getSemesters());
-    ExamSignUpConfig config = (ExamSignUpConfig) entity;
+    ExamSignupConfig config = (ExamSignupConfig) entity;
     List<?> campuses = baseInfoService.getBaseInfos(Campus.class, getProject().getSchool());
     campuses.removeAll(config.getCampuses());
     put("campuses", campuses);
-    List<ExamCategory> otherExamCategories = codeService.getCodes(ExamCategory.class);
-    put("otherExamCategories", otherExamCategories);
+    List<ExamCategory> examCategories = codeService.getCodes(ExamCategory.class);
+    put("examCategories", examCategories);
     // 查询互斥组
     Set<ExamSubject> firstSubjects = CollectUtils.newHashSet();
     Set<ExamSubject> secondSubjects = CollectUtils.newHashSet();
@@ -84,33 +84,33 @@ public class ConfigAction extends RestrictionSupportAction {
       }
       put("subjects", entityDao.search(query));
     } else {
-      if (otherExamCategories.isEmpty()) {
+      if (examCategories.isEmpty()) {
         put("categorySubjects", Collections.emptyMap());
       } else {
         Map<Integer, List<ExamSubject>> categorySubjects = CollectUtils.newHashMap();
         List<ExamSubject> subjects = entityDao.get(ExamSubject.class, "category",
-            otherExamCategories);
-        for (ExamSubject otherExternExamSubject : subjects) {
-          List<ExamSubject> oneCategorySubjects = categorySubjects.get(otherExternExamSubject.getCategory()
+            examCategories);
+        for (ExamSubject examSubject : subjects) {
+          List<ExamSubject> oneCategorySubjects = categorySubjects.get(examSubject.getCategory()
               .getId());
           if (null == oneCategorySubjects) {
             oneCategorySubjects = CollectUtils.newArrayList();
-            categorySubjects.put(otherExternExamSubject.getCategory().getId(), oneCategorySubjects);
+            categorySubjects.put(examSubject.getCategory().getId(), oneCategorySubjects);
           }
-          oneCategorySubjects.add(otherExternExamSubject);
+          oneCategorySubjects.add(examSubject);
         }
         put("categorySubjects", categorySubjects);
       }
     }
-    put("otherExamSignUpConfig", config);
+    put("examSignupConfig", config);
   }
 
   public String save() throws ParseException {
-    ExamSignUpConfig config = (ExamSignUpConfig) populateEntity();
-    OqlBuilder<ExamSignUpConfig> query = OqlBuilder.from(ExamSignUpConfig.class, "config");
+    ExamSignupConfig config = (ExamSignupConfig) populateEntity();
+    OqlBuilder<ExamSignupConfig> query = OqlBuilder.from(ExamSignupConfig.class, "config");
     query.where("config.code = :configCode", config.getCode());
     query.where("config.name = :configName", config.getName());
-    List<ExamSignUpConfig> configs = entityDao.search(query);
+    List<ExamSignupConfig> configs = entityDao.search(query);
     if (CollectUtils.isNotEmpty(configs) && config.isTransient()) { return redirect("edit", "期号名称重复"); }
     String campusIdSeq = get("selectCampus");
     config.getCampuses().clear();
@@ -120,8 +120,8 @@ public class ConfigAction extends RestrictionSupportAction {
     config.setProject(getProject());
     boolean createDefaultSubject = getBool("createDefaultSubject");
     if (createDefaultSubject) {
-      otherExamSignUpConfigService.configDefaultSubject(
-          entityDao.get(ExamCategory.class, getInt("otherExamSignUpConfig.category.id")), config);
+      examSignupConfigService.configDefaultSubject(
+          entityDao.get(ExamCategory.class, getInt("examSignupConfig.category.id")), config);
     }
     // 生成考试科目
     config.getExclusiveSubjects().clear();
@@ -165,6 +165,6 @@ public class ConfigAction extends RestrictionSupportAction {
     } else {
       put("datas", Collections.emptyList());
     }
-    return forward("otherExternExamSubject");
+    return forward("examSubject");
   }
 }

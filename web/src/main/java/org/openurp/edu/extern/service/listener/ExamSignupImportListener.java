@@ -28,17 +28,17 @@ import org.beangle.commons.entity.metadata.Model;
 import org.beangle.commons.transfer.TransferResult;
 import org.beangle.commons.transfer.importer.listener.ItemImporterListener;
 import org.openurp.base.model.Semester;
-import org.openurp.edu.extern.model.ExamSignUp;
+import org.openurp.edu.extern.model.ExamSignup;
 
-public class ExamSignUpImportListener extends ItemImporterListener {
+public class ExamSignupImportListener extends ItemImporterListener {
 
   private EntityDao entityDao;
 
-  public ExamSignUpImportListener() {
+  public ExamSignupImportListener() {
     super();
   }
 
-  public ExamSignUpImportListener(EntityDao entityDao) {
+  public ExamSignupImportListener(EntityDao entityDao) {
     super();
     this.entityDao = entityDao;
   }
@@ -49,37 +49,37 @@ public class ExamSignUpImportListener extends ItemImporterListener {
   public void onItemFinish(TransferResult tr) {
     Map datas = (Map) importer.getCurrent();
 
-    ExamSignUp otherExamSignUp = (ExamSignUp) datas.get("otherExam");
-    otherExamSignUp.setSemester(getSemester(otherExamSignUp.getSemester()));
+    ExamSignup examSignup = (ExamSignup) datas.get("exam");
+    examSignup.setSemester(getSemester(examSignup.getSemester()));
 
-    if (validateDatas(otherExamSignUp, tr)) {
+    if (validateDatas(examSignup, tr)) {
 
-      ExamSignUp signUp = getExamSignUp(otherExamSignUp);
-      if (signUp == null) {
-        signUp = Model.newInstance(ExamSignUp.class);
-        signUp.setCampus(otherExamSignUp.getCampus());
-        signUp.setSemester(getSemester(otherExamSignUp.getSemester()));
-        signUp.setSubject(otherExamSignUp.getSubject());
-        signUp.setStd(otherExamSignUp.getStd());
+      ExamSignup signup = getExamSignup(examSignup);
+      if (signup == null) {
+        signup = Model.newInstance(ExamSignup.class);
+        signup.setCampus(examSignup.getCampus());
+        signup.setSemester(getSemester(examSignup.getSemester()));
+        signup.setSubject(examSignup.getSubject());
+        signup.setStd(examSignup.getStd());
       }
-      signUp.setSignUpAt(new Date());
-      entityDao.saveOrUpdate(signUp);
+      signup.setSignupAt(new Date());
+      entityDao.saveOrUpdate(signup);
     }
 
   }
 
-  private boolean validateDatas(ExamSignUp signUp, TransferResult tr) {
+  private boolean validateDatas(ExamSignup signup, TransferResult tr) {
     Boolean bool = true;
-    if (signUp.getStd() == null) {
+    if (signup.getStd() == null) {
       tr.addFailure("学号有误!", "");
       bool = false;
-    } else if (signUp.getCampus() == null) {
+    } else if (signup.getCampus() == null) {
       tr.addFailure("校区代码有误!", "");
       bool = false;
-    } else if (signUp.getSemester() == null) {
+    } else if (signup.getSemester() == null) {
       tr.addFailure("学年学期有误!", "");
       bool = false;
-    } else if (signUp.getSubject() == null) {
+    } else if (signup.getSubject() == null) {
       tr.addFailure("科目代码有误!", "");
       bool = false;
     }
@@ -94,13 +94,13 @@ public class ExamSignUpImportListener extends ItemImporterListener {
     return semesters.size() > 0 ? semesters.get(0) : null;
   }
 
-  private ExamSignUp getExamSignUp(ExamSignUp signUp) {
-    OqlBuilder<ExamSignUp> query = OqlBuilder.from(ExamSignUp.class, "signUp");
-    query.where("signUp.std =:std", signUp.getStd());
-    query.where("signUp.semester =:semester", signUp.getSemester());
-    query.where("signUp.subject =:subject", signUp.getSubject());
-    List<ExamSignUp> examSignUps = entityDao.search(query);
-    return examSignUps.size() > 0 ? examSignUps.get(0) : null;
+  private ExamSignup getExamSignup(ExamSignup signup) {
+    OqlBuilder<ExamSignup> query = OqlBuilder.from(ExamSignup.class, "signup");
+    query.where("signup.std =:std", signup.getStd());
+    query.where("signup.semester =:semester", signup.getSemester());
+    query.where("signup.subject =:subject", signup.getSubject());
+    List<ExamSignup> examSignups = entityDao.search(query);
+    return examSignups.size() > 0 ? examSignups.get(0) : null;
   }
 
   public EntityDao getEntityDao() {

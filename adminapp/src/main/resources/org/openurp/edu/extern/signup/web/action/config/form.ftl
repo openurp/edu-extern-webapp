@@ -3,27 +3,27 @@
 [@b.toolbar title=labInfo]
     bar.addBack();
 [/@]
-[@b.form name="otherExamSignUpConfigForm" action="!save" title="开关维护" theme="list"]
-    [@b.select  name="otherExamSignUpConfig.semester.id" required="true" id="semestersId"  style="width:200px" label="学期"]
+[@b.form name="examSignupConfigForm" action="!save" title="开关维护" theme="list"]
+    [@b.select  name="examSignupConfig.semester.id" required="true" id="semestersId"  style="width:200px" label="学期"]
         [#list semesters?sort_by("code")?reverse as semester]
-        <option value="${semester.id}" [#if (otherExamSignUpConfig.semester.id)?? && semester.id==otherExamSignUpConfig.semester.id]selected[/#if] title="${semester.schoolYear}学年第${semester.name?replace('0','')}学期">${semester.schoolYear}学年第${semester.name?replace('0','')}学期</option>
+        <option value="${semester.id}" [#if (examSignupConfig.semester.id)?? && semester.id==examSignupConfig.semester.id]selected[/#if] title="${semester.schoolYear}学年第${semester.name?replace('0','')}学期">${semester.schoolYear}学年第${semester.name?replace('0','')}学期</option>
         [/#list]
     [/@]
-    [#if (otherExamSignUpConfig.id)?exists]
-        [@b.field label="考试类型"]${(otherExamSignUpConfig.category.name)}[/@]
+    [#if (examSignupConfig.id)?exists]
+        [@b.field label="考试类型"]${(examSignupConfig.category.name)}[/@]
     [#else]
-        [@b.select name="otherExamSignUpConfig.category.id" id="categoryId" items=otherExamCategories?sort_by("code") label="考试类型" value="${(otherExamSignUpConfig.category.id)!}" required="true" style="width:200px"/]
+        [@b.select name="examSignupConfig.category.id" id="categoryId" items=examCategories?sort_by("code") label="考试类型" value="${(examSignupConfig.category.id)!}" required="true" style="width:200px"/]
     [/#if]
-    [@b.select  name="otherExamSignUpConfig.opened" required="true" id="openId"  style="width:200px" label="是否开放" ]
-      <option value="1" [#if (otherExamSignUpConfig.opened)]selected[/#if]>${b.text("common.yes")}</option>
-      <option value="0" [#if (!otherExamSignUpConfig.opened)]selected[/#if]>${b.text("common.no")}</option>
+    [@b.select  name="examSignupConfig.opened" required="true" id="openId"  style="width:200px" label="是否开放" ]
+      <option value="1" [#if (examSignupConfig.opened)]selected[/#if]>${b.text("common.yes")}</option>
+      <option value="0" [#if (!examSignupConfig.opened)]selected[/#if]>${b.text("common.no")}</option>
     [/@]
-    [@b.textfield name="otherExamSignUpConfig.code" label="开关代码" value="${(otherExamSignUpConfig.code)!}" required="true" style="width:200px"/]
-    [@b.textfield name="otherExamSignUpConfig.name" label="开关名称" value="${(otherExamSignUpConfig.name)!}" required="true" style="width:200px"/]
-    [@b.startend label="报名开放时间段" readOnly="readOnly"  required="true"  name="otherExamSignUpConfig.beginAt,otherExamSignUpConfig.endAt" required="true" start=otherExamSignUpConfig.beginAt end=otherExamSignUpConfig.endAt format="yyyy-MM-dd HH:mm:ss" /]
-    [@b.textarea name="otherExamSignUpConfig.notice" maxlength="1000" label="承诺书" value=(otherExamSignUpConfig.notice)! cols="60" rows="4" style="width:200px"/]
+    [@b.textfield name="examSignupConfig.code" label="开关代码" value="${(examSignupConfig.code)!}" required="true" style="width:200px"/]
+    [@b.textfield name="examSignupConfig.name" label="开关名称" value="${(examSignupConfig.name)!}" required="true" style="width:200px"/]
+    [@b.startend label="报名开放时间段" readOnly="readOnly"  required="true"  name="examSignupConfig.beginAt,examSignupConfig.endAt" required="true" start=examSignupConfig.beginAt end=examSignupConfig.endAt format="yyyy-MM-dd HH:mm:ss" /]
+    [@b.textarea name="examSignupConfig.notice" maxlength="1000" label="承诺书" value=(examSignupConfig.notice)! cols="60" rows="4" style="width:200px"/]
     <tr>
-    [#if !((otherExamSignUpConfig.id)?exists)]
+    [#if !((examSignupConfig.id)?exists)]
     [@b.field label="使用默认科目"]
         <select name="createDefaultSubject" style="width:200px">
             <option value="1" selected>${b.text("common.yes")}</option>
@@ -74,7 +74,7 @@
         </tr>
     </table>
     [/@]
-    [@b.radios label="允许跨校区报名" name="otherExamSignUpConfig.allowCrossCampus" items="1:是,0:否" value=otherExamSignUpConfig.allowCrossCampus required="true"/]
+    [@b.radios label="允许跨校区报名" name="examSignupConfig.allowCrossCampus" items="1:是,0:否" value=examSignupConfig.allowCrossCampus required="true"/]
     [@b.field label="报名考试校区" required="true"]
         <table style="border-collapse: collapse;border:solid;border-width:1px;border-color:#006CB2;background-color:#b6d0ff;">
             <tr>
@@ -91,7 +91,7 @@
                 </td>
                 <td>
                     <select name="selectCampus" id="selectCampus" multiple="multiple"  style="width:200px;height:100px" onDblclick="JavaScript:bg.select.moveSelected(this.form['selectCampus'], this.form['campusList'])">
-                    [#list (otherExamSignUpConfig.campuses)?if_exists as selectCampus]
+                    [#list (examSignupConfig.campuses)?if_exists as selectCampus]
                     <option value="${selectCampus.id}">${selectCampus.name}</option>
                     [/#list]
                     </select>
@@ -99,10 +99,10 @@
             </tr>
         </table>
     [/@] 
-     [@b.textarea name="otherExamSignUpConfig.remark" maxlength="100" label="${b.text('common.remark')}" value=(otherExamSignUpConfig.remark)! style="width:500px" cols="60" rows="4" /]
+     [@b.textarea name="examSignupConfig.remark" maxlength="100" label="${b.text('common.remark')}" value=(examSignupConfig.remark)! style="width:500px" cols="60" rows="4" /]
     [@b.formfoot]
         
-        <input type="hidden" name="otherExamSignUpConfig.id" value="${(otherExamSignUpConfig.id)!}"/>
+        <input type="hidden" name="examSignupConfig.id" value="${(examSignupConfig.id)!}"/>
         [@b.submit value="action.submit" onsubmit="presubmit()" /]
         [@b.reset/]
     [/@]
@@ -119,7 +119,7 @@
     });
     --]
     
-    [#if !(otherExamSignUpConfig.id)??]
+    [#if !(examSignupConfig.id)??]
         jQuery(function(){
             jQuery("#categoryId").data("categorySubjects",{});
             [#if categorySubjects??]
@@ -143,10 +143,10 @@
             jQuery("#subjectTwo").empty();
         });
     [/#if]
-    var form = document.otherExamSignUpConfigForm;
+    var form = document.examSignupConfigForm;
     function categoryChange(){
         var category=document.getElementById("categoryId");
-        otherExamSignUpService.getSubjects(category.options[category.selectedIndex].value,setSelectSubject);
+        examSignupService.getSubjects(category.options[category.selectedIndex].value,setSelectSubject);
     }
     function setSelectSubject(subjects){
         subjectList=document.getElementById("subjectOne");

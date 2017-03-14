@@ -23,20 +23,20 @@ import java.util.Date;
 
 import org.beangle.commons.dao.impl.BaseServiceImpl;
 import org.beangle.commons.entity.metadata.Model;
-import org.openurp.edu.extern.model.ExamSignUp;
-import org.openurp.edu.extern.model.ExamSignUpLogger;
-import org.openurp.edu.extern.service.ExamSignUpLoggerService;
+import org.openurp.edu.extern.model.ExamSignup;
+import org.openurp.edu.extern.model.ExamSignupLogger;
+import org.openurp.edu.extern.service.ExamSignupLoggerService;
 
-public class ExamSignUpLoggerServiceImpl extends BaseServiceImpl implements ExamSignUpLoggerService {
+public class ExamSignupLoggerServiceImpl extends BaseServiceImpl implements ExamSignupLoggerService {
 
   public void logger(String code, String actionType, String remoteAddr,
-      Collection<ExamSignUp> otherExamSignUps) {
-    for (ExamSignUp signUp : otherExamSignUps) {
-      ExamSignUpLogger logger = Model.newInstance(ExamSignUpLogger.class);
+      Collection<ExamSignup> examSignups) {
+    for (ExamSignup signup : examSignups) {
+      ExamSignupLogger logger = Model.newInstance(ExamSignupLogger.class);
       logger.setCode(code);
-      logger.setStdCode(signUp.getStd().getCode());
-      logger.setSubject(signUp.getSubject().getName());
-      logger.setSemester(signUp.getSemester().getCode());
+      logger.setStdCode(signup.getStd().getCode());
+      logger.setSubject(signup.getSubject().getName());
+      logger.setSemester(signup.getSemester().getCode());
       logger.setActionType(actionType);
       logger.setRemoteAddr(remoteAddr);
       logger.setLogAt(new Date());
@@ -44,19 +44,19 @@ public class ExamSignUpLoggerServiceImpl extends BaseServiceImpl implements Exam
     }
   }
 
-  public void logger(String code, String actionType, String remoteAddr, ExamSignUp signUp) {
-    ExamSignUpLogger logger = Model.newInstance(ExamSignUpLogger.class);
+  public void logger(String code, String actionType, String remoteAddr, ExamSignup signup) {
+    ExamSignupLogger logger = Model.newInstance(ExamSignupLogger.class);
     logger.setCode(code);
-    logger.setStdCode(signUp.getStd().getCode());
-    logger.setSubject(signUp.getSubject().getName());
-    logger.setSemester(signUp.getSemester().getCode());
+    logger.setStdCode(signup.getStd().getCode());
+    logger.setSubject(signup.getSubject().getName());
+    logger.setSemester(signup.getSemester().getCode());
     logger.setActionType(actionType);
     logger.setRemoteAddr(remoteAddr);
     logger.setLogAt(new Date());
     logger(logger);
   }
 
-  public void logger(ExamSignUpLogger logger) {
+  public void logger(ExamSignupLogger logger) {
     entityDao.saveOrUpdate(logger);
   }
 }

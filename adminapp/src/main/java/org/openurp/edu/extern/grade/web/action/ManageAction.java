@@ -52,9 +52,9 @@ import org.openurp.edu.base.model.Student;
 import org.openurp.edu.base.service.StudentService;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamSignUpConfig;
-import org.openurp.edu.extern.model.ExamGrade;
-import org.openurp.edu.extern.service.ExamGradeImportListener;
+import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExternExamGrade;
+import org.openurp.edu.extern.service.ExternExamGradeImportListener;
 
 import com.opensymphony.xwork2.ActionContext;
 
@@ -65,21 +65,21 @@ public class ManageAction extends SearchAction {
   protected List<? extends TransferListener> importerListeners = CollectUtils.newArrayList();
 
   public void editSetting() {
-    put("otherExternExamSubjects", codeService.getCodes(ExamSubject.class));
-    put("otherExamCategories", codeService.getCodes(ExamCategory.class));
+    put("examSubjects", codeService.getCodes(ExamSubject.class));
+    put("examCategories", codeService.getCodes(ExamCategory.class));
     put("semesters", entityDao.getAll(Semester.class));
     put("markStyles", codeService.getCodes(ScoreMarkStyle.class));
     put("semesters", entityDao.getAll(Semester.class));
   }
 
   public String index() {
-    OqlBuilder<ExamSignUpConfig> seasonQuery = OqlBuilder.from(ExamSignUpConfig.class, "season");
+    OqlBuilder<ExamSignupConfig> seasonQuery = OqlBuilder.from(ExamSignupConfig.class, "season");
     seasonQuery.where("season.project = :project", getProject());
     seasonQuery.orderBy("season.beginAt desc");
     put("seasons", entityDao.search(seasonQuery));
 
-    put("otherExternExamSubjects", codeService.getCodes(ExamSubject.class));
-    put("otherExamCategories", codeService.getCodes(ExamCategory.class));
+    put("examSubjects", codeService.getCodes(ExamSubject.class));
+    put("examCategories", codeService.getCodes(ExamCategory.class));
     // put("calendars", semesterService.getCalendars(getProjects()));
     put("markStyles", codeService.getCodes(ScoreMarkStyle.class));
     put("departments", getTeachDeparts());
@@ -105,16 +105,16 @@ public class ManageAction extends SearchAction {
    * 新建和修改
    */
   public String edit() {
-    Long otherGradeId = getLongId("otherGrade");
-    if (otherGradeId != null) {
-      put("otherGrade", entityDao.get(ExamGrade.class, otherGradeId));
+    Long examGradeId = getLongId("examGrade");
+    if (examGradeId != null) {
+      put("examGrade", entityDao.get(ExternExamGrade.class, examGradeId));
     } else {
-      ExamGrade otherGrade = Model.newInstance(ExamGrade.class);
+      ExternExamGrade examGrade = Model.newInstance(ExternExamGrade.class);
       Semester semester = getSemester();
       if (null != semester) {
-        otherGrade.setSemester(semester);
+        examGrade.setSemester(semester);
       }
-      put("otherGrade", otherGrade);
+      put("examGrade", examGrade);
     }
 
     editSetting();
@@ -125,39 +125,39 @@ public class ManageAction extends SearchAction {
    * 保存
    */
   public String save() {
-    ExamGrade otherGrade = populateEntity(ExamGrade.class, "otherGrade");
+    ExternExamGrade examGrade = populateEntity(ExternExamGrade.class, "examGrade");
     Project project = getProject();
     Integer projectId = project.getId();
-    if (otherGrade.getStd() == null && Strings.isNotBlank(get("otherGrade.std.code"))) {
-      Student student = studentService.getStudent(projectId,get("otherGrade.std.code"));
-      otherGrade.setStd(student);
+    if (examGrade.getStd() == null && Strings.isNotBlank(get("examGrade.std.code"))) {
+      Student student = studentService.getStudent(projectId,get("examGrade.std.code"));
+      examGrade.setStd(student);
     }
-    if (otherGrade.getStd() == null) { return redirect("search", "保存失败,学号不存在"); }
-    if (isExist(otherGrade)) { return redirect("search", "保存失败,成绩重复"); }
-    otherGrade.setScoreText(gradeRateService.getConverter(project, otherGrade.getMarkStyle()).convert(otherGrade.getScore()));
-    saveOrUpdate(otherGrade);
+    if (examGrade.getStd() == null) { return redirect("search", "保存失败,学号不存在"); }
+    if (isExist(examGrade)) { return redirect("search", "保存失败,成绩重复"); }
+    examGrade.setScoreText(gradeRateService.getConverter(project, examGrade.getMarkStyle()).convert(examGrade.getScore()));
+    saveOrUpdate(examGrade);
     return redirect("search", "info.save.success");
   }
 
   /**
    * 判断是否已存在该成绩
    * 
-   * @param otherGrade
+   * @param examGrade
    * @return true:存在 fasle:不存在
    */
-  public boolean isExist(ExamGrade otherGrade) {
-    OqlBuilder<ExamGrade> query = OqlBuilder.from(ExamGrade.class, "grade");
-    query.where("grade.std.id = :stdid", otherGrade.getStd().getId());
-    query.where("grade.semester.id = :semesterid", otherGrade.getSemester().getId());
-    query.where("grade.subject = :subject", otherGrade.getSubject());
+  public boolean isExist(ExternExamGrade examGrade) {
+    OqlBuilder<ExternExamGrade> query = OqlBuilder.from(ExternExamGrade.class, "grade");
+    query.where("grade.std.id = :stdid", examGrade.getStd().getId());
+    query.where("grade.semester.id = :semesterid", examGrade.getSemester().getId());
+    query.where("grade.subject = :subject", examGrade.getSubject());
 
-    if (otherGrade.getId() == null) {
-      List<ExamGrade> sizeExamGrade = entityDao.search(query);
-      if (!CollectUtils.isEmpty(sizeExamGrade)) { return true; }
+    if (examGrade.getId() == null) {
+      List<ExternExamGrade> sizeExternExamGrade = entityDao.search(query);
+      if (!CollectUtils.isEmpty(sizeExternExamGrade)) { return true; }
     } else {
-      query.where("grade.id <>:id", otherGrade.getId());
-      List<ExamGrade> sizeExamGrade = entityDao.search(query);
-      if (!CollectUtils.isEmpty(sizeExamGrade)) { return true; }
+      query.where("grade.id <>:id", examGrade.getId());
+      List<ExternExamGrade> sizeExternExamGrade = entityDao.search(query);
+      if (!CollectUtils.isEmpty(sizeExternExamGrade)) { return true; }
     }
     return false;
   }
@@ -166,10 +166,10 @@ public class ManageAction extends SearchAction {
    * 删除
    */
   public String remove() {
-    Long[] otherGradeIds = Strings.splitToLong(get("otherGradeIds"));
-    if (otherGradeIds != null) {
-      List<ExamGrade> otherGradeList = entityDao.get(ExamGrade.class, otherGradeIds);
-      entityDao.remove(otherGradeList);
+    Long[] examGradeIds = Strings.splitToLong(get("examGradeIds"));
+    if (examGradeIds != null) {
+      List<ExternExamGrade> examGradeList = entityDao.get(ExternExamGrade.class, examGradeIds);
+      entityDao.remove(examGradeList);
       return redirect("search", "info.remove.success", get("params"));
     }
     return redirect("search", "info.remove.failure", get("params"));
@@ -218,7 +218,7 @@ public class ManageAction extends SearchAction {
         put("importer", importer);
         return importer;
       } else {
-        throw new RuntimeException("donot support other format except excel");
+        throw new RuntimeException("donot support format except excel");
       }
     } catch (Exception e) {
       logger.error("error", e);
@@ -232,13 +232,13 @@ public class ManageAction extends SearchAction {
   protected void configImporter(EntityImporter importer) {
     MultiEntityImporter mimporter = (MultiEntityImporter) importer;
     mimporter.addForeignedKeys("name");
-    mimporter.addEntity("otherGrade", ExamGrade.class);
+    mimporter.addEntity("examGrade", ExternExamGrade.class);
     mimporter.addEntity("semesterSchoolYear", String.class);
     mimporter.addEntity("semesterTerm", String.class);
     ImporterForeignerListener l = new ImporterForeignerListener(entityDao);
     l.addForeigerKey("name");
     importer.addListener(l).addListener(
-        new ExamGradeImportListener(entityDao, getProject(), gradeRateService));
+        new ExternExamGradeImportListener(entityDao, getProject(), gradeRateService));
   }
 
   public List<? extends TransferListener> getImporterListeners() {

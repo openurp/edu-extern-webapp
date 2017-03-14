@@ -30,41 +30,38 @@ import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExamGrade;
-import org.openurp.edu.extern.service.ExamGradeService;
+import org.openurp.edu.extern.model.ExternExamGrade;
+import org.openurp.edu.extern.service.ExternExamGradeService;
 
-public class ExamGradeServiceImpl extends BaseServiceImpl implements ExamGradeService {
+public class ExternExamGradeServiceImpl extends BaseServiceImpl implements ExternExamGradeService {
 
-  public void saveOrUpdate(ExamGrade otherGrade) {
-    entityDao.saveOrUpdate(ExamGrade.class.getName(), otherGrade);
+  public void saveOrUpdate(ExternExamGrade examGrade) {
+    entityDao.saveOrUpdate(ExternExamGrade.class.getName(), examGrade);
   }
 
-  public ExamGrade getBestGrade(Student std, ExamCategory category) {
-    OqlBuilder<ExamGrade> query = OqlBuilder.from(ExamGrade.class, "grade");
+  public ExternExamGrade getBestGrade(Student std, ExamCategory category) {
+    OqlBuilder<ExternExamGrade> query = OqlBuilder.from(ExternExamGrade.class, "grade");
     query.where("grade.std = :std", std);
     query.where("grade.category = :category", category);
     query.orderBy(Order.desc("grade.score"));
-    List<ExamGrade> grades = entityDao.search(query);
+    List<ExternExamGrade> grades = entityDao.search(query);
     return CollectUtils.isEmpty(grades) ? null : grades.get(0);
   }
 
   /**
    * isPerTermBest 为 null 或 false 时，为查询全部；否则为每学期最佳成绩
-   * 
-   * @see org.openurp.edu.extern.service.service.teach.grade.other.ExamGradeService#getExamGrades(org.openurp.edu.base.model.student.Student,
-   *      java.lang.Boolean)
    */
-  public Collection<ExamGrade> getExamGrades(Student std, Boolean isBest) {
-    OqlBuilder<ExamGrade> query = OqlBuilder.from(ExamGrade.class, "grade");
+  public Collection<ExternExamGrade> getExternExamGrades(Student std, Boolean isBest) {
+    OqlBuilder<ExternExamGrade> query = OqlBuilder.from(ExternExamGrade.class, "grade");
     query.where(new Condition("grade.std=:std", std));
     query.orderBy(Order.parse("grade.category.kind.id,grade.score"));
-    List<ExamGrade> grades = entityDao.search(query);
+    List<ExternExamGrade> grades = entityDao.search(query);
     if (CollectUtils.isEmpty(grades)) {
       return CollectUtils.newArrayList(0);
     } else {
       if (null != isBest && isBest.booleanValue()) {
-        Map<Integer, ExamGrade> gradesMap = CollectUtils.newHashMap();
-        for (ExamGrade grade : grades) {
+        Map<Integer, ExternExamGrade> gradesMap = CollectUtils.newHashMap();
+        for (ExternExamGrade grade : grades) {
           gradesMap.put(grade.getSubject().getId(), grade);
         }
         return gradesMap.values();
@@ -74,16 +71,16 @@ public class ExamGradeServiceImpl extends BaseServiceImpl implements ExamGradeSe
     }
   }
 
-  public List<ExamGrade> getPassGradesOf(Student std, Collection<ExamSubject> otherExternExamSubjects) {
-    OqlBuilder<ExamGrade> query = OqlBuilder.from(ExamGrade.class, "grade");
+  public List<ExternExamGrade> getPassGradesOf(Student std, Collection<ExamSubject> examSubjects) {
+    OqlBuilder<ExternExamGrade> query = OqlBuilder.from(ExternExamGrade.class, "grade");
     query.where("grade.std = :std", std);
-    query.where("grade.subject in (:otherExternExamSubjects)", otherExternExamSubjects);
+    query.where("grade.subject in (:examSubjects)", examSubjects);
     query.where("grade.passed=true");
     return entityDao.search(query);
   }
 
   public boolean isPass(Student std, ExamSubject subject) {
-    OqlBuilder<ExamGrade> query = OqlBuilder.from(ExamGrade.class, "grade");
+    OqlBuilder<ExternExamGrade> query = OqlBuilder.from(ExternExamGrade.class, "grade");
     query.where("grade.std = :std", std);
     query.where("grade.subject = :subject", subject);
     query.where("grade.passed = true");

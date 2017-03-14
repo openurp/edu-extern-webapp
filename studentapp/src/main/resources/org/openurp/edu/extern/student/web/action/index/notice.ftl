@@ -22,7 +22,7 @@
     </tr>
  </tbody>
 </table>
-[@b.form name="actionForm" method="post" action="!signUpForm" target="main"]
+[@b.form name="actionForm" method="post" action="!signupForm" target="main"]
         <table class="table" width="90%" align="center">
             <input type="hidden" name="config.id" value="${config.id}"/>
             <input type="hidden" name="setting.id" value="${Parameters['setting.id']}"/>
@@ -35,7 +35,7 @@
         </table>
 [/@]
 [#else]
-[@b.form name="actionForm" method="post" action="!signUpForm" target="main"]
+[@b.form name="actionForm" method="post" action="!signupForm" target="main"]
     <input type="hidden" name="config.id" value="${config.id}"/>
     <input type="hidden" name="setting.id" value="${Parameters['setting.id']}"/>
 [/@]

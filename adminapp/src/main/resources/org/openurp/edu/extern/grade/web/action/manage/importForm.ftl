@@ -20,7 +20,7 @@
         var actionForm = document.actionForm;
         actionForm.target = "_self";
         bg.form.submit(actionForm, "manage!downloadTemplate.action");
-        action.target = "otherGradeList";
+        action.target = "examGradeList";
     }
     function validateExtendName(form){
         var value = form.importFile.value;
