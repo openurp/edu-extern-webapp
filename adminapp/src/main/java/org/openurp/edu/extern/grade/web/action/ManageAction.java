@@ -80,7 +80,6 @@ public class ManageAction extends SearchAction {
 
     put("examSubjects", codeService.getCodes(ExamSubject.class));
     put("examCategories", codeService.getCodes(ExamCategory.class));
-    // put("calendars", semesterService.getCalendars(getProjects()));
     put("markStyles", codeService.getCodes(ScoreMarkStyle.class));
     put("departments", getTeachDeparts());
     put("semesters", entityDao.getAll(Semester.class));
@@ -134,7 +133,6 @@ public class ManageAction extends SearchAction {
     }
     if (examGrade.getStd() == null) { return redirect("search", "保存失败,学号不存在"); }
     if (isExist(examGrade)) { return redirect("search", "保存失败,成绩重复"); }
-    examGrade.setScoreText(gradeRateService.getConverter(project, examGrade.getMarkStyle()).convert(examGrade.getScore()));
     saveOrUpdate(examGrade);
     return redirect("search", "info.save.success");
   }
@@ -193,7 +191,7 @@ public class ManageAction extends SearchAction {
     templateWriter.setContext(context);
     exporter.setWriter(templateWriter);
     response.setContentType("application/vnd.ms-excel;charset=GBK");
-    String oldFileName = "资格考试成绩导入模版.xls";
+    String oldFileName = "校外考试成绩导入模版.xls";
     String fileName = RequestUtils.encodeAttachName(ServletActionContext.getRequest(), oldFileName);
     response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
     exporter.setContext(context);
@@ -238,7 +236,7 @@ public class ManageAction extends SearchAction {
     ImporterForeignerListener l = new ImporterForeignerListener(entityDao);
     l.addForeigerKey("name");
     importer.addListener(l).addListener(
-        new ExternExamGradeImportListener(entityDao, getProject(), gradeRateService));
+        new ExternExamGradeImportListener(entityDao, getProject(), semesterService));
   }
 
   public List<? extends TransferListener> getImporterListeners() {

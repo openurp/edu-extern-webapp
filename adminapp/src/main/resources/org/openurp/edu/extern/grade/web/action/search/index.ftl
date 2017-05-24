@@ -6,24 +6,24 @@
     <tr>
         <td class="index_view">
             [@b.form name="examGradesearchForm" action="!search" title="ui.searchForm" target="examGradeList" theme="search"]
-                [@eams.semesterCalendar theme="search" label="学年学期" name="semester.id" empty=true value=semester /]
-                <input type="hidden" name="project.id" value="${projectContext.projectId}" />
-                <input type="hidden" name="examGrade.std.project.id" value="${projectContext.projectId}" />
+                [@eams.semesterCalendar theme="search" label="学年学期" name="semester.id" empty=true /]
                 [@b.textfield name="examGrade.std.code" label="std.code"/]
                 [@b.textfield name="examGrade.std.name" label="std.name"/]
                 [@b.textfield name="examGrade.std.grade" label="std.grade"/]
-                [#--][@b.textfield name="examGrade.examNo" label="准考证号"/][--]
+                
+                [@b.select name="examGrade.std.department.id" label="common.college" items=departments?sort_by("code") empty="..." /]
                 [@b.textfield name="examGrade.std.adminclass.name" label="班级名称"/]
                 [@b.select name="examGrade.subject.category.id" id="categoryId" onchange="changeSubjects()" label="考试类型" items=examCategories empty="..."/]
                 [@b.select name="examGrade.subject.id" id="subjectId" label="entity.subject" items=examSubjects empty="..." /]
                 [@b.field label="分数区间"]<input name="from" value="" maxLength="5" onBlur="clearNoNum(this)" style="width:42px"/>-<input name="to" onBlur="clearNoNum(this)" value="" maxLength="5" style="width:42px"/>
                 [/@]
                 [@b.select name="examGrade.passed" label="是否合格" items={"1":"合格", "0":"不合格"} empty="..." /]
-                [@b.select name="examGrade.std.department.id" label="common.college" items=departments?sort_by("code") empty="..." /]
+                [@b.textfield name="examGrade.examNo" label="准考证号"/]
+                [@b.textfield name="examGrade.certificateNo" label="证书编号"/]
             [/@]
         </td>
         <td class="index_content">
-            [@b.div id="examGradeList" href="!search?semester.id="+(semester.id)!/]
+            [@b.div id="examGradeList" href="!search"/]
         </td>
         
     </tr>

@@ -17,7 +17,7 @@ ExternExamGradeBean.passed=Passed
 ExternExamGradeBean.status=Status
 ExternExamGradeBean.markStyle=Mark Style
 ExternExamGradeBean.subject=Subject
-ExternExamGradeBean.certificateNumber=Certificate Number
+ExternExamGradeBean.certificateNo=Certificate Number
 ExternExamGradeBean.examNo=Exam No
 
 ExamSignupSettingBean=Other Exam Sign Up Setting

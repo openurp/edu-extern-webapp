@@ -21,7 +21,7 @@
             [@b.col property="subject.name" title="考试科目"/]
             [@b.col property="score" title="成绩"/]
             [#--][@b.col property="examNo" title="准考证号"/][--]
-            [@b.col property="certificateNumber" title="证书编号"/]
+            [@b.col property="certificateNo" title="证书编号"/]
         [/@]
 [/@]
 [@b.foot/]

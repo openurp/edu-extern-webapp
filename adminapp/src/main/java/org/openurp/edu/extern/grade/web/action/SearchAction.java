@@ -36,8 +36,6 @@ import org.openurp.edu.web.action.SemesterSupportAction;
 
 public class SearchAction extends SemesterSupportAction {
 
-  protected GradeRateService gradeRateService;
-
   /**
    * 主页面
    */
@@ -83,17 +81,11 @@ public class SearchAction extends SemesterSupportAction {
     Integer semesterId = getInt("semester.id");
     if (null != semesterId) {
       builder.where("examGrade.semester.id = :semesterId", semesterId);
-    } else {
-      builder.where("examGrade.semester = :semester", getSemester());
     }
     builder.where("examGrade.std.project = :cproject", getProject());
 //    restrictionContext.applyRestriction(builder);
     builder.orderBy(get(Order.ORDER_STR)).limit(getPageLimit());
     return builder;
-  }
-
-  public void setGradeRateService(GradeRateService gradeRateService) {
-    this.gradeRateService = gradeRateService;
   }
 
   /**

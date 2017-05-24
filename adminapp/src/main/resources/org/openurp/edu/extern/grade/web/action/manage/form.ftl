@@ -19,9 +19,6 @@
        </tr>
       </table>
     [/@]
-    [#--]
-    [@b.textfield name="examGrade.examNo" label="准考证号码" value="${(examGrade.examNo)!}" style="width:150px"/]
-    [--]
     [@b.select name="examGrade.markStyle.id" items=markStyles label="记录方式" empty="..." required="true" value=(examGrade.markStyle.id)! style="width:150px"/]
     [@b.select name="examGrade.subject.id" items=examSubjects?sort_by("name") empty="..." required="true" label="考试科目" value=(examGrade.subject.id)! style="width:150px"/]
     [@b.field label="考试学期"]
@@ -31,15 +28,14 @@
             [/#list]
         </select>
     [/@]
-    [@b.textfield name="examGrade.score" maxlength="5" label="成绩" check="match('number').greaterThanOrEqualTo(0)" required="true" value="${(examGrade.score)!}" style="width:150px"/]
+    [@b.textfield name="examGrade.score" maxlength="5" label="分数" check="match('number').greaterThanOrEqualTo(0)" required="false" value="${(examGrade.score)!}" style="width:150px" comment="须数字"/]
+    [@b.textfield name="examGrade.scoreText" maxlength="5" label="成绩" required="true" value="${(examGrade.scoreText)!}" required="true" style="width:150px"/]
     [@b.radios name="examGrade.passed" items={"1":"合格", "0":"不合格"} label="是否合格" value=(examGrade.passed)!true?string("1", "0")/]
-    [#--
-    [@b.select name="examGrade.gradeLevel.id" items=gradeLevels label="成绩等级" value="(examGrade.gradeLevel.id)!" style="width:150px"/]
-    --]
-    [@b.textfield name="examGrade.certificateNumber" maxlength="100" label="证书编号" value="${(examGrade.certificateNumber)!}" style="width:150px"/]
+    [@b.datepicker name="examGrade.examOn" value=examGrade.examOn! label="考试日期"/]
+    [@b.textfield name="examGrade.examNo" label="准考证号码" value="${(examGrade.examNo)!}" style="width:150px"/]
+    [@b.textfield name="examGrade.certificateNo" maxlength="100" label="证书编号" value="${(examGrade.certificateNo)!}" style="width:150px"/]
     [@b.formfoot]
         <input type="hidden" name="examGrade.id" value="${(examGrade.id)!}" />
-        
         [@b.submit value="action.submit"/]
     [/@]
 [/@]

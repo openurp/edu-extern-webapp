@@ -21,14 +21,14 @@ package org.openurp.edu.extern.service;
 import java.util.List;
 import java.util.Map;
 
-import org.beangle.commons.collection.CollectUtils;
+import org.beangle.commons.conversion.converter.String2DateConverter;
 import org.beangle.commons.dao.EntityDao;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.transfer.TransferResult;
 import org.beangle.commons.transfer.importer.listener.ItemImporterListener;
 import org.openurp.base.model.Semester;
 import org.openurp.edu.base.model.Project;
-import org.openurp.edu.grade.course.service.GradeRateService;
+import org.openurp.edu.base.service.SemesterService;
 import org.openurp.edu.extern.model.ExternExamGrade;
 
 /**
@@ -43,17 +43,17 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
 
   private Project project;
 
-  protected GradeRateService gradeRateService;
+  private SemesterService semesterService;
 
   public ExternExamGradeImportListener() {
     super();
   }
 
-  public ExternExamGradeImportListener(EntityDao entityDao, Project project, GradeRateService gradeRateService) {
+  public ExternExamGradeImportListener(EntityDao entityDao, Project project, SemesterService semesterService) {
     super();
     this.entityDao = entityDao;
     this.project = project;
-    this.gradeRateService = gradeRateService;
+    this.semesterService = semesterService;
   }
 
   @Override
@@ -61,6 +61,11 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     tr.getMsgs().addAll(tr.getErrs());
     tr.getErrs().clear();
     Map<String, Object> datas = importer.getCurData();
+    String examOn = (String) datas.get("examGrade.examOn");
+    if (null != examOn) {
+      datas.put("examGrade.examOn",
+          new String2DateConverter().convert(examOn, java.lang.String.class, java.sql.Date.class));
+    }
     String stdCode = (String) datas.get("examGrade.std.code");
     String semesterSchoolYear = (String) datas.get("examGrade.semester.schoolYear");
     String semesterName = (String) datas.get("examGrade.semester.name");
@@ -78,17 +83,8 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     }
   }
 
-  private Semester getSemester(String schoolYear, String term, Project project) {
-    OqlBuilder<Semester> query = OqlBuilder.from(Semester.class, "semester");
-    query
-        .where("semester.schoolYear = :sy", schoolYear)
-        .where("semester.name = :term", term)
-        .where(
-            "exists(from " + Project.class.getName()
-                + " p where p.calendar=semester.calendar and p = :project)", project).cacheable();
-    List<Semester> semesters = entityDao.search(query);
-    if (CollectUtils.isNotEmpty(semesters)) { return semesters.get(0); }
-    return null;
+  private Semester getSemester(java.sql.Date examOn, Project project) {
+    return semesterService.getSemester(project.getCalendars().get(0), examOn);
   }
 
   @Override
@@ -96,16 +92,14 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     Map datas = (Map) importer.getCurrent();
     ExternExamGrade examGrade = (ExternExamGrade) datas.get("examGrade");
     if (examGrade.isTransient()) {
-      String semesterSchoolYear = (String) importer.getCurData().get("examGrade.semester.schoolYear");
-      String semesterName = (String) importer.getCurData().get("examGrade.semester.name");
-      examGrade.setSemester(getSemester(semesterSchoolYear, semesterName, project));
+      java.sql.Date examOn = (java.sql.Date) importer.getCurData().get("examGrade.examOn");
+      examGrade.setSemester(getSemester(examOn, project));
+      if (null == examGrade.getExamNo()) {
+        examGrade.setExamOn(examOn);
+      }
     }
     if (examGradeVilidate(examGrade, tr)) {
-//      if (examGrade.isTransient()) {
-//        examGrade.setCreatedAt(new Date(System.currentTimeMillis()));
-//      }
-//      examGrade.setUpdatedAt(new Date(System.currentTimeMillis()));
-      examGrade.setScoreText(gradeRateService.getConverter(project, examGrade.getMarkStyle()).convert(examGrade.getScore()));
+      examGrade.setUpdatedAt(new java.util.Date(System.currentTimeMillis()));
       entityDao.saveOrUpdate(examGrade);
     }
   }
@@ -125,14 +119,16 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     }
 
     // 验证分数
-    if (null == examGrade.getScore()) {
+    if (null == examGrade.getScoreText()) {
       tr.addFailure("分数不能为空", "");
       bool = false;
     } else {
-      float score = examGrade.getScore();
-      if (score < 0) {
-        tr.addFailure("分数不能小于0", examGrade.getScore());
-        bool = false;
+      if (null != examGrade.getScore()) {
+        float score = examGrade.getScore();
+        if (score < 0) {
+          tr.addFailure("分数不能小于0", examGrade.getScore());
+          bool = false;
+        }
       }
     }
 

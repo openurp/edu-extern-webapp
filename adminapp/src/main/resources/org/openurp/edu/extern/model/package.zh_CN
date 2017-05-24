@@ -17,7 +17,7 @@ ExternExamGradeBean.passed=是否合格
 ExternExamGradeBean.status=状态
 ExternExamGradeBean.markStyle=成绩记录方式
 ExternExamGradeBean.subject=考试科目
-ExternExamGradeBean.certificateNumber=证书编号
+ExternExamGradeBean.certificateNo=证书编号
 ExternExamGradeBean.examNo=准考证号
 
 ExamSignupSettingBean=资格考试报名科目设置
