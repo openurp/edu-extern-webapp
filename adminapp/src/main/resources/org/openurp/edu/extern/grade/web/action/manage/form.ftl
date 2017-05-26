@@ -51,7 +51,7 @@
             } else {
                 var dataObj = eval("(" + data + ")");
                 $("#stdId").parent().find(".error").remove();
-                $("#stdName").html(dataObj.student.person.formatedName);
+                $("#stdName").html(dataObj.student.name);
                 $("#stdId").val(dataObj.student.id);
             }
         },"text");
