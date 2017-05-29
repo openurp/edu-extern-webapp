@@ -34,7 +34,7 @@ public class ExamSignupLoggerServiceImpl extends BaseServiceImpl implements Exam
     for (ExamSignup signup : examSignups) {
       ExamSignupLogger logger = Model.newInstance(ExamSignupLogger.class);
       logger.setCode(code);
-      logger.setStdCode(signup.getStd().getCode());
+      logger.setStdCode(signup.getStd().getUser().getCode());
       logger.setSubject(signup.getSubject().getName());
       logger.setSemester(signup.getSemester().getCode());
       logger.setActionType(actionType);
@@ -47,7 +47,7 @@ public class ExamSignupLoggerServiceImpl extends BaseServiceImpl implements Exam
   public void logger(String code, String actionType, String remoteAddr, ExamSignup signup) {
     ExamSignupLogger logger = Model.newInstance(ExamSignupLogger.class);
     logger.setCode(code);
-    logger.setStdCode(signup.getStd().getCode());
+    logger.setStdCode(signup.getStd().getUser().getCode());
     logger.setSubject(signup.getSubject().getName());
     logger.setSemester(signup.getSemester().getCode());
     logger.setActionType(actionType);

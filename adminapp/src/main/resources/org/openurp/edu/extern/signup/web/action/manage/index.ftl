@@ -16,7 +16,7 @@
                 [@eams.semesterCalendar theme="search" label="学年学期" name="semester.id" empty=true value=semester/]
                 <input type="hidden" name="examSignup.std.project.id" value="${projectContext.projectId}" />
                 <input type="hidden" name="project.id" value="${projectContext.projectId}" />
-                [@b.textfield name="examSignup.std.code" label="std.code"/]
+                [@b.textfield name="examSignup.std.user.code" label="std.user.code"/]
                 [@b.textfield name="examSignup.std.name" label="姓名"/]
                 [@b.textfield name="examSignup.std.grade" label="年级"/]
                 [@b.select name="examSignup.std.education.id" id="educationTypeId" label="entity.education" items=educations empty="..."/]

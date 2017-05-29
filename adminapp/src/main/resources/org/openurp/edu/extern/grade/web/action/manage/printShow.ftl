@@ -11,9 +11,9 @@
  [@b.grid items=examGrades var="examGrade"]
       [@b.row]
             [@b.col title="序号"]${examGrade_index+1}[/@]
-            [@b.col property="std.code" title="std.code"]
+            [@b.col property="std.user.code" title="std.user.code"]
                 <div style="padding-left:15px;text-align:left">
-                    [@b.a href="studentSearch!info?student.id="+examGrade.std.id title="${b.text('info.user.std')}" ]${(examGrade.std.code)!}[/@]
+                    [@b.a href="studentSearch!info?student.id="+examGrade.std.id title="${b.text('info.user.std')}" ]${(examGrade.std.user.code)!}[/@]
                 </div>
            [/@]
             [@b.col property="std.name" title="姓名"/]

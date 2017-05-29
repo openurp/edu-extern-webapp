@@ -283,7 +283,7 @@ public class IndexAction extends StudentProjectSupport {
         billService.saveOrUpdate(bill, BillLogType.CREATED, signup);
         msg = "info.signup.success";
         String remoteAddr = getRemoteAddr();
-        examSignupLoggerService.logger(signup.getStd().getCode(), ExamSignupLogger.CREATE,
+        examSignupLoggerService.logger(signup.getStd().getUser().getCode(), ExamSignupLogger.CREATE,
             remoteAddr, signup);
       } else {
         msg = "收费项目尚未设置";
@@ -317,7 +317,7 @@ public class IndexAction extends StudentProjectSupport {
         }
         entityDao.remove(signup);
         String remoteAddr = getRemoteAddr();
-        examSignupLoggerService.logger(signup.getStd().getCode(), ExamSignupLogger.DELETE,
+        examSignupLoggerService.logger(signup.getStd().getUser().getCode(), ExamSignupLogger.DELETE,
             remoteAddr, signup);
         return redirect("configList", "取消报名成功!");
       }

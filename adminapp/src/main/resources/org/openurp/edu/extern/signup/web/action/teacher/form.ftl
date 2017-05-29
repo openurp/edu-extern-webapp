@@ -10,10 +10,10 @@
  <tr>
   <td class="title" width="15%"><font color="red">*</font>学号</td>
   <td width="35%">
-     <#if (examSignup.std.id)?exists>${examSignup.std.code}
+     <#if (examSignup.std.id)?exists>${examSignup.std.user.code}
      <input name="examSignup.std.id" value="${examSignup.std.id}" type="hidden"/>
      <#else>
-      <input name="examSignup.std.code" maxLength="15" value=""/><button onclick="searchStd()">查找学生</button>
+      <input name="examSignup.std.user.code" maxLength="15" value=""/><button onclick="searchStd()">查找学生</button>
       <input name="examSignup.std.id" value="" type="hidden"/>
       </#if>
   </td>
@@ -80,7 +80,7 @@
    var isNeedDist;
    
    function searchStd(){
-       studentService.getStudent(form['examSignup.std.code'].value,setData);
+       studentService.getStudent(form['examSignup.std.user.code'].value,setData);
    }
    function setData(std){
      if(null!=std){
@@ -104,7 +104,7 @@
      if(form['examSignupId'].value==""&&form['examSignup.std.id'].value==""){
         alert("请输入学号");return;
      }else{
-        //alert(form['examSignup.std.code'].value);
+        //alert(form['examSignup.std.user.code'].value);
         form.submit();
      }
    }

@@ -17,8 +17,8 @@
     [/@]
     [@b.row]
         [@b.boxcol/]
-        [@b.col property="std.code" title="std.code" width="13%"/]
-        [@b.col property="std.person.formatedName" title="姓名" width="11%"/]
+        [@b.col property="std.user.code" title="std.user.code" width="13%"/]
+        [@b.col property="std.user.name" title="姓名" width="11%"/]
         [@b.col property="subject.name" title="考试科目" width="14%"/]
         [@b.col property="scoreText" title="成绩" width="10%"/]
         [@b.col property="passed" title="是否合格" width="8%"]
@@ -53,7 +53,7 @@
             bg.form.addInput(form,"examGradeIds","");
         }
         bg.form.addInput(form,"examGradeIds",bg.input.getCheckBoxValues("examGrade.id"));
-        bg.form.addInput(form,"keys","std.code,std.name,subject.category.name,subject.name,score,scoreText,std.department.name,std.major.name,std.grade,certificateNo,examOn,examNo");
+        bg.form.addInput(form,"keys","std.user.code,std.name,subject.category.name,subject.name,score,scoreText,std.department.name,std.major.name,std.grade,certificateNo,examOn,examNo");
         bg.form.addInput(form,"titles","学号,姓名,考试类型,考试科目,分数,得分等级,院系,专业,年级,证书编号,考试日期,准考证号");
         bg.form.addInput(form,"fileName","校外考试成绩数据");
         bg.form.submit(form,"${b.url('!export')}","_self");

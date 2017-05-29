@@ -66,12 +66,12 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
       datas.put("examGrade.examOn",
           new String2DateConverter().convert(examOn, java.lang.String.class, java.sql.Date.class));
     }
-    String stdCode = (String) datas.get("examGrade.std.code");
+    String stdCode = (String) datas.get("examGrade.std.user.code");
     String semesterSchoolYear = (String) datas.get("examGrade.semester.schoolYear");
     String semesterName = (String) datas.get("examGrade.semester.name");
     String subjectName = (String) datas.get("examGrade.subject.name");
     OqlBuilder<ExternExamGrade> builder = OqlBuilder.from(ExternExamGrade.class, "examGrade");
-    builder.where("examGrade.std.code = :stdCode", stdCode);
+    builder.where("examGrade.std.user.code = :stdCode", stdCode);
     builder.where("examGrade.semester.schoolYear = :semesterSchoolYear", semesterSchoolYear);
     builder.where("examGrade.semester.name = :semesterName", semesterName);
     builder.where("examGrade.subject.name = :subjectName", subjectName);

@@ -19,7 +19,7 @@
      <!--<tbody datas=examSignups.get(Key);examSignup>-->
      [#assign index=index+1]
           <td>${index}</td>
-          <td>${examSignup.std.code}</td>
+          <td>${examSignup.std.user.code}</td>
           <td>${examSignup.std.name}</td>
           <td>${(examSignup.std.person.code)?if_exists}</td>
           <td>${examSignup.category.name}</td>

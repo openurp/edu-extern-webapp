@@ -22,9 +22,9 @@
             </tr>
             <tr>
                 <td class="title">学号:</td>
-                <td>${student.code?if_exists}</td>
+                <td>${student.user.code?if_exists}</td>
                 <td class="title">姓名:</td>
-                <td>${student.person.formatedName?if_exists}</td>
+                <td>${student.user.name?if_exists}</td>
             </tr>
             <tr>
                 <td class="title" width="15%">年级</td>

@@ -4,8 +4,8 @@
 
 <table class="infoTable"  width="95%" align="center">
  <tr>
-  <td  rowspan="4"align="center"><img src="avatar/user!show.action?user.name=${examSignup.std.code}"  width="80px" height="110px"/>
-  <td  rowspan="4">${examSignup.std.code}<br>${examSignup.std.name}</td>
+  <td  rowspan="4"align="center"><img src="avatar/user!show.action?user.name=${examSignup.std.user.code}"  width="80px" height="110px"/>
+  <td  rowspan="4">${examSignup.std.user.code}<br>${examSignup.std.name}</td>
   <td class="title" width="15%" >学期:</td>
   <td>${examSignup.semester.schoolYear} ${examSignup.semester.name}</td>
  </tr>
@@ -49,7 +49,7 @@
    var isNeedDist;
    
    function searchStd(){
-       studentService.getStudent(form['examSignup.std.code'].value,setData);
+       studentService.getStudent(form['examSignup.std.user.code'].value,setData);
    }
    function setData(std){
      if(null!=std){
@@ -73,7 +73,7 @@
      if(form['examSignupId'].value==""&&form['examSignup.std.id'].value==""){
         alert("请输入学号");return;
      }else{
-        //alert(form['examSignup.std.code'].value);
+        //alert(form['examSignup.std.user.code'].value);
         form.submit();
      }
    }

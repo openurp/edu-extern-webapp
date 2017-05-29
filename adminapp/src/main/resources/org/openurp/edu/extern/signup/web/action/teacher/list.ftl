@@ -4,7 +4,7 @@
 <@table.table id="id" sortable="true" width="100%">
  <@table.thead>
   <@table.selectAllTd id="examSignupId"/>
-  <@table.sortTd id="examSignup.std.code" text="学号"/>
+  <@table.sortTd id="examSignup.std.user.code" text="学号"/>
   <@table.sortTd id="examSignup.std.name" text="姓名"/>
   <@table.sortTd id="examSignup.category.name" text="考试科目"/>
   <@table.sortTd id="examSignup.feeOfSignup" text="报名费"/>
@@ -15,7 +15,7 @@
  </@>
  <@table.tbody datas=examSignups;examSignup>
   <@table.selectTd id="examSignupId" value=examSignup.id/>
-  <td><a href="${base}/studentSearch!info.action?studentId=${examSignup.std.id}" title="学生详细信息">${examSignup.std.code}</a></td>
+  <td><a href="${base}/studentSearch!info.action?studentId=${examSignup.std.id}" title="学生详细信息">${examSignup.std.user.code}</a></td>
   <td><a href="${base}/signupByTeacher!info.action?examSignup.id=${examSignup.id}" title="报名详情">${examSignup.std.name}</a></td>
   <td>${examSignup.category.name}</td>
   <td>${examSignup.feeOfSignup?default("")}</td>
@@ -47,28 +47,28 @@
       exportList();
    }
    function exportData(){
-     addInput(form,"keys","std.code,std.name,std.grade,std.gender.name,std.person.code,std.major.name,std.major.code,std.department.name,category.name,category.code,semester.name,feeOfSignup,feeOfMaterial,feeOfOutline,total,signupAt,district.name");
+     addInput(form,"keys","std.user.code,std.name,std.grade,std.gender.name,std.person.code,std.major.name,std.major.code,std.department.name,category.name,category.code,semester.name,feeOfSignup,feeOfMaterial,feeOfOutline,total,signupAt,district.name");
      addInput(form,"titles","学号,姓名,年级,性别,身份证号,专业,专业代码,所属院系,科目,科目代码,学期,报名费,材料费,考纲费,合计,报名时间,考试校区");
      addInput(form,"fileName","校外考试报名数据");
      exportCommon();
    }
    
    function exportCET(){
-     addInput(form,"keys","std.name,std.gender.name,std.code,std.person.code,std.educationType.code,std.duration,std.enrollOn,std.grade,std.department.name,std.major.name,std.majorClass.name");
+     addInput(form,"keys","std.name,std.gender.name,std.user.code,std.person.code,std.educationType.code,std.duration,std.beginOn,std.grade,std.department.name,std.major.name,std.majorClass.name");
      addInput(form,"titles","姓名,性别,学号,证件号码,学历,学制,入学年份,年级,院系,专业,班级");
      addInput(form,"fileName","CET报名数据");
      exportCommon();
    }
    
    function exportComputer(){
-     addInput(form,"keys","std.name,std.gender.name,std.person.code,std.department.code,std.major.subject.code,std.major.code,std.enrollOn,std.duration,std.majorClass.name,std.code,category.code");
+     addInput(form,"keys","std.name,std.gender.name,std.person.code,std.department.code,std.major.subject.code,std.major.code,std.beginOn,std.duration,std.majorClass.name,std.user.code,category.code");
      addInput(form,"titles","姓名,性别,证件号码,学院代码,学科门类,专业,入学年份,学制,班级,学号,语言级别");
      addInput(form,"fileName","计算机报名数据");
      exportCommon();
    }
    
    function exportPTH(){
-     addInput(form,"keys","std.name,std.person.code,std.gender.name,std.basicInfo.nation.name,std.basicInfo.birthday,std.code,std.department.name");
+     addInput(form,"keys","std.name,std.person.code,std.gender.name,std.basicInfo.nation.name,std.basicInfo.birthday,std.user.code,std.department.name");
      addInput(form,"titles","姓名,身份证,性别,民族,出生年月,学号,院系");
      addInput(form,"fileName","普通话报名数据");
      exportCommon();

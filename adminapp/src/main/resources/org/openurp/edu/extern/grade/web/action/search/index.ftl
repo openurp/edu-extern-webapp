@@ -7,7 +7,7 @@
         <td class="index_view">
             [@b.form name="examGradesearchForm" action="!search" title="ui.searchForm" target="examGradeList" theme="search"]
                 [@eams.semesterCalendar theme="search" label="学年学期" name="semester.id" empty=true /]
-                [@b.textfield name="examGrade.std.code" label="std.code"/]
+                [@b.textfield name="examGrade.std.user.code" label="std.user.code"/]
                 [@b.textfield name="examGrade.std.name" label="std.name"/]
                 [@b.textfield name="examGrade.std.grade" label="std.grade"/]
                 

@@ -8,7 +8,7 @@
     <form name="actionForm" action="signupByTeacher!search.action" method="post" target="contentFrame">
      <table class="searchTable" onkeypress="dwr.util.onReturn(event, search)">
       <tr>
-       <td>学号:</td><td><input name="examSignup.std.code" value="" style="width:100px" maxLength="15"></td>
+       <td>学号:</td><td><input name="examSignup.std.user.code" value="" style="width:100px" maxLength="15"></td>
       </tr>
       <tr>
        <td>姓名:</td><td><input name="examSignup.std.name" value="" style="width:100px" maxLength="15"></td>

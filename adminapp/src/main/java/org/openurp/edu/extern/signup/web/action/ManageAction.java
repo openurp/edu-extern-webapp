@@ -237,7 +237,7 @@ public class ManageAction extends SemesterSupportAction {
     row.createCell(8).setCellValue("报名日期");
     for (ExamSignup examSignup : paids) {
       row = sheet.createRow(i);
-      row.createCell(0).setCellValue(examSignup.getStd().getCode());
+      row.createCell(0).setCellValue(examSignup.getStd().getUser().getCode());
       row.createCell(1).setCellValue(examSignup.getStd().getPerson().getName());
       row.createCell(2).setCellValue(examSignup.getBill().getCode());
       row.createCell(3).setCellValue(examSignup.getBill().getAmount());
@@ -265,8 +265,8 @@ public class ManageAction extends SemesterSupportAction {
   protected String saveAndForward(Entity<?> entity) {
     ExamSignup signup = (ExamSignup) entity;
     Student student = null;
-    if (Strings.isNotBlank(get("examSignup.std.code"))) {
-      student = studentService.getStudent(getProject().getId(),get("examSignup.std.code"));
+    if (Strings.isNotBlank(get("examSignup.std.user.code"))) {
+      student = studentService.getStudent(getProject().getId(),get("examSignup.std.user.code"));
       signup.setStd(student);
     }
     if (student == null) { return redirect("search", "保存失败,学号不存在"); }
@@ -445,7 +445,7 @@ public class ManageAction extends SemesterSupportAction {
     if (signups.isEmpty()) {
       signups = (List<ExamSignup>) entityDao.search(getQueryBuilder().limit(null));
     }
-    List<String> usernames = CollectUtils.collect(signups, new PropertyTransformer("std.code"));
+    List<String> usernames = CollectUtils.collect(signups, new PropertyTransformer("std.user.code"));
     List<String> filenames = CollectUtils.newArrayList();
     for (String username : usernames) {
       FileAvatar avatar = (FileAvatar) avatarBase.getAvatar(username);

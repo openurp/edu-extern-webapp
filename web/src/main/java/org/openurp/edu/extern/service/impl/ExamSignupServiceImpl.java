@@ -254,7 +254,7 @@ public class ExamSignupServiceImpl extends BaseServiceImpl implements ExamSignup
     OqlBuilder<ExamSignup> builder = OqlBuilder.from(ExamSignup.class, "examSignup");
     builder.where("examSignup.subject.id =:subjectId", signup.getSubject().getId());
     builder.where("examSignup.semester.id =:semesterId", signup.getSemester().getId());
-    builder.where("examSignup.std.code =:code", signup.getStd().getCode());
+    builder.where("examSignup.std.user.code =:code", signup.getStd().getUser().getCode());
     if (signup.getId() == null) {
       List<ExamSignup> sizeExam = entityDao.search(builder);
       if (!CollectUtils.isEmpty(sizeExam)) { return true; }

@@ -80,7 +80,7 @@ public class SettingAction extends RestrictionSupportAction {
       String permitSeq = "";
       for (; permitIt.hasNext();) {
         Student student = permitIt.next();
-        permitSeq += student.getCode();
+        permitSeq += student.getUser().getCode();
         if (permitIt.hasNext()) {
           permitSeq += "\n";
         }
@@ -89,7 +89,7 @@ public class SettingAction extends RestrictionSupportAction {
       String forbiddenSeq = "";
       for (; forbiddenIt.hasNext();) {
         Student student = forbiddenIt.next();
-        forbiddenSeq += student.getCode();
+        forbiddenSeq += student.getUser().getCode();
         if (forbiddenIt.hasNext()) {
           forbiddenSeq += "\n";
         }

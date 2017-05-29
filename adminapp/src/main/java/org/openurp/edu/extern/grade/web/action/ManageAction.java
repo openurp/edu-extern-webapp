@@ -127,8 +127,8 @@ public class ManageAction extends SearchAction {
     ExternExamGrade examGrade = populateEntity(ExternExamGrade.class, "examGrade");
     Project project = getProject();
     Integer projectId = project.getId();
-    if (examGrade.getStd() == null && Strings.isNotBlank(get("examGrade.std.code"))) {
-      Student student = studentService.getStudent(projectId,get("examGrade.std.code"));
+    if (examGrade.getStd() == null && Strings.isNotBlank(get("examGrade.std.user.code"))) {
+      Student student = studentService.getStudent(projectId,get("examGrade.std.user.code"));
       examGrade.setStd(student);
     }
     if (examGrade.getStd() == null) { return redirect("search", "保存失败,学号不存在"); }

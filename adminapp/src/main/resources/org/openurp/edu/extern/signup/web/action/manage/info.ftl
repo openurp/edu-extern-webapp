@@ -7,9 +7,9 @@
 <table class="infoTable" width="100%">
     <tr>
         <td rowspan="4" class="title">
-        <img src="avatar/user!show.action?user.name=${examSignup.std.code}"
+        <img src="avatar/user!show.action?user.name=${examSignup.std.user.code}"
             width="80px" height="110px" />
-        <td rowspan="4" class="content">${examSignup.std.code}<br>
+        <td rowspan="4" class="content">${examSignup.std.user.code}<br>
         ${examSignup.std.name}</td>
         <td class="title" width="15%">学期:</td>
         <td class="content" width="35%">${examSignup.semester.schoolYear}${examSignup.semester.name}</td>

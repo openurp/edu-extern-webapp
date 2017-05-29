@@ -5,13 +5,13 @@
     [/@]
 [@b.form name="examSignupForm" action="!save"  theme="list"]
     [#if (examSignup.id)?exists]
-        [@b.field label="std.code"]
-            ${(examSignup.std.code)!}
-            <input type="hidden" name="examSignup.std.code" value="${(examSignup.std.code)!}" />
+        [@b.field label="std.user.code"]
+            ${(examSignup.std.user.code)!}
+            <input type="hidden" name="examSignup.std.user.code" value="${(examSignup.std.user.code)!}" />
         [/@]
     [#else]
         [@b.field name="findstudent"]
-            [@b.textfield theme="xml" name="examSignup.std.code" maxlength="15"  id="stdCode" label="std.code" value="${(examSignup.std.code)!}" required="true" style="width:150px" comment="<input type='button' value='查询' onClick='searchStudent()'/>"/]
+            [@b.textfield theme="xml" name="examSignup.std.user.code" maxlength="15"  id="stdCode" label="std.user.code" value="${(examSignup.std.user.code)!}" required="true" style="width:150px" comment="<input type='button' value='查询' onClick='searchStudent()'/>"/]
              <input type="hidden" id="stdId" name="examSignup.std.id" value="${(examSignup.std.id)!}" />
         [/@]
     [/#if]
@@ -71,7 +71,7 @@
             } else {
                 var dataObj = eval("(" + data + ")");
                 $("#stdId").parent().find(".error").remove();
-                $("#stdName").html(dataObj.student.person.formatedName);
+                $("#stdName").html(dataObj.student.user.name);
                 $("#stdId").val(dataObj.student.id);
             }
         },"text");
