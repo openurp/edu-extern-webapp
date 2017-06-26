@@ -24,6 +24,7 @@ import java.util.Map;
 import org.beangle.commons.conversion.converter.String2DateConverter;
 import org.beangle.commons.dao.EntityDao;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
+import org.beangle.commons.lang.Numbers;
 import org.beangle.commons.transfer.TransferResult;
 import org.beangle.commons.transfer.importer.listener.ItemImporterListener;
 import org.openurp.base.model.Semester;
@@ -49,7 +50,8 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     super();
   }
 
-  public ExternExamGradeImportListener(EntityDao entityDao, Project project, SemesterService semesterService) {
+  public ExternExamGradeImportListener(EntityDao entityDao, Project project,
+      SemesterService semesterService) {
     super();
     this.entityDao = entityDao;
     this.project = project;
@@ -97,6 +99,9 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
       if (null == examGrade.getExamNo()) {
         examGrade.setExamOn(examOn);
       }
+    }
+    if (null == examGrade.getScore() && Numbers.isNumber(examGrade.getScoreText())) {
+      examGrade.setScore(Numbers.toFloat(examGrade.getScoreText()));
     }
     if (examGradeVilidate(examGrade, tr)) {
       examGrade.setUpdatedAt(new java.util.Date(System.currentTimeMillis()));

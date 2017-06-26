@@ -45,7 +45,7 @@
     --]
     [@b.formfoot]
         <input type="hidden" name="examSignupId" value="${examSignup.id!}" />
-        
+
         [@b.submit value="action.submit"/]
         <input type="button"  onclick="bg.form.addInput(form,'addNext','1'),bg.form.submit(document.examSignupForm)"  value="添加下一个" title="保存本个并添加下一个"/>
     [/@]
@@ -59,7 +59,7 @@
             }
         });
     });
-    
+
     var form = document.examSignupForm;
     function searchStudent(){
         jQuery.post("manage!searchStudent.action",{studentCode:$("#stdCode").val()},function(data){
@@ -76,7 +76,7 @@
             }
         },"text");
     }
-    
+
    function clearNoNum(obj)
     {
         obj.value = obj.value.replace(/[^\d.]/g,"");

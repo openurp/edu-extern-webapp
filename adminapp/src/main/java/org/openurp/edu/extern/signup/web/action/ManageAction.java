@@ -176,9 +176,7 @@ public class ManageAction extends SemesterSupportAction {
 
   public void editSetting(Entity<?> entity) {
     put("examSubjects", codeService.getCodes(ExamSubject.class));
-    put("campuses", baseInfoService.getBaseInfos(Campus.class, getProject().getSchool()));
-    // Project project = getProject();
-    // put("semesters", project.getCalendar().getSemesters());
+    put("campuses", getProject().getCampuses());
     if (entity.isTransient()) {
       Semester semester = getSemester();
       if (null != semester) {
