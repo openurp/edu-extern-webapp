@@ -29,6 +29,7 @@ import org.beangle.commons.transfer.TransferResult;
 import org.beangle.commons.transfer.importer.listener.ItemImporterListener;
 import org.openurp.base.model.Semester;
 import org.openurp.edu.base.model.Project;
+import org.openurp.edu.base.model.Student;
 import org.openurp.edu.base.service.SemesterService;
 import org.openurp.edu.extern.model.ExternExamGrade;
 
@@ -64,18 +65,32 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     tr.getErrs().clear();
     Map<String, Object> datas = importer.getCurData();
     String examOn = (String) datas.get("examGrade.examOn");
-    if (null != examOn) {
-      datas.put("examGrade.examOn",
-          new String2DateConverter().convert(examOn, java.lang.String.class, java.sql.Date.class));
+    if (null == examOn) {
+      tr.addFailure("考试日期不能为空", "");
+      return;
     }
+    java.sql.Date examOnDate = (java.sql.Date) new String2DateConverter().convert(examOn,
+        java.lang.String.class, java.sql.Date.class);
+    Semester semester = getSemester(examOnDate, project);
+    datas.put("examGrade.examOn", examOnDate);
+    datas.put("examGrade.semester", semester);
+
     String stdCode = (String) datas.get("examGrade.std.user.code");
-    String semesterSchoolYear = (String) datas.get("examGrade.semester.schoolYear");
-    String semesterName = (String) datas.get("examGrade.semester.name");
+    OqlBuilder<Student> stdQuery = OqlBuilder.from(Student.class, "s")
+        .where("s.user.code=:code and s.project=:project", stdCode, project);
+
+    List<Student> stds = entityDao.search(stdQuery);
+    if (stds.isEmpty()) {
+      tr.addFailure("学号有误", "");
+      return;
+    }
+    Student std = stds.get(0);
+    datas.remove("examGrade.std.user.code");
+    datas.put("examGrade.std", std);
     String subjectName = (String) datas.get("examGrade.subject.name");
     OqlBuilder<ExternExamGrade> builder = OqlBuilder.from(ExternExamGrade.class, "examGrade");
-    builder.where("examGrade.std.user.code = :stdCode", stdCode);
-    builder.where("examGrade.semester.schoolYear = :semesterSchoolYear", semesterSchoolYear);
-    builder.where("examGrade.semester.name = :semesterName", semesterName);
+    builder.where("examGrade.std = :std", std);
+    builder.where("examGrade.semester=:semester", semester);
     builder.where("examGrade.subject.name = :subjectName", subjectName);
     List<ExternExamGrade> examGrades = entityDao.search(builder);
 
@@ -99,9 +114,6 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
       if (null == examGrade.getExamNo()) {
         examGrade.setExamOn(examOn);
       }
-    }
-    if (null == examGrade.getScore() && Numbers.isNumber(examGrade.getScoreText())) {
-      examGrade.setScore(Numbers.toFloat(examGrade.getScoreText()));
     }
     if (examGradeVilidate(examGrade, tr)) {
       examGrade.setUpdatedAt(new java.util.Date(System.currentTimeMillis()));
@@ -128,19 +140,9 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
       tr.addFailure("分数不能为空", "");
       bool = false;
     } else {
-      if (null != examGrade.getScore()) {
-        float score = examGrade.getScore();
-        if (score < 0) {
-          tr.addFailure("分数不能小于0", examGrade.getScore());
-          bool = false;
-        }
+      if (Numbers.isNumber(examGrade.getScoreText())) {
+        examGrade.setScore(Numbers.toFloat(examGrade.getScoreText()));
       }
-    }
-
-    // 验证学年度-学期
-    if (null == examGrade.getSemester()) {
-      tr.addFailure("查询不到学年度学期", "");
-      bool = false;
     }
 
     // 验证成绩记录方式
