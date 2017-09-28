@@ -21,5 +21,10 @@
       <artifactId>openurp-edu-extern-web</artifactId>
       <version>${project.version}</version>
     </dependency>
+   <dependency>
+      <groupId>org.openurp.edu.nav</groupId>
+      <artifactId>openurp-edu-nav-default</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>
