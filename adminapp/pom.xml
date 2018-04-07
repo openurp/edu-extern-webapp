@@ -26,5 +26,15 @@
       <artifactId>openurp-edu-nav-default</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
 </project>

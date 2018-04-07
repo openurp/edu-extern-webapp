@@ -472,7 +472,7 @@ public class ManageAction extends SemesterSupportAction {
   protected EntityImporter buildEntityImporter() {
     String upload = "importFile";
     try {
-      File[] files = (File[]) ActionContext.getContext().getParameters().get(upload);
+      File[] files = (File[]) ActionContext.getContext().getParameters().get(upload).getObject();
       if (files == null || files.length < 1) {
         logger.error("cannot get {} file.", upload);
       }

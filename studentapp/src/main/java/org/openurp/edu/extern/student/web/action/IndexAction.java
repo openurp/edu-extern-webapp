@@ -30,7 +30,7 @@ import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.entity.metadata.Model;
 import org.beangle.commons.lang.Strings;
 import org.beangle.security.codec.EncryptUtil;
-import org.openurp.base.Urp;
+import org.openurp.app.Urp;
 import org.openurp.base.model.Campus;
 import org.openurp.base.model.Semester;
 import org.openurp.edu.base.model.Project;
