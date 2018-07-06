@@ -27,7 +27,6 @@ import org.beangle.commons.entity.Entity;
 import org.beangle.commons.lang.Strings;
 import org.openurp.base.model.Semester;
 import org.openurp.edu.base.code.model.ScoreMarkStyle;
-import org.openurp.edu.grade.course.service.GradeRateService;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
 import org.openurp.edu.extern.model.ExamSignupConfig;

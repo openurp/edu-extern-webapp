@@ -20,13 +20,12 @@ package org.openurp.edu.extern;
 
 import org.beangle.commons.inject.bind.AbstractBindModule;
 import org.openurp.edu.extern.dao.internal.ExamSignupDaoHibernate;
-import org.openurp.edu.extern.service.checker.ExamExistChecker;
 import org.openurp.edu.extern.service.checker.ExamConditionChecker;
+import org.openurp.edu.extern.service.checker.ExamExistChecker;
 import org.openurp.edu.extern.service.checker.ExamPaymentChecker;
 import org.openurp.edu.extern.service.checker.ExamSignBuildInChecker;
 import org.openurp.edu.extern.service.checker.ExamSuperCategoryChecker;
 import org.openurp.edu.extern.service.checker.ExamTimeChecker;
-import org.openurp.edu.extern.service.impl.ExamExportServiceImpl;
 import org.openurp.edu.extern.service.impl.ExamFeeConfigServiceImpl;
 import org.openurp.edu.extern.service.impl.ExamSignupConfigServiceImpl;
 import org.openurp.edu.extern.service.impl.ExamSignupLoggerServiceImpl;
@@ -38,7 +37,6 @@ import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 public class OtherServiceModule extends AbstractBindModule {
   @Override
   protected void doBinding() {
-    bind("examExportService", ExamExportServiceImpl.class);
     bind("examSignupConfigService", ExamSignupConfigServiceImpl.class);
     bind("examSignupLoggerService", ExamSignupLoggerServiceImpl.class);
     bind("examGradeService", ExternExamGradeServiceImpl.class);

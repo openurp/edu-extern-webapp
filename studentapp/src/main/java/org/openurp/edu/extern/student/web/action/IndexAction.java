@@ -172,9 +172,9 @@ public class IndexAction extends StudentProjectSupport {
     put("feeOpen", !examFeeConfigService
         .getOpenConfigs(project, semesterService.getCurSemester(project)).isEmpty());
     put("unpaid", PayState.UNPAID);
-    put("avatarUrl", Urp.Instance.getServicePath("/sns/photo/"
+    put("avatarUrl", Urp.Instance.getBase()+"/api/sns/photo/"
         + EncryptUtil.encode(getUsername() + "@" + student.getProject().getSchool().getCode() + ".edu.cn")
-        + ".jpg"));
+        + ".jpg");
     return forward();
   }
 
