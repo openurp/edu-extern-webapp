@@ -5,7 +5,7 @@
         [@b.gridbar title="校外考试开关维护"]
             bar.addItem("${b.text("action.new")}",action.add());
             bar.addItem("${b.text("action.edit")}",action.edit());
-            bar.addItem("${b.text("action.delete")}",action.remove());    
+            bar.addItem("${b.text("action.delete")}",action.remove());
             bar.addItem("科目维护","editSetting()");
         [/@]
         [@b.row]
@@ -20,7 +20,7 @@
             [@b.col property="endAt" title="结束时间"]${examSignupConfig.endAt?string("yyyy-MM-dd HH:mm")}[/@]
             [@b.col property="opened" title="是否开放"]${examSignupConfig.opened?string("${b.text('common.yes')}","${b.text('common.no')}")}[/@]
         [/@]
-    [/@] 
+    [/@]
 [/@]
 <script>
     function editSetting(){

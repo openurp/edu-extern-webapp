@@ -28,7 +28,7 @@
                 <td>
                  [@b.select name="signup.subject.id" id="subjectId" label="科目名称" items=examSubjects empty="..." /]
                 </td>
-                
+
                   <td colspan="2" align="center">
                      <button onclick="search()">查询</button>
                    </td>
@@ -64,7 +64,7 @@
                     subjectList.options.add(new Option(getValueFrom(configs[prop],"name"),getValueFrom(configs[prop],"id")));
                 }
            }
-           
+
            function setSelectSubject(subjects){
                    subjectList=document.getElementById("subjectId");
                 subjectList.options.length=0;
@@ -73,7 +73,7 @@
                     subjectList.options.add(new Option(getValueFrom(subjects[prop],"name"),getValueFrom(subjects[prop],"id")));
                 }
            }
-           
+
            function getValueFrom(data, method) {
                 return data[method];
            }

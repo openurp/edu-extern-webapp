@@ -47,7 +47,7 @@
    bar.addBack("<@text name="action.back"/>");
    var form =document.actionForm;
    var isNeedDist;
-   
+
    function searchStd(){
        studentService.getStudent(form['examSignup.std.user.code'].value,setData);
    }
@@ -66,7 +66,7 @@
              alert("校区不能为空");return;
             }
         }
-        
+
         if(form['examSignup.category.id'].value==""){
              alert("科目不能为空");return;
         }

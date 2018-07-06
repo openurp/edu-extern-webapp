@@ -11,7 +11,7 @@
         bar1.addItem("${b.text("action.import")}","importForm()");
         bar1.addItem("下载模板","downloadTemplate()");
         bar1.addItem("${b.text("action.export")}","exportData()");
-        
+
         bar.addItem("打印","printted()");
             [/#if]
     [/@]
@@ -43,7 +43,7 @@
         var examGradeIds = bg.input.getCheckBoxValues("examGrade.id");
         var form = action.getForm();
         if (examGradeIds) {
-            bg.form.addInput(form,"examGradeIds",examGradeIds);    
+            bg.form.addInput(form,"examGradeIds",examGradeIds);
         }else{
             if(!confirm("是否导出查询条件内的所有数据?")) return;
                 if(""!=action.page.paramstr){
@@ -58,14 +58,14 @@
         bg.form.addInput(form,"fileName","校外考试成绩数据");
         bg.form.submit(form,"${b.url('!export')}","_self");
     }
-    
+
     function remove(){
         var examGradeIds=bg.input.getCheckBoxValues('examGrade.id');
         if(examGradeIds==""){
             alert('请至少选择一条数据进行操作!');
             return;
         }
-        
+
         if(confirm('确定要删除?')){
             bg.form.addInput(document.examGradeListForm,"examGradeIds",examGradeIds);
             document.examGradeListForm.action="manage!remove.action";

@@ -1,20 +1,20 @@
 /*
- * OpenURP, Agile Development Scaffold and Toolkit
+ * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright (c) 2005-2015, OpenURP Software.
+ * Copyright (c) 2005, The OpenURP Software.
  *
- * OpenURP is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * OpenURP is distributed in the hope that it will be useful.
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with OpenURP.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.extern.signup.web.action;
 
@@ -304,7 +304,7 @@ public class ManageAction extends SemesterSupportAction {
 
   /**
    * 学校为了打印新增
-   * 
+   *
    * @return
    */
   public String printShow() {
@@ -316,7 +316,7 @@ public class ManageAction extends SemesterSupportAction {
 
   /**
    * 得到按照班级分组的结果
-   * 
+   *
    * @param queryList
    * @return
    */
@@ -343,7 +343,7 @@ public class ManageAction extends SemesterSupportAction {
    * 导出excel(为了工技大个性化的导出,特写了原生态的excel导出)
    * 要求:所有字段均是字符型,同时入学年份,年级只要两位的年份
    * 确认是从index页面提交
-   * 
+   *
    * @return
    */
   @Override

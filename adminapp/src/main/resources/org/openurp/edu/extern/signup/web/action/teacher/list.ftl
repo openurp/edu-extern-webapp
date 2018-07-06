@@ -31,7 +31,7 @@
 <script language="javascript">
    var bar=new ToolBar('bar','校外考试报名维护',null,true,true);
    bar.setMessage('<@getMessage/>');
-   bar.addItem("新增","add()","new.gif"); 
+   bar.addItem("新增","add()","new.gif");
    bar.addItem("修改","edit()","update.gif");
    bar.addItem("删除","remove()","delete.gif");
    m=bar.addMenu("<@text name="action.export"/>","exportData()");
@@ -39,9 +39,9 @@
    m.addItem("按计算机格式导出","exportComputer()");
    m.addItem("按普通话格式导出","exportPTH()");
    bar.addPrint("<@text name="action.print"/>");
-   
+
    var form =document.actionForm;
-   
+
    function exportCommon(){
       if(${totalSize}>10000){alert("数据量超过一万不能导出");return;}
       exportList();
@@ -52,21 +52,21 @@
      addInput(form,"fileName","校外考试报名数据");
      exportCommon();
    }
-   
+
    function exportCET(){
      addInput(form,"keys","std.name,std.gender.name,std.user.code,std.person.code,std.educationType.code,std.duration,std.beginOn,std.grade,std.department.name,std.major.name,std.majorClass.name");
      addInput(form,"titles","姓名,性别,学号,证件号码,学历,学制,入学年份,年级,院系,专业,班级");
      addInput(form,"fileName","CET报名数据");
      exportCommon();
    }
-   
+
    function exportComputer(){
      addInput(form,"keys","std.name,std.gender.name,std.person.code,std.department.code,std.major.subject.code,std.major.code,std.beginOn,std.duration,std.majorClass.name,std.user.code,category.code");
      addInput(form,"titles","姓名,性别,证件号码,学院代码,学科门类,专业,入学年份,学制,班级,学号,语言级别");
      addInput(form,"fileName","计算机报名数据");
      exportCommon();
    }
-   
+
    function exportPTH(){
      addInput(form,"keys","std.name,std.person.code,std.gender.name,std.basicInfo.nation.name,std.basicInfo.birthday,std.user.code,std.department.name");
      addInput(form,"titles","姓名,身份证,性别,民族,出生年月,学号,院系");

@@ -31,7 +31,7 @@
                 <td align="center">
                      <button onclick="stat()">统计</button>
                    </td>
-                    
+
         </tr>
         </table>
     [/@]

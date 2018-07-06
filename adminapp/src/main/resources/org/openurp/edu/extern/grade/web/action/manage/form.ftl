@@ -56,6 +56,6 @@
             }
         },"text");
     }
-    
+
 </script>
 [@b.foot/]

@@ -21,7 +21,7 @@
     jQuery(function(){
         bg.form.submit(document.examSignupConfigsearchForm);
     });
-    
+
     function reset() { /*alert("111111");*/ }
 </script>
 [@b.foot/]

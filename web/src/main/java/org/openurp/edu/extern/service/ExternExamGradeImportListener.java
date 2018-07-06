@@ -1,20 +1,20 @@
 /*
- * OpenURP, Agile Development Scaffold and Toolkit
+ * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright (c) 2005-2015, OpenURP Software.
+ * Copyright (c) 2005, The OpenURP Software.
  *
- * OpenURP is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * OpenURP is distributed in the hope that it will be useful.
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with OpenURP.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.extern.service;
 
@@ -36,7 +36,7 @@ import org.openurp.edu.extern.model.ExternExamGrade;
 /**
  * 成绩导入监听器,实现全部数据导入的完整性。<br>
  * 依照学生、学期和考试类型作为唯一标识
- * 
+ *
  * @author chaostone
  */
 public class ExternExamGradeImportListener extends ItemImporterListener {

@@ -7,7 +7,7 @@
     [@b.gridbar]
         bar.addItem("${b.text("action.add")}","add()");
         bar.addItem("${b.text("action.edit")}","edit()");
-        bar.addItem("${b.text("action.delete")}","remove()");        
+        bar.addItem("${b.text("action.delete")}","remove()");
         bar.addItem("批量修改","batchEdit()");
     [/@]
     [@b.row]
@@ -39,9 +39,9 @@
         }
         bg.form.addInput(document.examSignupSettingPublicForm,"examSignupSettingIds",settingIds);
         bg.form.submit(document.examSignupSettingPublicForm);
-        
+
     }
-    
+
     function edit(){
         document.examSignupSettingPublicForm.action="setting!edit.action";
         var settingId=bg.input.getCheckBoxValues("examSignupSetting.id");
@@ -52,12 +52,12 @@
         bg.form.addInput(document.examSignupSettingPublicForm,"examSignupSetting.id",settingId);
         bg.form.submit(document.examSignupSettingPublicForm);
     }
-    
+
     function add(){
         document.examSignupSettingPublicForm.action="setting!edit.action";
         bg.form.submit(document.examSignupSettingPublicForm);
     }
-    
+
     function remove(){
         document.examSignupSettingPublicForm.action="setting!remove.action";
         var settingIds=bg.input.getCheckBoxValues("examSignupSetting.id");
@@ -68,6 +68,6 @@
         bg.form.addInput(document.examSignupSettingPublicForm,"examSignupSetting.id",settingIds);
         bg.form.submit(document.examSignupSettingPublicForm);
     }
-    
+
 </script>
 [@b.foot/]

@@ -6,8 +6,8 @@
 [/@]
 <DIV align="center" id="dayinDiv" name="dayinDiv">
   <table id="bar"></table>
-</DIV> 
-<h2 align="center">校外考试成绩单</h2> 
+</DIV>
+<h2 align="center">校外考试成绩单</h2>
  [@b.grid items=examGrades var="examGrade"]
       [@b.row]
             [@b.col title="序号"]${examGrade_index+1}[/@]

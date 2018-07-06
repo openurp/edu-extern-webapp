@@ -4,19 +4,19 @@
     var m=bar.addMenu("报名统计","signupInfo()");
     m.addItem("成绩统计","statGrade()");
     m.addItem("及格率统计","passRate()");
-    
+
      function signupInfo(){
          var form = document.examSignupStatIndex;
          form.action = "${b.url('!signupInfo')}";
         bg.form.submit(form);
        }
-  
+
       function statGrade(){
           var form = document.examSignupStatIndex;
          form.action = "${b.url('!statGrade')}";
           bg.form.submit(form);
        }
-      
+
       function passRate(){
           var form = document.examSignupStatIndex;
          form.action = "${b.url('!passRate')}";
@@ -50,11 +50,11 @@
                 }
             },"text");
         }
-        
+
         $("#categoryId").change(function(){
             changeSubject(this);
         });
-        
+
         $("#categoryId").change();
     })
 </script>

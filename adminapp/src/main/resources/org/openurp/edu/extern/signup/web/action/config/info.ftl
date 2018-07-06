@@ -29,7 +29,7 @@
           <td class="content">${(examSignupConfig.endAt?string("yyyy-MM-dd HH:mm"))?if_exists}</td>
      </tr>
      <tr>
-          <td class="title" width="15%">承诺书</td> 
+          <td class="title" width="15%">承诺书</td>
           <td class="content" width="85%" colspan="3"><pre>${examSignupConfig.notice?default("")}</pre></td>
      </tr>
      <tr>
@@ -37,7 +37,7 @@
           <td class="content" colspan="3" width="85%">[#list (examSignupConfig.exclusiveSubjects)! as exclusiveSubject]${(exclusiveSubject.subjectOne.name)!}--${(exclusiveSubject.subjectTwo.name)!}<br>[/#list]</td>
      </tr>
      <tr>
-          <td class="title" width="15%">考试校区</td> 
+          <td class="title" width="15%">考试校区</td>
           <td class="content" colspan="3" width="85%">
           [#if examSignupConfig.campuses?exists]
               [#list examSignupConfig.campuses as ampus]${(ampus.name)!}&nbsp;[/#list]

@@ -11,7 +11,7 @@
             <th>第一次参加</th>
             <th>考试人数</th>
             <th>及格人数 </th>
-            <th>及格率</th> 
+            <th>及格率</th>
         </tr>
     </thead>
     [#if SemesterMap?size==0]

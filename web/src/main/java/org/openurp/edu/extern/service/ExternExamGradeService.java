@@ -1,20 +1,20 @@
 /*
- * OpenURP, Agile Development Scaffold and Toolkit
+ * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright (c) 2005-2015, OpenURP Software.
+ * Copyright (c) 2005, The OpenURP Software.
  *
- * OpenURP is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * OpenURP is distributed in the hope that it will be useful.
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with OpenURP.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.extern.service;
 
@@ -32,7 +32,7 @@ public interface ExternExamGradeService {
 
   /**
    * FIXME 目前资格考试的功能还未移植，表没有，今后还需要建表
-   * 
+   *
    * @param std
    * @param category
    * @return
@@ -49,7 +49,7 @@ public interface ExternExamGradeService {
 
   /**
    * 查询学生所有资格考试每学期最佳成绩
-   * 
+   *
    * @param std
    * @param isBest
    * @return

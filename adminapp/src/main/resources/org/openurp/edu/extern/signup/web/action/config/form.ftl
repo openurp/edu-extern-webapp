@@ -57,7 +57,7 @@
             <select name="subjectList" id="subjectList" size="5" style="width: 200px" multiple="multiple" theme="xml">
                 [#list subjects?if_exists as subject]
                  <option value="${subject.id}" title="${(subject.name)!}">${subject.name?if_exists}</option>
-                [/#list] 
+                [/#list]
             </select>
             </td>
             <td>
@@ -98,10 +98,10 @@
                 </td>
             </tr>
         </table>
-    [/@] 
+    [/@]
      [@b.textarea name="examSignupConfig.remark" maxlength="100" label="${b.text('common.remark')}" value=(examSignupConfig.remark)! style="width:500px" cols="60" rows="4" /]
     [@b.formfoot]
-        
+
         <input type="hidden" name="examSignupConfig.id" value="${(examSignupConfig.id)!}"/>
         [@b.submit value="action.submit" onsubmit="presubmit()" /]
         [@b.reset/]
@@ -118,7 +118,7 @@
         })
     });
     --]
-    
+
     [#if !(examSignupConfig.id)??]
         jQuery(function(){
             jQuery("#categoryId").data("categorySubjects",{});
@@ -134,8 +134,8 @@
                 jQuery("#categoryId").change();
             [/#if]
         });
-    
-    
+
+
         jQuery("#categoryId").change(function(){
             var data = jQuery("#categoryId").data("categorySubjects")[jQuery("#categoryId").val()];
             jQuery("#subjectList").empty().append(data);
@@ -161,7 +161,7 @@
     }
     function removeSelectedOption(select){
         var options = select.options;
-        for (var i=options.length-1; i>=0; i--){   
+        for (var i=options.length-1; i>=0; i--){
             if (options[i].selected){
                 options[i] = null;
             }
@@ -174,7 +174,7 @@
     }
     function moveSelectedOption(srcSelect, destSelect){
         for (var i=0; i<srcSelect.length; i++){
-            if (srcSelect.options[i].selected){ 
+            if (srcSelect.options[i].selected){
                 var op = srcSelect.options[i];
                 if (!hasOption(destSelect, op)){
                     destSelect.options[destSelect.length]= new Option(op.text, op.value);
@@ -196,7 +196,7 @@
         }
         return false;
     }
-    
+
     function presubmit(){
         jQuery("#subjectOne option").each(function(){
             jQuery(this).prop("selected",true);
@@ -207,19 +207,19 @@
         jQuery("#selectCampus option").each(function(){
             jQuery(this).prop("selected",true);
         })
-        
+
         if (!checkSelectRequire("selectCampus")) {
             jQuery("#selectCampus").after("<label class='error'>请选择考试报名校区</label>");
             return false;
         }
         return true;
     }
-    
-    function checkSelectRequire(selectId) { 
+
+    function checkSelectRequire(selectId) {
         var selectObj = document.getElementById(selectId);
         for (i =0; i<selectObj.options.length; i++) { if (selectObj.options[i].selected) return true; } return false;
     }
-    
+
     function reload(){
 
     }

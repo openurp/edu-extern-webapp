@@ -3,7 +3,7 @@
 [#if config.notice?? && config.notice != ""]
 [@b.toolbar title="校外考试报名(第二步)"]
      bar.addBack();
-[/@]    
+[/@]
 <table>
   <thead>
   <br/>

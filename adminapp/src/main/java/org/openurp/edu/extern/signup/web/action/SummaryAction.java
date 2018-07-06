@@ -1,20 +1,20 @@
 /*
- * OpenURP, Agile Development Scaffold and Toolkit
+ * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright (c) 2005-2015, OpenURP Software.
+ * Copyright (c) 2005, The OpenURP Software.
  *
- * OpenURP is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * OpenURP is distributed in the hope that it will be useful.
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with OpenURP.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.extern.signup.web.action;
 
@@ -37,7 +37,7 @@ import com.opensymphony.xwork2.ActionContext;
 
 /**
  * 对已报名的科目进行报名人数统计
- * 
+ *
  * @author chaostone
  */
 public class SummaryAction extends SemesterSupportAction {
@@ -58,7 +58,7 @@ public class SummaryAction extends SemesterSupportAction {
 
   /**
    * 得到院系报名学生数量
-   * 
+   *
    * @return
    */
   public String signupSummaryByDept() {
@@ -77,7 +77,7 @@ public class SummaryAction extends SemesterSupportAction {
 
   /**
    * 得到院系的该课程报名情况
-   * 
+   *
    * @return
    */
   public String showDeptDetail() {
@@ -95,7 +95,7 @@ public class SummaryAction extends SemesterSupportAction {
 
   /**
    * 得到院系详细的报名情况
-   * 
+   *
    * @param dept
    * @param category
    * @return
@@ -117,7 +117,7 @@ public class SummaryAction extends SemesterSupportAction {
 
   /**
    * 以"院系(班级)id_科目id"作为主键,报名人数作为value,创建map
-   * 
+   *
    * @param sumList
    * @return
    */
@@ -135,7 +135,7 @@ public class SummaryAction extends SemesterSupportAction {
 
   /**
    * 按照科目和院系对报名结果进行分组查询
-   * 
+   *
    * @param semester
    * @return
    */
@@ -162,7 +162,7 @@ public class SummaryAction extends SemesterSupportAction {
 
   /**
    * 得到资格考试科目
-   * 
+   *
    * @return
    */
   private List<ExamSubject> getCategory(ExamCategory examCategory) {

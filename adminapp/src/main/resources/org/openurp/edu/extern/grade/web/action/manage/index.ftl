@@ -21,13 +21,13 @@
                 [@b.textfield name="examGrade.certificateNo" label="证书编号"/]
                 [@b.select name="examGrade.passed" label="是否合格" items={"1":"合格", "0":"不合格"} empty="..." /]
             [/@]
-            
+
             [@b.form name="importForm" action="manage!importForm" target="examGradeList"/]
         </td>
         <td class="index_content">
             [@b.div id="examGradeList" href="!search" /]
         </td>
-        
+
     </tr>
     </table>
 </div>
@@ -39,7 +39,7 @@
         bg.form.submit(actionForm, "manage!downloadTemplate.action");
         actionForm.target = "examGradeList";
     }
-    
+
     function importForm(){
         var form = document.importForm;
         bg.form.addInput(form,"importTitle","校外考试成绩导入");
@@ -47,13 +47,13 @@
         bg.form.addInput(form,"file","template/excel/校外考试成绩导入模版.xls");
         bg.form.submit(form);
     }
-        
-    //打印成绩    
+
+    //打印成绩
     function printted(){
         var examGradeIds = bg.input.getCheckBoxValues("examGrade.id");
         var form = action.getForm();
         if (examGradeIds) {
-            bg.form.addInput(form,"examGradeIds",examGradeIds);    
+            bg.form.addInput(form,"examGradeIds",examGradeIds);
         }else{
             if(!confirm("是否打印查询条件内的所有数据?")) return;
                 if(""!=action.page.paramstr){
@@ -64,12 +64,12 @@
         }
         bg.form.submit(form,"${b.url('!printShow')}","_blank");
     }
-    
+
     function changeSemester(){
         bg.form.addInput(document.examGradesearchForm,"semesterId",jQuery("input[name='semester.id']").val());
         bg.form.submit(document.examGradesearchForm);
     }
-    
+
     function changeSubjects(){
         var res = jQuery.post("${base}/grade/manage!categorySubject.action",{categoryId:jQuery("#categoryId").val()},function(){
             if(res.status==200){
@@ -81,10 +81,10 @@
             }
         },"text");
     }
-    
+
     changeSubjects();
-    
-    
+
+
     function clearNoNum(obj){
         obj.value = obj.value.replace(/[^\d.]/g,"");
         obj.value = obj.value.replace(/^\./g,"");

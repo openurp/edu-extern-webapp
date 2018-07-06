@@ -13,7 +13,7 @@
         [/@]
         [@b.col property="std.user.name" title="std.name" width="12%"/]
         [@b.col property="subject.name" title="考试类型" width="12%"/]
-        [@b.col property="scoreText" title="成绩" width="10%"/] 
+        [@b.col property="scoreText" title="成绩" width="10%"/]
         [@b.col property="passed" title="是否合格" width="10%"]
             [#if !(examGrade.passed)]<font style="color:red">[/#if]
             ${(examGrade.passed)!?string("合格","不合格")}
@@ -36,7 +36,7 @@
         var examGradeIds = bg.input.getCheckBoxValues("examGrade.id");
         var form = action.getForm();
         if (examGradeIds) {
-            bg.form.addInput(form,"examGradeIds",examGradeIds);    
+            bg.form.addInput(form,"examGradeIds",examGradeIds);
         }else{
             if(!confirm("是否导出查询条件内的所有数据?")) return;
                 if(""!=action.page.paramstr){

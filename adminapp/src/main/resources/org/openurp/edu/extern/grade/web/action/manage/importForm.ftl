@@ -10,7 +10,7 @@
     <div style="padding-left: 110px;">
         [@b.submit value="system.button.submit" onsubmit="validateExtendName"/]
         <input type="reset" value="${b.text("system.button.reset")}" class="buttonStyle"/>
-        
+
     </div>
     <div style="color:red;font-size:2">上传文件中的所有信息均要采用文本格式。对于日期和数字等信息也是一样。</div>
 [/@]

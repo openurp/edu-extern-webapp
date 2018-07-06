@@ -12,7 +12,7 @@
                              <tr>
                                   <td  class="infoTitle" align="left" valign="bottom">
                                    <img src="${base}/static/images/action/info.gif" align="top"/>
-                                      <B>统计项目</B>      
+                                      <B>统计项目</B>
                                   </td>
                               </tr>
                                <tr>
@@ -20,7 +20,7 @@
                                       <img src="${base}/static/images/action/keyline.gif" height="2" width="100%" align="top">
                                   </td>
                                </tr>
-                               
+
                                 <tr>
                                  <td class="padding" id="defaultItem" onclick="signup()" onmouseover="MouseOver(event)" onmouseout="MouseOut(event)" title="点击按报名进行统计">
                                  &nbsp;&nbsp;<image src="${base}/static/images/action/list.gif" align="bottom" >报名统计
@@ -64,7 +64,7 @@
                    form.action = "examSignupStat.action?method=passRateSearch"
                    bg.form.submit(form);
            }
-           
+
            function MouseOver(e){
             var o=bg.event.getTarget(e);
             while (o&&o.tagName.toLowerCase()!="td"){o=o.parentNode;}

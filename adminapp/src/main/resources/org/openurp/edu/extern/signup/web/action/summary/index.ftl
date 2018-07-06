@@ -10,16 +10,16 @@
               <select name="examKind.id" onChange="examKind()">
                   <option value=false>全部</option>
                  <#list examKindList?sort_by("id")?reverse  as examKind>
-                 <option value="${(examKind.id)?if_exists}">${(examKind.name)?if_exists}</option>    
+                 <option value="${(examKind.id)?if_exists}">${(examKind.name)?if_exists}</option>
                  </#list>
               </select>
            </td>
            <td></td>
                <#include "/template/time/semester.ftl"/>
-           </form>    
+           </form>
           </tr>
     </table>
-      <table border="0"  class="frameTable" width="100%" height="90%" >  
+      <table border="0"  class="frameTable" width="100%" height="90%" >
       <tr>
         <td valign="top" class="frameTable_view" width="15%" style="font-size:10pt">
           <table  width="100%" id ="viewTables" style="font-size:10pt">
@@ -28,8 +28,8 @@
              &nbsp;&nbsp;<image src="${base}/static/images/action/list.gif">报考人数院系统计
              </td>
            </tr>
-    
-           
+
+
            <tr>
            <tr>
                    <tr>
@@ -38,8 +38,8 @@
                  </form>
                  </td>
                  </tr>
-           
-           
+
+
           </table>
       <td>
       <td valign="top" colspan="12">
@@ -47,7 +47,7 @@
               <tr>
                   <td valign="top">
                        <iframe  src="#"
-                     id="examSignupFrame" name="examSignupFrame" 
+                     id="examSignupFrame" name="examSignupFrame"
                      marginwidth="0" marginheight="0" scrolling="no"
                      frameborder="0"  height="100%" width="100%">
                      </iframe>
@@ -70,12 +70,12 @@
               transferParams(document.searchForm,form,null,false);
               form.submit();
            }
-           
+
            function examKind(){
                  document.getElementById("defaultSelectItem").onclick();
            }
-           
+
     </script>
 </body>
-<#include "/template/foot.ftl"/> 
-  
+<#include "/template/foot.ftl"/>
+

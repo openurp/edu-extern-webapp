@@ -1,20 +1,20 @@
 /*
- * OpenURP, Agile Development Scaffold and Toolkit
+ * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright (c) 2005-2015, OpenURP Software.
+ * Copyright (c) 2005, The OpenURP Software.
  *
- * OpenURP is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * OpenURP is distributed in the hope that it will be useful.
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with OpenURP.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.openurp.edu.extern.student.web.action;
 
@@ -61,7 +61,7 @@ import org.openurp.fee.service.impl.PaymentContext;
 
 /**
  * 学生进行资格考试报名
- * 
+ *
  * @author chaostone
  */
 public class IndexAction extends StudentProjectSupport {
@@ -120,7 +120,7 @@ public class IndexAction extends StudentProjectSupport {
 
   /**
    * 列举出可以报名的期号设置(操作第一步)
-   * 
+   *
    * @param mapping
    * @param form
    * @param request
@@ -180,7 +180,7 @@ public class IndexAction extends StudentProjectSupport {
 
   /**
    * 显示报名须知(操作第二步)
-   * 
+   *
    * @param mapping
    * @param form
    * @param request

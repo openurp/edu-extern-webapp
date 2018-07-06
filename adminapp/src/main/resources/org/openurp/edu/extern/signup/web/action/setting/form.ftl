@@ -9,7 +9,7 @@
         obj.value = obj.value.replace(/\.{2,}/g,".");
         obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
     }
-    
+
 [/@]
 [@b.form name="examSignupSettingForm" action="!save" title="考试科目维护" theme="list"]
     [@b.select name="examSignupSetting.subject.id" label="报考科目" required="true" style="width:150px" items=subjects?sort_by("name") empty="..."  value=(examSignupSetting.subject)?if_exists/]
@@ -35,12 +35,12 @@
         <textarea name="forbiddenStds" style="width:200px;height:100px">${forbiddenSeq!}</textarea>
     [/@]
     [@b.textfield name="examSignupSetting.maxStd" label="最大报名人数" value="${(examSignupSetting.maxStd)!}" maxLength="4" required="true" style="width:150px" onBlur="clearNoNum(this)"/]
-    
+
     [@b.formfoot]
         <input type="hidden" name="examSignupSetting.id" value="${examSignupSetting.id?if_exists}"/>
         <input type="hidden" name="examSignupSetting.config.id" value="${(examSignupSetting.config.id)!}"/>
         <input type="hidden" name="config.id" value="${(examSignupSetting.config.id)!}"/>
-        
+
         [@b.submit value="action.submit"/]
         <input type="reset"  name="reset1" value="${b.text("action.reset")}" />
     [/@]

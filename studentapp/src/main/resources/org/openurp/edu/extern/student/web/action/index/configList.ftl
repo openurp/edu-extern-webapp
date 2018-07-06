@@ -85,7 +85,7 @@
 [/#if]
 
 [@b.form name="actionForm" method="post" action="!notice" target="main"/]
- 
+
 <script language="javascript">
     function cancelSignup(signupId){
         if(confirm("确定取消你选择的科目")){
@@ -93,11 +93,11 @@
             bg.form.submit(document.actionForm);
         }
     }
-   
+
        function payForSignup(signupId){
         bg.form.submit(document.actionForm,"${b.url('index!payment')}?signupId="+signupId,"_blank");
        }
-   
+
     function signup(settingId,subject){
             if(confirm("确认你的身份证等各种信息数据都准确无误，继续报名["+subject+"]请按确定")){
                 bg.form.addInput(document.actionForm,"setting.id",settingId);

@@ -10,7 +10,7 @@
                 [@b.textfield name="examGrade.std.user.code" label="std.user.code"/]
                 [@b.textfield name="examGrade.std.user.name" label="std.name"/]
                 [@b.textfield name="examGrade.std.state.grade" label="std.grade"/]
-                
+
                 [@b.select name="examGrade.std.state.department.id" label="common.college" items=departments?sort_by("code") empty="..." /]
                 [@b.textfield name="examGrade.std.state.adminclass.name" label="班级名称"/]
                 [@b.select name="examGrade.subject.category.id" id="categoryId" onchange="changeSubjects()" label="考试类型" items=examCategories empty="..."/]
@@ -25,7 +25,7 @@
         <td class="index_content">
             [@b.div id="examGradeList" href="!search"/]
         </td>
-        
+
     </tr>
     </table>
 </div>
@@ -37,13 +37,13 @@
         bg.form.submit(actionForm, "manage!downloadTemplate.action");
         actionForm.target = "examGradeList";
     }
-    
-    //打印成绩    
+
+    //打印成绩
     function printted(){
         var examGradeIds = bg.input.getCheckBoxValues("examGrade.id");
         var form = action.getForm();
         if (examGradeIds) {
-            bg.form.addInput(form,"examGradeIds",examGradeIds);    
+            bg.form.addInput(form,"examGradeIds",examGradeIds);
         }else{
             if(!confirm("是否打印查询条件内的所有数据?")) return;
                 if(""!=action.page.paramstr){
@@ -54,12 +54,12 @@
         }
         bg.form.submit(form,"${b.url('!printShow')}","_blank");
     }
-    
+
     function changeSemester(){
         bg.form.addInput(document.examGradesearchForm,"semesterId",jQuery("input[name='semester.id']").val());
         bg.form.submit(document.examGradesearchForm);
     }
-    
+
     function changeSubjects(){
         var res = jQuery.post("${base}/grade/search!categorySubject.action",{categoryId:jQuery("#categoryId").val()},function(){
             if(res.status==200){
@@ -71,10 +71,10 @@
             }
         },"text");
     }
-    
+
     changeSubjects();
-    
-    
+
+
     function clearNoNum(obj){
         obj.value = obj.value.replace(/[^\d.]/g,"");
         obj.value = obj.value.replace(/^\./g,"");

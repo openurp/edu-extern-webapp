@@ -16,12 +16,12 @@
             <input type="hidden" name="examSignupSetting.config.id" value="${config.id}"/>
             <input type="hidden" name="settingSize" value="${examSignupSettings?size}"/>
             <tr class="darkColumn">
-                  <td width="25%">报考科目名称</td>  
-                  <td width="15%" id="f_settingFeeOfMaterial">材料费</td> 
-                  <td width="15%" id="f_settingFeeOfSignup">报名费</td> 
+                  <td width="25%">报考科目名称</td>
+                  <td width="15%" id="f_settingFeeOfMaterial">材料费</td>
+                  <td width="15%" id="f_settingFeeOfSignup">报名费</td>
                   <td width="15%" id="f_settingFeeOfOutline">考纲费</td>
-                  <td width="15%" id="f_settingMaxStd">最大学生数</td> 
-                  
+                  <td width="15%" id="f_settingMaxStd">最大学生数</td>
+
             </tr>
             [#list examSignupSettings as setting]
             <tr>
@@ -46,7 +46,7 @@
                 [@b.submit value="action.submit"/]
                 <input type="reset"  name="reset1" value="${b.text("action.reset")}" />
                 </td>
-                
+
             </tr>
     [/@]
             </table>

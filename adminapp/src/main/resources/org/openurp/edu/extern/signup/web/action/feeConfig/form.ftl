@@ -24,7 +24,7 @@
             WdatePicker({
                 dateFmt:'yyyy-MM-dd HH:mm',
                 minDate:'#F{$dp.$D(\''+ document.examFeeConfigForm["examFeeConfig.openAt"].id +'\')}'
-            });        
+            });
         };
     });
 </script>

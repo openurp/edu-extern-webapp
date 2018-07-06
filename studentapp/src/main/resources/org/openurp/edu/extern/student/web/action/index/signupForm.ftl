@@ -3,20 +3,20 @@
     [#assign toolBarTitle]${((setting.config.notice!)=="")?string("二","三")}[/#assign]
     [@b.toolbar title="校外考试报名(第"+toolBarTitle+"步)"]
         bar.addBack();
-         
+
         function signup(){
             if(confirm("确定提交?")){
                 bg.form.submit(document.actionForm);
             }
         }
-    [/@]    
-    
+    [/@]
+
 [@b.form name="actionForm" action="!save" method="post" target="main"]
     <table class="formTable" width="80%" align="center">
             <input type="hidden" name="setting.id" value="${setting.id}"/>
             <input type="hidden" name="isNeedDist" id="isNeedDist" value="${((setting.config.campuses)?size>0)?string}"/>
             <input type="hidden" name="campusIds" id="campusIds" value=""/>
-            
+
             <tr class="darkColumn">
                 <td colspan="4">个人信息确认</td>
             </tr>
@@ -42,7 +42,7 @@
                 <td class="title">证件号码:</td>
                 <td colspan='3'>${(student.person.code)?if_exists}</td>
             </tr>
-            
+
             <tr class="darkColumn" style="border-top-width:1;border-color:#006CB2;">
                 <td colspan="4">报名信息确认</td>
             </tr>
@@ -50,7 +50,7 @@
             <td class="title">报名科目:</td>
             <td>${setting.subject.name}</td>
             <td class="title">报名费:</td>
-            <td>${setting.feeOfSignup?default(0)} RMB</td>   
+            <td>${setting.feeOfSignup?default(0)} RMB</td>
         </tr>
         <tr>
             <td class="title">考试校区:</td>

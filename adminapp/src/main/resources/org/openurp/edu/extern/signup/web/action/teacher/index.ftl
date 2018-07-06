@@ -53,7 +53,7 @@
         <td style="width:60px;"><@text name="attr.year2year"/>:</td>
         <td style="width:100px;">
             <div style="display:none">
-            <select id="academicCalendar" name="semester.calendar.id" style="width:100px;" >               
+            <select id="academicCalendar" name="semester.calendar.id" style="width:100px;" >
             <option value=""></option>
             </select>
             </div>
