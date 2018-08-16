@@ -26,7 +26,7 @@ import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.entity.Entity;
 import org.beangle.commons.lang.Strings;
 import org.openurp.base.model.Semester;
-import org.openurp.edu.base.code.model.ScoreMarkStyle;
+import org.openurp.edu.base.code.model.GradingMode;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
 import org.openurp.edu.extern.model.ExamSignupConfig;
@@ -47,7 +47,7 @@ public class SearchAction extends SemesterSupportAction {
     put("examSubjects", codeService.getCodes(ExamSubject.class));
     put("examCategories", codeService.getCodes(ExamCategory.class));
     // put("calendars", semesterService.getCalendars(getProjects()));
-    put("markStyles", codeService.getCodes(ScoreMarkStyle.class));
+    put("gradingModes", codeService.getCodes(GradingMode.class));
     put("departments", getTeachDeparts());
     put("semesters", entityDao.getAll(Semester.class));
 

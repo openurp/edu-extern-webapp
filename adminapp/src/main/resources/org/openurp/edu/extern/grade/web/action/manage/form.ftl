@@ -19,7 +19,7 @@
        </tr>
       </table>
     [/@]
-    [@b.select name="examGrade.markStyle.id" items=markStyles label="记录方式" empty="..." required="true" value=(examGrade.markStyle.id)! style="width:150px"/]
+    [@b.select name="examGrade.gradingMode.id" items=gradingModes label="记录方式" empty="..." required="true" value=(examGrade.gradingMode.id)! style="width:150px"/]
     [@b.select name="examGrade.subject.id" items=examSubjects?sort_by("name") empty="..." required="true" label="考试科目" value=(examGrade.subject.id)! style="width:150px"/]
     [@b.field label="考试学期"]
         <select name="examGrade.semester.id"  style="width:150px">

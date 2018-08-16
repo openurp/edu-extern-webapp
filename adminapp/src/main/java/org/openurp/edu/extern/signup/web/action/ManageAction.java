@@ -118,7 +118,7 @@ public class ManageAction extends SemesterSupportAction {
     put("campuses", baseInfoService.getBaseInfos(Campus.class, getProject().getSchool()));
 
     put("departments", getColleges());
-    put("educations", getEducations());
+    put("spans", getSpans());
     put("payStates", codeService.getCodes(PayState.class));
   }
 
@@ -320,7 +320,7 @@ public class ManageAction extends SemesterSupportAction {
    * @param queryList
    * @return
    */
-  private Map<Object, List<Object>> groupByAdminclass(List<Object[]> queryList) {
+  private Map<Object, List<Object>> groupBySquad(List<Object[]> queryList) {
     Map<Object, List<Object>> resultMap = CollectUtils.newHashMap();
     if (CollectUtils.isNotEmpty(queryList)) {
       for (int i = 0; i < queryList.size(); i++) {

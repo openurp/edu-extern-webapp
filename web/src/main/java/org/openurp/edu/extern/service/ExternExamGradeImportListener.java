@@ -146,7 +146,7 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     }
 
     // 验证成绩记录方式
-    if (null == examGrade.getMarkStyle()) {
+    if (null == examGrade.getGradingMode()) {
       tr.addFailure("成绩记录方式不能为空", "");
       bool = false;
     }

@@ -14,11 +14,11 @@
     <tbody>
         [#list departMap?keys as departid]
              [#if departid_index % 2 == 0]
-                [#assign lessonClass="griddata-even"/]
+                [#assign clazzClass="griddata-even"/]
             [#else]
-                [#assign lessonClass="griddata-odd"/]
+                [#assign clazzClass="griddata-odd"/]
             [/#if]
-        <tr class="${lessonClass}" >
+        <tr class="${clazzClass}" >
             <td>${departMap[departid][0].name}</td>
             <td>${departMap[departid][1]}</td>
                 [#list subjects as subject]

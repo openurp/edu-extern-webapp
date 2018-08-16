@@ -46,7 +46,7 @@ public class ExamSuperCategoryChecker extends AbstarctExamSignupChecker {
 
   // 专升本，六级不做检查
   private boolean checkAppliable(ExamSignupSetting setting, Student std) {
-    if (std.getEducation().getName().contains("专升本")) {
+    if (std.getSpan().getName().contains("专升本")) {
       return !setting.getSubject().getName().contains("大学英语六级");
     } else {
       return true;

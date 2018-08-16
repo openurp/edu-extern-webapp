@@ -17,7 +17,7 @@
         [@b.col property="feeOfMaterial" title="材料费" width="6%"/]
         [@b.col property="feeOfOutline" title="考纲费" width="6%"/]
         [@b.col property="maxStd" title="最大人数" width="7%"/]
-        [@b.col title="条件" width="15%"][#list examSignupSetting.conditions as con] ${con.inclusive?string('允许','限制')}:${(con.grades)!('无')}  ${(con.education.name)!}[#if con_has_next]<br>[/#if][/#list][/@]
+        [@b.col title="条件" width="15%"][#list examSignupSetting.conditions as con] ${con.inclusive?string('允许','限制')}:${(con.grades)!('无')}  ${(con.span.name)!}[#if con_has_next]<br>[/#if][/#list][/@]
         [@b.col property="reExamAllowed" title="能够重考" width="7%"]${(examSignupSetting.reExamAllowed?default(false))?string("${b.text('common.yes')}","${b.text('common.no')}")}[/@]
         [@b.col property="superSubject.name" title="须过科目" width="10%"/]
         [@b.col property="examOn" title="考试日期" width="10%"/]

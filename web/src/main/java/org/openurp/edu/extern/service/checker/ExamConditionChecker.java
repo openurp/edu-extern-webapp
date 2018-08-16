@@ -43,7 +43,7 @@ public class ExamConditionChecker extends AbstarctExamSignupChecker {
     for (ExamSignupCondition condition : setting.getConditions()) {
       if (condition.isInclusive()) inclusiveCount += 1;
       boolean gradeMatch = false;
-      boolean educationMatch = false;
+      boolean spanMatch = false;
       if (Strings.isNotEmpty(condition.getGrades())) {
         List<String> grades = Arrays.asList(Strings.split(condition.getGrades(), ","));
         if (grades.contains(student.getGrade())) gradeMatch = true;
@@ -51,12 +51,12 @@ public class ExamConditionChecker extends AbstarctExamSignupChecker {
         gradeMatch = true;
       }
 
-      if (null != condition.getEducation()) {
-        if (condition.getEducation().equals(student.getEducation())) educationMatch = true;
+      if (null != condition.getSpan()) {
+        if (condition.getSpan().equals(student.getSpan())) spanMatch = true;
       } else {
-        educationMatch = true;
+        spanMatch = true;
       }
-      if (gradeMatch && educationMatch) {
+      if (gradeMatch && spanMatch) {
         if (condition.isInclusive()) {
           inclusives.add(condition);
         } else {

@@ -12,7 +12,7 @@
                 [@b.textfield name="examGrade.std.user.name" label="姓名"/]
                 [@b.textfield name="examGrade.std.state.grade" label="年级"/]
                 [@b.select name="examGrade.std.state.department.id" label="common.college" items=departments?sort_by("code") empty="..." /]
-                [@b.textfield name="examGrade.std.state.adminclass.name" label="班级名称"/]
+                [@b.textfield name="examGrade.std.state.squad.name" label="班级名称"/]
                 [@b.select name="examGrade.subject.category.id" id="categoryId" onchange="changeSubjects()" label="考试类型" items=examCategories empty="..."/]
                 [@b.select name="examGrade.subject.id" id="subjectId" label="科目" items=examSubjects empty="..." /]
                 [@b.field label="分数区间"]<input name="from" value="" maxLength="5" onBlur="clearNoNum(this)" style="width:42px;border:0px"/>-<input name="to" onBlur="clearNoNum(this)" value="" maxLength="5" style="width:42px;border:0px"/>

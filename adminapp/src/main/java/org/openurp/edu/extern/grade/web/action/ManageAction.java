@@ -46,7 +46,7 @@ import org.beangle.commons.transfer.importer.listener.ImporterForeignerListener;
 import org.beangle.commons.transfer.io.TransferFormat;
 import org.beangle.commons.web.util.RequestUtils;
 import org.openurp.base.model.Semester;
-import org.openurp.edu.base.code.model.ScoreMarkStyle;
+import org.openurp.edu.base.code.model.GradingMode;
 import org.openurp.edu.base.model.Project;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.base.service.StudentService;
@@ -68,7 +68,7 @@ public class ManageAction extends SearchAction {
     put("examSubjects", codeService.getCodes(ExamSubject.class));
     put("examCategories", codeService.getCodes(ExamCategory.class));
     put("semesters", entityDao.getAll(Semester.class));
-    put("markStyles", codeService.getCodes(ScoreMarkStyle.class));
+    put("gradingModes", codeService.getCodes(GradingMode.class));
     put("semesters", entityDao.getAll(Semester.class));
   }
 
@@ -80,7 +80,7 @@ public class ManageAction extends SearchAction {
 
     put("examSubjects", codeService.getCodes(ExamSubject.class));
     put("examCategories", codeService.getCodes(ExamCategory.class));
-    put("markStyles", codeService.getCodes(ScoreMarkStyle.class));
+    put("gradingModes", codeService.getCodes(GradingMode.class));
     put("departments", getTeachDeparts());
     put("semesters", entityDao.getAll(Semester.class));
     String info = get("info");

@@ -21,11 +21,11 @@
     [#else]
         [#list SemesterMap?keys as SemesterId]
               [#if SemesterId_index % 2 == 0]
-                    [#assign lessonClass="griddata-even"/]
+                    [#assign clazzClass="griddata-even"/]
              [#else]
-                    [#assign lessonClass="griddata-odd"/]
+                    [#assign clazzClass="griddata-odd"/]
              [/#if]
-        <tr class="${lessonClass}">
+        <tr class="${clazzClass}">
             <td>${(SemesterMap[SemesterId]!)[0].schoolYear!}(${(SemesterMap[SemesterId]!)[0].name!})</td>
             <td>${(SemesterMap[SemesterId]!)[1]!}</td>
             <td>${(gradeMap[SemesterId]!)[1]!}</td>

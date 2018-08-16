@@ -57,18 +57,18 @@
         <tbody>
         [#list config.settings?sort_by(["subject","code"]) as setting]
             [#if setting_index % 2 == 0]
-                [#assign lessonClass="griddata-even"/]
+                [#assign clazzClass="griddata-even"/]
             [#else]
-                [#assign lessonClass="griddata-odd"/]
+                [#assign clazzClass="griddata-odd"/]
             [/#if]
-            <tr class="${lessonClass!}">
+            <tr class="${clazzClass!}">
                 <td>${(setting.subject.name)!}</td>
                 <td>${(setting.feeOfSignup)!}</td>
                 <td>${(setting.feeOfMaterial)!}</td>
                 <td>${(setting.feeOfOutline)!}</td>
                 <td>[#if setting.examOn??]${setting.examOn?string("yyyy-MM-dd")} ${setting.examBeginAt!}~${(setting.examEndAt)!}[/#if]</td>
                 <td>[#if setting.maxStd?default(0)!=0]${(setting.maxStd)!}[/#if]</td>
-                <td>[#list setting.conditions as con] ${con.inclusive?string('允许','限制')}:${(con.grades)!('无')}  ${(con.education.name)!}[#if con_has_next]<br>[/#if][/#list]</td>
+                <td>[#list setting.conditions as con] ${con.inclusive?string('允许','限制')}:${(con.grades)!('无')}  ${(con.span.name)!}[#if con_has_next]<br>[/#if][/#list]</td>
                 <td>${(setting.superSubject.name)!}</td>
                 <td align="center">
                 [#if (!signupSubjects?? || !signupSubjects?seq_contains(setting.subject))]
