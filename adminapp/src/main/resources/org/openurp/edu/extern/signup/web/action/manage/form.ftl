@@ -11,7 +11,7 @@
         [/@]
     [#else]
         [@b.field name="findstudent"]
-            [@b.textfield theme="xml" name="examSignup.std.user.code" maxlength="15"  id="stdCode" label="std.user.code" value="${(examSignup.std.user.code)!}" required="true" style="width:150px" comment="<input type='button' value='查询' onClick='searchStudent()'/>"/]
+            [@b.textfield theme="html" name="examSignup.std.user.code" maxlength="15"  id="stdCode" label="std.user.code" value="${(examSignup.std.user.code)!}" required="true" style="width:150px" comment="<input type='button' value='查询' onClick='searchStudent()'/>"/]
              <input type="hidden" id="stdId" name="examSignup.std.id" value="${(examSignup.std.id)!}" />
         [/@]
     [/#if]

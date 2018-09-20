@@ -8,7 +8,7 @@
         [@b.field label="std.user.code"]${(examGrade.std.user.code)}[/@]
     [#else]
         [@b.field name="findstudent"]
-            [@b.textfield   theme="xml" name="examGrade.std.user.code" maxlength="15"  id="stdCode" label="std.user.code" value="${(examGrade.std.user.code)!}" required="true" style="width:150px" comment="<input type='button' value='查询' onClick='searchStudent()'/>"/]
+            [@b.textfield   theme="html" name="examGrade.std.user.code" maxlength="15"  id="stdCode" label="std.user.code" value="${(examGrade.std.user.code)!}" required="true" style="width:150px" comment="<input type='button' value='查询' onClick='searchStudent()'/>"/]
             <input type="hidden" id="stdId" name="examGrade.std.id" value="${(examGrade.std.id)!}"/>
         [/@]
     [/#if]

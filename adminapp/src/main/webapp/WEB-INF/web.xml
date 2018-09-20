@@ -19,7 +19,7 @@
   <!--首先打开hibernate Session-->
   <filter>
     <filter-name>OpenSessionInViewFilter</filter-name>
-    <filter-class>org.beangle.orm.hibernate.OpenSessionInViewFilter</filter-class>
+    <filter-class>org.beangle.orm.hibernate.web.OpenSessionInViewFilter</filter-class>
   </filter>
 
   <filter>
@@ -136,7 +136,7 @@
   
   <!--数据源配置-->
   <resource-ref>
-    <res-ref-name>jdbc/eams</res-ref-name>
+    <res-ref-name>jdbc/openurp</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
     <res-sharing-scope>Shareable</res-sharing-scope>

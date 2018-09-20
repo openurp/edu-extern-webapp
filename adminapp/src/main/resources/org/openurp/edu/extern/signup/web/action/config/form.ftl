@@ -42,7 +42,7 @@
         </tr>
         <tr>
             <td>
-            <select name="subjectOne" id="subjectOne" size="5" style="width: 200px" multiple="multiple" theme="xml" onDblClick="moveSelectOption('subjectOne','subjectList')">
+            <select name="subjectOne" id="subjectOne" size="5" style="width: 200px" multiple="multiple" theme="html" onDblClick="moveSelectOption('subjectOne','subjectList')">
                 [#list firstCategories as subject]
                 <option value="${subject.id}" title="${(subject.name)!}">${subject.name}</option>
                 [/#list]
@@ -54,7 +54,7 @@
                 <input type="button" name="backSubject1Button" value="&gt;&gt;" OnClick="moveSelectOption('subjectOne','subjectList')" />
             </td>
             <td>
-            <select name="subjectList" id="subjectList" size="5" style="width: 200px" multiple="multiple" theme="xml">
+            <select name="subjectList" id="subjectList" size="5" style="width: 200px" multiple="multiple" theme="html">
                 [#list subjects?if_exists as subject]
                  <option value="${subject.id}" title="${(subject.name)!}">${subject.name?if_exists}</option>
                 [/#list]
@@ -66,7 +66,7 @@
                 <input type="button" name="toSubjectTwoButton" value="&gt;&gt;"    OnClick="moveSelectOption('subjectList', 'subjectTwo')" />
             </td>
             <td>
-                <select name="subjectTwo" id="subjectTwo" size="5" style="width: 200px" multiple="multiple" theme="xml" onDblClick="moveSelectOption('subjectTwo','subjectList')">
+                <select name="subjectTwo" id="subjectTwo" size="5" style="width: 200px" multiple="multiple" theme="html" onDblClick="moveSelectOption('subjectTwo','subjectList')">
                 [#list secondCategories as subject]
                 <option value="${subject.id}" title="${(subject.name)!}">${subject.name}</option>
                 [/#list]
@@ -79,7 +79,7 @@
         <table style="border-collapse: collapse;border:solid;border-width:1px;border-color:#006CB2;background-color:#b6d0ff;">
             <tr>
                 <td>
-                    <select name="campusList" id="campusList" multiple="multiple" theme="xml"  style="width:200Px;height:100px" onDblclick="JavaScript:bg.select.moveSelected(this.form['campusList'], this.form['selectCampus'])" >
+                    <select name="campusList" id="campusList" multiple="multiple" theme="html"  style="width:200Px;height:100px" onDblclick="JavaScript:bg.select.moveSelected(this.form['campusList'], this.form['selectCampus'])" >
                     [#list campuses as campus]
                     <option value="${campus.id}">${campus.name?if_exists}</option>
                     [/#list]

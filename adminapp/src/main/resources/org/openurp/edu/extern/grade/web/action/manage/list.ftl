@@ -34,7 +34,7 @@
 
 [@b.form name="examGradeListForm" target="examGradeList"]
         <input type="hidden" name="configId" id="configId" />
-        <input type="hidden" name="params" value="[@htm.queryStr /]" />
+        <input type="hidden" name="params" value="${b.paramstring}" />
 [/@]
 
 <script>

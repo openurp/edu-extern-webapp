@@ -25,9 +25,9 @@
     [/@]
 [/@]
 
-[@b.form name="examGradeListForm" theme="xml" target="examGradeList"]
+[@b.form name="examGradeListForm" theme="html" target="examGradeList"]
         <input type="hidden" name="configId" id="configId" />
-        <input type="hidden" name="params" value="[@htm.queryStr /]" />
+        <input type="hidden" name="params" value="${b.paramstring}" />
 [/@]
 
 <script>
