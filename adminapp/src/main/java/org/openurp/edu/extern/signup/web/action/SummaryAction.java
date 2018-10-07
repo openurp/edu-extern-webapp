@@ -27,7 +27,7 @@ import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.collection.Order;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.openurp.base.model.Department;
-import org.openurp.base.model.Semester;
+import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
 import org.openurp.edu.extern.model.ExamSignup;

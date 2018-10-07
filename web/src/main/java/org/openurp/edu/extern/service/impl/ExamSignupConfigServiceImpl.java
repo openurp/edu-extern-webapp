@@ -18,7 +18,6 @@
  */
 package org.openurp.edu.extern.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.beangle.commons.dao.impl.BaseServiceImpl;

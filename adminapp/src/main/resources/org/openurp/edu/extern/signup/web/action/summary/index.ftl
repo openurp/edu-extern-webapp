@@ -29,7 +29,6 @@
              </td>
            </tr>
 
-
            <tr>
            <tr>
                    <tr>
@@ -38,7 +37,6 @@
                  </form>
                  </td>
                  </tr>
-
 
           </table>
       <td>
@@ -78,4 +76,3 @@
     </script>
 </body>
 <#include "/template/foot.ftl"/>
-

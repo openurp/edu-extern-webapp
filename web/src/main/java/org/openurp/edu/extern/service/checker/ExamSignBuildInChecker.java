@@ -25,9 +25,9 @@ import java.util.Set;
 import org.beangle.commons.collection.CollectUtils;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExclusiveSubject;
 import org.openurp.edu.extern.model.ExamSignupConfig;
 import org.openurp.edu.extern.model.ExamSignupSetting;
+import org.openurp.edu.extern.model.ExclusiveSubject;
 
 public class ExamSignBuildInChecker extends AbstarctExamSignupChecker {
 

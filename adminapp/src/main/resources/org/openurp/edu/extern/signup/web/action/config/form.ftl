@@ -135,7 +135,6 @@
             [/#if]
         });
 
-
         jQuery("#categoryId").change(function(){
             var data = jQuery("#categoryId").data("categorySubjects")[jQuery("#categoryId").val()];
             jQuery("#subjectList").empty().append(data);

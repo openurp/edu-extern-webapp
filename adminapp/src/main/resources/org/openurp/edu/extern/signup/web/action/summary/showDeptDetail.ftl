@@ -19,7 +19,6 @@
      var bar=new ToolBar('examSumBar','校外考试报名汇总',null,true,true);
      bar.setMessage('<@getMessage/>');
 
-
     </script>
 </body>
 <#include "/template/foot.ftl"/>

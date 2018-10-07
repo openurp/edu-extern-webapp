@@ -51,7 +51,7 @@ import org.beangle.ems.avatar.model.FileAvatar;
 import org.beangle.ems.avatar.service.AvatarBase;
 import org.beangle.ems.util.ZipUtils;
 import org.openurp.base.model.Campus;
-import org.openurp.base.model.Semester;
+import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.base.service.StudentService;
 import org.openurp.edu.eams.web.util.DownloadHelper;

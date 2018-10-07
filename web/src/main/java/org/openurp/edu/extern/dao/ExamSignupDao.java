@@ -20,7 +20,7 @@ package org.openurp.edu.extern.dao;
 
 import java.util.List;
 
-import org.openurp.base.model.Semester;
+import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;

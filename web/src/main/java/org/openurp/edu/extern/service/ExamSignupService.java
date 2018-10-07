@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.openurp.base.model.Campus;
-import org.openurp.base.model.Semester;
 import org.openurp.edu.base.model.Project;
+import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamSubject;
 import org.openurp.edu.extern.model.ExamSignup;

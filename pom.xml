@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.openurp</groupId>
     <artifactId>openurp-java-parent</artifactId>
-    <version>0.2.19</version>
+    <version>0.2.20</version>
   </parent>
   <groupId>org.openurp.edu.extern</groupId>
   <artifactId>openurp-edu-extern-webapp</artifactId>
@@ -26,8 +26,6 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <version>${servletapi.version}</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.openurp.edu.course</groupId>

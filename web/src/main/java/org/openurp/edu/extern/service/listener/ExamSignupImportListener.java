@@ -27,7 +27,7 @@ import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.entity.metadata.Model;
 import org.beangle.commons.transfer.TransferResult;
 import org.beangle.commons.transfer.importer.listener.ItemImporterListener;
-import org.openurp.base.model.Semester;
+import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.extern.model.ExamSignup;
 
 public class ExamSignupImportListener extends ItemImporterListener {

@@ -27,9 +27,9 @@ import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.entity.Entity;
 import org.beangle.commons.lang.Strings;
 import org.beangle.struts2.helper.QueryHelper;
-import org.openurp.base.model.Calendar;
 import org.openurp.base.model.Campus;
-import org.openurp.base.model.Semester;
+import org.openurp.edu.base.model.Calendar;
+import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
@@ -56,9 +56,8 @@ public class TeacherAction extends RestrictionSupportAction {
     put("examCategories", codeService.getCodes(ExamCategory.class));
     put("campuss", baseInfoService.getBaseInfos(Campus.class, getProject().getSchool()));
     put("semesters", entityDao.search(OqlBuilder.from("from Semester")));
-    List<Calendar> calendars = semesterService.getCalendars(getProjects());
-    if (examGrade.isTransient() && CollectUtils.isNotEmpty(calendars)) {
-      Semester semester = semesterService.getCurSemester((Calendar) calendars.get(0));
+    if (examGrade.isTransient()) {
+      Semester semester = semesterService.getCurSemester(getProject());
       if (null != semester) {
         ((ExamSignup) examGrade).setSemester(semester);
       }

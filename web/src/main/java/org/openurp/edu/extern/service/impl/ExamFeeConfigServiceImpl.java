@@ -27,8 +27,8 @@ import java.util.Map;
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.impl.BaseServiceImpl;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
-import org.openurp.base.model.Semester;
 import org.openurp.edu.base.model.Project;
+import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.extern.model.ExamFeeConfig;
 import org.openurp.edu.extern.service.ExamFeeConfigService;
 

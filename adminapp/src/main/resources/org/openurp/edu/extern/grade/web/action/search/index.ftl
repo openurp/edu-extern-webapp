@@ -74,7 +74,6 @@
 
     changeSubjects();
 
-
     function clearNoNum(obj){
         obj.value = obj.value.replace(/[^\d.]/g,"");
         obj.value = obj.value.replace(/^\./g,"");

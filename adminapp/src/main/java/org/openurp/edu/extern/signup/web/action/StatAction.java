@@ -31,7 +31,7 @@ import org.beangle.commons.entity.metadata.Model;
 import org.beangle.commons.lang.Strings;
 import org.beangle.struts2.convention.route.Action;
 import org.openurp.base.model.Department;
-import org.openurp.base.model.Semester;
+import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.eams.util.stat.StatGroup;
 import org.openurp.edu.eams.util.stat.StatHelper;

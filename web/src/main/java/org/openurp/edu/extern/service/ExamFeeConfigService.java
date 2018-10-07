@@ -21,8 +21,8 @@ package org.openurp.edu.extern.service;
 import java.util.List;
 
 import org.beangle.commons.dao.query.builder.OqlBuilder;
-import org.openurp.base.model.Semester;
 import org.openurp.edu.base.model.Project;
+import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.extern.model.ExamFeeConfig;
 
 public interface ExamFeeConfigService {

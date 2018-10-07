@@ -33,8 +33,8 @@ import org.beangle.commons.lang.Strings;
 import org.openurp.base.model.Campus;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
-import org.openurp.edu.extern.model.ExclusiveSubject;
 import org.openurp.edu.extern.model.ExamSignupConfig;
+import org.openurp.edu.extern.model.ExclusiveSubject;
 import org.openurp.edu.extern.service.ExamSignupConfigService;
 import org.openurp.edu.web.action.RestrictionSupportAction;
 
