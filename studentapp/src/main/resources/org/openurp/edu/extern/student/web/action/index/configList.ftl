@@ -68,7 +68,7 @@
                 <td>${(setting.feeOfOutline)!}</td>
                 <td>[#if setting.examOn??]${setting.examOn?string("yyyy-MM-dd")} ${setting.examBeginAt!}~${(setting.examEndAt)!}[/#if]</td>
                 <td>[#if setting.maxStd?default(0)!=0]${(setting.maxStd)!}[/#if]</td>
-                <td>[#list setting.conditions as con] ${con.inclusive?string('允许','限制')}:${(con.grades)!('无')}  ${(con.span.name)!}[#if con_has_next]<br>[/#if][/#list]</td>
+                <td>[#list setting.conditions as con] ${con.inclusive?string('允许','限制')}:${(con.grades)!('无')}  ${(con.level.name)!}[#if con_has_next]<br>[/#if][/#list]</td>
                 <td>${(setting.superSubject.name)!}</td>
                 <td align="center">
                 [#if (!signupSubjects?? || !signupSubjects?seq_contains(setting.subject))]

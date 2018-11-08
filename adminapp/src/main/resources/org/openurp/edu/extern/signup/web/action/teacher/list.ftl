@@ -54,7 +54,7 @@
    }
 
    function exportCET(){
-     addInput(form,"keys","std.name,std.gender.name,std.user.code,std.person.code,std.span.code,std.duration,std.beginOn,std.grade,std.department.name,std.major.name,std.majorClass.name");
+     addInput(form,"keys","std.name,std.gender.name,std.user.code,std.person.code,std.level.code,std.duration,std.beginOn,std.grade,std.department.name,std.major.name,std.majorClass.name");
      addInput(form,"titles","姓名,性别,学号,证件号码,学历,学制,入学年份,年级,院系,专业,班级");
      addInput(form,"fileName","CET报名数据");
      exportCommon();

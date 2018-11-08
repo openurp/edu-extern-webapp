@@ -1,7 +1,7 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright (c) 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ public class ExamConditionChecker extends AbstarctExamSignupChecker {
     for (ExamSignupCondition condition : setting.getConditions()) {
       if (condition.isInclusive()) inclusiveCount += 1;
       boolean gradeMatch = false;
-      boolean spanMatch = false;
+      boolean levelMatch = false;
       if (Strings.isNotEmpty(condition.getGrades())) {
         List<String> grades = Arrays.asList(Strings.split(condition.getGrades(), ","));
         if (grades.contains(student.getGrade())) gradeMatch = true;
@@ -51,12 +51,12 @@ public class ExamConditionChecker extends AbstarctExamSignupChecker {
         gradeMatch = true;
       }
 
-      if (null != condition.getSpan()) {
-        if (condition.getSpan().equals(student.getSpan())) spanMatch = true;
+      if (null != condition.getLevel()) {
+        if (condition.getLevel().equals(student.getLevel())) levelMatch = true;
       } else {
-        spanMatch = true;
+        levelMatch = true;
       }
-      if (gradeMatch && spanMatch) {
+      if (gradeMatch && levelMatch) {
         if (condition.isInclusive()) {
           inclusives.add(condition);
         } else {

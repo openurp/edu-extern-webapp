@@ -1,7 +1,7 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright (c) 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ public class ExamSuperCategoryChecker extends AbstarctExamSignupChecker {
 
   // 专升本，六级不做检查
   private boolean checkAppliable(ExamSignupSetting setting, Student std) {
-    if (std.getSpan().getName().contains("专升本")) {
+    if (std.getLevel().getName().contains("专升本")) {
       return !setting.getSubject().getName().contains("大学英语六级");
     } else {
       return true;

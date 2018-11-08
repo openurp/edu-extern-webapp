@@ -1,7 +1,7 @@
 /*
  * OpenURP, Agile University Resource Planning Solution.
  *
- * Copyright (c) 2005, The OpenURP Software.
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -118,7 +118,7 @@ public class ManageAction extends SemesterSupportAction {
     put("campuses", baseInfoService.getBaseInfos(Campus.class, getProject().getSchool()));
 
     put("departments", getColleges());
-    put("spans", getSpans());
+    put("levels", getLevels());
     put("payStates", codeService.getCodes(PayState.class));
   }
 

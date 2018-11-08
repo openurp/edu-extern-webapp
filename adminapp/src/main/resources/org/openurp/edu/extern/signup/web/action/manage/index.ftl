@@ -19,7 +19,7 @@
                 [@b.textfield name="examSignup.std.user.code" label="std.user.code"/]
                 [@b.textfield name="examSignup.std.name" label="姓名"/]
                 [@b.textfield name="examSignup.std.grade" label="年级"/]
-                [@b.select name="examSignup.std.span.id" id="spanTypeId" label="entity.EduSpan" items=spans empty="..."/]
+                [@b.select name="examSignup.std.level.id" id="levelTypeId" label="entity.EducationLevel" items=levels empty="..."/]
                 [@b.select name="examSignup.std.department.id" label="entity.department" items=departments empty="..." /]
                 [@b.select name="examSignup.subject.category.id" label="考试类型" items=examCategories empty="..."/]
                 [@b.select name="examSignup.subject.id" label="报名科目" items=examSubjects empty="..." /]
