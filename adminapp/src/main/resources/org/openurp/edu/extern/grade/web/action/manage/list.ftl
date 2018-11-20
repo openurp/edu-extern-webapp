@@ -2,18 +2,17 @@
 [@b.head/]
 [@b.grid items=examGrades var="examGrade"]
     [@b.gridbar title="校外考试成绩维护"]
-    [#if !info?exists]
-        bar.addItem("${b.text("action.new")}",action.add());
-        bar.addItem("${b.text("action.modify")}",action.edit());
-        bar.addItem("${b.text("action.delete")}",'remove()');
+      bar.addItem("${b.text("action.new")}",action.add());
+      bar.addItem("${b.text("action.modify")}",action.edit());
+      bar.addItem("分配管理", action.single("distributedList"), "${b.theme.iconurl("actions/update.png")}");
+      bar.addItem("${b.text("action.delete")}",'remove()');
 
-        var bar1=bar.addMenu("导入导出");
-        bar1.addItem("${b.text("action.import")}","importForm()");
-        bar1.addItem("下载模板","downloadTemplate()");
-        bar1.addItem("${b.text("action.export")}","exportData()");
+      var bar1=bar.addMenu("导入导出");
+      bar1.addItem("${b.text("action.import")}","importForm()");
+      bar1.addItem("下载模板","downloadTemplate()");
+      bar1.addItem("${b.text("action.export")}","exportData()");
 
-        bar.addItem("打印","printted()");
-            [/#if]
+      bar.addItem("打印","printted()");
     [/@]
     [@b.row]
         [@b.boxcol/]
@@ -27,8 +26,8 @@
             [#if !(examGrade.passed)]</font>[/#if]
         [/@]
         [@b.col property="std.state.department.name" title="院系"  width="12%"/]
-        [@b.col property="semester.id" title="common.semester"  width="12%"]${(examGrade.semester.schoolYear)!}(${(examGrade.semester.name)!})[/@]
         [@b.col property="certificateNo" title="证书编号"  width="15%"]${(examGrade.certificateNo)!"--"}[/@]
+        [@b.col title="已配课数" sortable="false"  width="55px"]${examGrade.courseGrades?size}[/@]
     [/@]
 [/@]
 

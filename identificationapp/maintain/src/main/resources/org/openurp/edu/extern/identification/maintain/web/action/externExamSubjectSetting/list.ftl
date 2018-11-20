@@ -1,0 +1,20 @@
+[#ftl]
+[@b.head/]
+  [#include "/component/certificate/const.ftl"/]
+  [@b.grid items=settings var="setting"]
+    [@b.gridbar]
+      bar.addItem("${b.text("action.new")}", action.add());
+      bar.addItem("${b.text("action.modify")}", action.edit());
+      bar.addItem("${b.text("action.delete")}", action.remove("确认要删除吗？"));
+    [/@]
+    [@b.row]
+      [@b.boxcol/]
+      [@b.col title="证书大类" property="examSubject.name" width="200px"/]
+      [@b.col title="数据来源URL" property="url" style="word-break: break-all"/]
+      [@b.col title="请求字段" sortable="false"][#list setting.requestFields as requestField]<span[#if fixedRequestFieldMap?keys?seq_contains(requestField.innerField)] style="color:red"[/#if]>${requestField.label}[#if requestField_has_next]<span style="color:initial">,</span>[/#if]</span>[/#list][/@]
+      [@b.col title="反馈字段" sortable="false"][#list setting.responseFields as responseField]<span[#if fixedResponseFieldMap?keys?seq_contains(responseField.innerField)] style="color:blue"[/#if]>${responseField.label}[#if responseField_has_next]<span style="color:initial">,</span>[/#if]</span>[/#list][/@]
+      [@b.col title="启动日期" property="beginOn" width="100px"]${setting.beginOn?string("yyyy-MM-dd")}[/@]
+      [@b.col title="截止日期" property="endOn" width="100px"]${(setting.endOn?string("yyyy-MM-dd"))!}[/@]
+    [/@]
+  [/@]
+[@b.foot/]

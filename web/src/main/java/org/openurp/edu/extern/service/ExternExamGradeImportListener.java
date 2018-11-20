@@ -18,9 +18,12 @@
  */
 package org.openurp.edu.extern.service;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.beangle.commons.conversion.converter.String2DateConverter;
 import org.beangle.commons.dao.EntityDao;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
@@ -61,18 +64,33 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
 
   @Override
   public void onItemStart(TransferResult tr) {
+    // FIXME 2018-11-12 zhouqi 尚未调试
     tr.getMsgs().addAll(tr.getErrs());
     tr.getErrs().clear();
     Map<String, Object> datas = importer.getCurData();
-    String examOn = (String) datas.get("examGrade.examOn");
-    if (null == examOn) {
+    String acquiredOnValue = (String) datas.get("examGrade.acquiredOn");
+    Date acquiredOn = null;
+    if (StringUtils.isBlank(acquiredOnValue)) {
       tr.addFailure("考试日期不能为空", "");
       return;
+    } else {
+      try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date value = new Date(sdf.parse(acquiredOnValue).getTime());
+        if (StringUtils.equals(sdf.format(value), acquiredOnValue)) {
+          acquiredOn = (Date) value;
+        } else {
+          throw new IllegalArgumentException(acquiredOnValue + " of value is invalid in 'examGrade.acquiredOn'!");
+        }
+      } catch (Exception e) {
+        tr.addFailure("考试日期无效", acquiredOnValue);
+        return;
+      }
     }
-    java.sql.Date examOnDate = (java.sql.Date) new String2DateConverter().convert(examOn,
+    java.sql.Date acquiredOnDate = (java.sql.Date) new String2DateConverter().convert(acquiredOn,
         java.lang.String.class, java.sql.Date.class);
-    Semester semester = getSemester(examOnDate, project);
-    datas.put("examGrade.examOn", examOnDate);
+    Semester semester = getSemester(acquiredOnDate, project);
+    datas.put("examGrade.acquiredOn", acquiredOn);
     datas.put("examGrade.semester", semester);
 
     String stdCode = (String) datas.get("examGrade.std.user.code");
@@ -109,11 +127,11 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     Map datas = (Map) importer.getCurrent();
     ExternExamGrade examGrade = (ExternExamGrade) datas.get("examGrade");
     if (examGrade.isTransient()) {
-      java.sql.Date examOn = (java.sql.Date) importer.getCurData().get("examGrade.examOn");
-      examGrade.setSemester(getSemester(examOn, project));
-      if (null == examGrade.getExamNo()) {
-        examGrade.setExamOn(examOn);
-      }
+      examGrade.setAcquiredOn((java.sql.Date) importer.getCurData().get("examGrade.acquiredOn"));
+      // FIXME 2018-11-12 zhouqi 由于字段调整了，暂时不知道如何调整下来的代码
+//      if (null == examGrade.getExamNo()) {
+//        examGrade.setExamOn(examOn);
+//      }
     }
     if (examGradeVilidate(examGrade, tr)) {
       examGrade.setUpdatedAt(new java.util.Date(System.currentTimeMillis()));

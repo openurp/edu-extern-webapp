@@ -14,12 +14,14 @@
   <properties>
     <bundle.symbolicName>org.openurp.edu.extern.webapp</bundle.symbolicName>
     <bundle.namespace>org.openurp.edu.extern</bundle.namespace>
+    <openurp.api.version>0.1.7-SNAPSHOT</openurp.api.version>
   </properties>
 
   <modules>
     <module>web</module>
     <module>adminapp</module>
     <module>studentapp</module>
+    <module>identificationapp</module>
   </modules>
 
   <dependencies>

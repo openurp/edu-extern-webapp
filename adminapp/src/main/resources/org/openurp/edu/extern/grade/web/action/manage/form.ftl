@@ -21,19 +21,12 @@
     [/@]
     [@b.select name="examGrade.gradingMode.id" items=gradingModes label="记录方式" empty="..." required="true" value=(examGrade.gradingMode.id)! style="width:150px"/]
     [@b.select name="examGrade.subject.id" items=examSubjects?sort_by("name") empty="..." required="true" label="考试科目" value=(examGrade.subject.id)! style="width:150px"/]
-    [@b.field label="考试学期"]
-        <select name="examGrade.semester.id"  style="width:150px">
-            [#list semesters?sort_by("code")?reverse as se]
-            <option value="${se.id}" [#if se.id?string=(examGrade.semester.id)?default('')?string]selected[/#if] title="${se.schoolYear}&nbsp;${se.name}">${se.schoolYear}&nbsp;${se.name}</option>
-            [/#list]
-        </select>
-    [/@]
-    [@b.textfield name="examGrade.score" maxlength="5" label="分数" check="match('number').greaterThanOrEqualTo(0)" required="false" value="${(examGrade.score)!}" style="width:150px" comment="须数字"/]
-    [@b.textfield name="examGrade.scoreText" maxlength="5" label="成绩" required="true" value="${(examGrade.scoreText)!}" required="true" style="width:150px"/]
+    [@b.textfield name="examGrade.score" maxlength="5" label="分数" check="match('number')" value="${(examGrade.score)!}" style="width:150px" comment="须数字"/]
+    [@b.textfield name="examGrade.scoreText" maxlength="5" label="成绩" value="${(examGrade.scoreText)!}" required="true" style="width:150px"/]
     [@b.radios name="examGrade.passed" items={"1":"合格", "0":"不合格"} label="是否合格" value=(examGrade.passed)!true?string("1", "0")/]
-    [@b.datepicker name="examGrade.examOn" value=examGrade.examOn! label="考试日期"/]
+    [@b.datepicker name="examGrade.acquiredOn" value=(examGrade.acquiredOn)! label="考试日期"/]
     [@b.textfield name="examGrade.examNo" label="准考证号码" value="${(examGrade.examNo)!}" style="width:150px"/]
-    [@b.textfield name="examGrade.certificateNo" maxlength="100" label="证书编号" value="${(examGrade.certificateNo)!}" style="width:150px"/]
+    [@b.textfield name="examGrade.certificate" label="证书编号" value="${(examGrade.certificate)!}" maxlength="100" style="width:150px"/]
     [@b.formfoot]
         <input type="hidden" name="examGrade.id" value="${(examGrade.id)!}" />
         [@b.submit value="action.submit"/]
