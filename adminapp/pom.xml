@@ -50,7 +50,6 @@
       <groupId>org.openurp.edu.extern.identificationapp</groupId>
       <artifactId>identificationapp-maintain</artifactId>
       <version>${project.version}</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.inject</groupId>
