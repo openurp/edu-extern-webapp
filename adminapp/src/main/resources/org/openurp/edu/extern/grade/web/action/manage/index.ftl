@@ -35,7 +35,8 @@
     function downloadTemplate() {
         var actionForm = document.examGradesearchForm;
         actionForm.target = "_blank";
-        bg.form.addInput(actionForm,"template","template/excel/校外考试成绩导入模版.xls");
+        bg.form.addInput(actionForm,"file","template/excel/校外考试成绩导入模版.xls");
+        bg.form.addInput(actionForm,"display","校外考试成绩导入模版");
         bg.form.submit(actionForm, "manage!downloadTemplate.action");
         actionForm.target = "examGradeList";
     }

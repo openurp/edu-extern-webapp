@@ -26,27 +26,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.struts2.ServletActionContext;
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Strings;
 import org.beangle.commons.transfer.TransferListener;
-import org.beangle.commons.transfer.TransferResult;
 import org.beangle.commons.transfer.excel.ExcelItemReader;
-import org.beangle.commons.transfer.excel.ExcelTemplateWriter;
-import org.beangle.commons.transfer.exporter.Context;
-import org.beangle.commons.transfer.exporter.Exporter;
-import org.beangle.commons.transfer.exporter.TemplateExporter;
-import org.beangle.commons.transfer.exporter.TemplateWriter;
 import org.beangle.commons.transfer.importer.EntityImporter;
 import org.beangle.commons.transfer.importer.MultiEntityImporter;
 import org.beangle.commons.transfer.importer.listener.ImporterForeignerListener;
-import org.beangle.commons.transfer.io.TransferFormat;
-import org.beangle.commons.web.util.RequestUtils;
 import org.openurp.code.edu.model.CourseTakeType;
 import org.openurp.code.edu.model.GradeType;
 import org.openurp.code.edu.model.GradingMode;
@@ -55,6 +44,7 @@ import org.openurp.edu.base.model.Project;
 import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.base.service.StudentService;
+import org.openurp.edu.eams.web.util.DownloadHelper;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
 import org.openurp.edu.extern.model.ExamSignupConfig;
@@ -274,23 +264,8 @@ public class ManageAction extends SearchAction {
    * @return
    */
   public String downloadTemplate() throws IOException {
-    Context context = new Context();
-    context.put("format", TransferFormat.Xls);
-    Exporter exporter = new TemplateExporter();
-    HttpServletResponse response = ServletActionContext.getResponse();
-    // 设置下载项信息
-    String template = get("template");
-    TemplateWriter templateWriter = new ExcelTemplateWriter();
-    templateWriter.setTemplate(getResource(template));
-    templateWriter.setOutputStream(response.getOutputStream());
-    templateWriter.setContext(context);
-    exporter.setWriter(templateWriter);
-    response.setContentType("application/vnd.ms-excel;charset=GBK");
-    String oldFileName = "校外考试成绩导入模版.xls";
-    String fileName = RequestUtils.encodeAttachName(ServletActionContext.getRequest(), oldFileName);
-    response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-    exporter.setContext(context);
-    exporter.transfer(new TransferResult());
+    DownloadHelper.download(getRequest(), getResponse(),
+        getClass().getClassLoader().getResource(get("file")), get("display"));
     return null;
   }
 
