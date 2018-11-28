@@ -16,22 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.extern.grade.web;
+package org.openurp.edu.extern.base.code.web.action;
 
-import org.beangle.commons.inject.bind.AbstractBindModule;
-import org.openurp.edu.extern.grade.web.action.ExternGradeAction;
-import org.openurp.edu.extern.grade.web.action.ManageAction;
-import org.openurp.edu.extern.grade.web.action.SearchAction;
-import org.openurp.edu.extern.grade.web.action.StatAction;
+import org.openurp.edu.extern.code.model.EduCategory;
 
-public class GradeWebModule extends AbstractBindModule {
+/**
+ * @author zhouqi 2018年11月21日
+ */
+public class EduCategoryAction extends ExternBaseCodeAction {
 
-  @Override
-  protected void doBinding() {
-    bind(ManageAction.class);
-    bind(StatAction.class);
-    bind(SearchAction.class);
-
-    bind(ExternGradeAction.class);
+  protected String getEntityName() {
+    return EduCategory.class.getName();
   }
 }

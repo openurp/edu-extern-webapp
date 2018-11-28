@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-  [@b.toolbar title="校外考试类型管理"/]
+  [@b.toolbar title="校外科目大类管理"/]
   <table class="indexpanel">
     <tr>
       <td class="index_view">

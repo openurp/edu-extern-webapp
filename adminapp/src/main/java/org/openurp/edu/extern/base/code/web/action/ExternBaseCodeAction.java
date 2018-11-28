@@ -29,8 +29,14 @@ import org.openurp.edu.web.action.RestrictionSupportAction;
 public abstract class ExternBaseCodeAction extends RestrictionSupportAction {
 
   public String checkAjax() {
-    Integer id = getInt("id");
-    OqlBuilder<Entity<?>> builder = OqlBuilder.from(getEntityName(), getShortName());
+    Object id = null;
+    Entity<?> entity = getEntity();
+    if (entity.getId() instanceof Integer) {
+      id = getInt("id");
+    } else {
+      id = getLong("id");
+    }
+    OqlBuilder<?> builder = OqlBuilder.from(entity.getClass(), getShortName());
     builder.where(getShortName() + ".code = :code", get("code"));
     if (null != id) {
       builder.where(getShortName() + ".id != :id", id);

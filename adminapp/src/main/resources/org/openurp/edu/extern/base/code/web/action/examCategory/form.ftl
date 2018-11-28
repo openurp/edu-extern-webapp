@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-  [@b.toolbar title="校外考试类型配置"]
+  [@b.toolbar title="校外科目大类配置"]
     bar.addBack();
   [/@]
   [@b.form name="examCategoryForm" action="!save" target="examCategories" theme="list"]

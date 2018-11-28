@@ -19,12 +19,15 @@
 package org.openurp.edu.extern.base.code.web;
 
 import org.beangle.commons.inject.bind.AbstractBindModule;
+import org.openurp.edu.extern.base.code.web.action.EduCategoryAction;
 import org.openurp.edu.extern.base.code.web.action.ExamCategoryAction;
 import org.openurp.edu.extern.base.code.web.action.ExamSubjectAction;
+import org.openurp.edu.extern.base.code.web.action.ExternSchoolAction;
 
 public class ExternBaseCodeModule extends AbstractBindModule {
+
   @Override
   protected void doBinding() {
-    bind(ExamCategoryAction.class, ExamSubjectAction.class);
+    bind(ExamCategoryAction.class, ExamSubjectAction.class, ExternSchoolAction.class, EduCategoryAction.class);
   }
 }
