@@ -26,7 +26,7 @@
             [#if !(examGrade.passed)]</font>[/#if]
         [/@]
         [@b.col property="std.state.department.name" title="院系"  width="12%"/]
-        [@b.col property="certificateNo" title="证书编号"  width="15%"]${(examGrade.certificateNo)!"--"}[/@]
+        [@b.col property="certificate" title="证书编号"  width="15%"]${(examGrade.certificate)!"--"}[/@]
         [@b.col title="已配课数" sortable="false"  width="55px"]${examGrade.courseGrades?size}[/@]
     [/@]
 [/@]
