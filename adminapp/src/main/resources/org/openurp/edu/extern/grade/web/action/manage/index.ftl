@@ -7,7 +7,6 @@
         <td class="index_view">
             [@b.form name="examGradesearchForm" action="!search" title="ui.searchForm" target="examGradeList" theme="search"]
             <input type="hidden" name="info" value="${(info)!}"/>
-                [@eams.semesterCalendar theme="search" label="学年学期" name="semester.id" empty=true /]
                 [@b.textfield name="examGrade.std.user.code" label="std.user.code"/]
                 [@b.textfield name="examGrade.std.user.name" label="姓名"/]
                 [@b.textfield name="examGrade.std.state.grade" label="年级"/]
@@ -20,6 +19,7 @@
                 [@b.textfield name="examGrade.examNo" label="准考证号"/]
                 [@b.textfield name="examGrade.certificateNo" label="证书编号"/]
                 [@b.select name="examGrade.passed" label="是否合格" items={"1":"合格", "0":"不合格"} empty="..." /]
+                [@b.datepicker label="考试日期" name="examGrade.acquiredOn"/]
             [/@]
 
             [@b.form name="importForm" action="manage!importForm" target="examGradeList"/]

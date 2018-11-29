@@ -4,7 +4,7 @@
     [@b.gridbar]
       bar.addItem("${b.text("action.new")}", action.add());
       bar.addItem("${b.text("action.modify")}", action.edit());
-      bar.addItem("分配管理", action.single("distributedList"), "${b.theme.iconurl("actions/update.png")}");
+      bar.addItem("成绩认定", action.single("distributedList"), "${b.theme.iconurl("actions/update.png")}");
       bar.addItem("${b.text("action.delete")}", action.remove("确认要删除吗？"));
     [/@]
     [@b.row]

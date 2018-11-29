@@ -77,10 +77,6 @@ public class SearchAction extends SemesterSupportAction {
     } else if (null != to) {
       builder.where("examGrade.score <=:T", to);
     }
-    Integer semesterId = getInt("semester.id");
-    if (null != semesterId) {
-      builder.where("examGrade.semester.id = :semesterId", semesterId);
-    }
     builder.where("examGrade.std.project = :cproject", getProject());
 //    restrictionContext.applyRestriction(builder);
     builder.orderBy(get(Order.ORDER_STR)).limit(getPageLimit());

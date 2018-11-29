@@ -4,7 +4,7 @@
     [@b.gridbar title="校外考试成绩维护"]
       bar.addItem("${b.text("action.new")}",action.add());
       bar.addItem("${b.text("action.modify")}",action.edit());
-      bar.addItem("分配管理", action.single("distributedList"), "${b.theme.iconurl("actions/update.png")}");
+      bar.addItem("成绩认定", action.single("distributedList"), "${b.theme.iconurl("actions/update.png")}");
       bar.addItem("${b.text("action.delete")}",'remove()');
 
       var bar1=bar.addMenu("导入导出");
@@ -52,8 +52,8 @@
             bg.form.addInput(form,"examGradeIds","");
         }
         bg.form.addInput(form,"examGradeIds",bg.input.getCheckBoxValues("examGrade.id"));
-        bg.form.addInput(form,"keys","std.user.code,std.name,subject.category.name,subject.name,score,scoreText,std.department.name,std.major.name,std.grade,certificateNo,examOn,examNo");
-        bg.form.addInput(form,"titles","学号,姓名,考试类型,考试科目,分数,得分等级,院系,专业,年级,证书编号,考试日期,准考证号");
+        bg.form.addInput(form,"keys","std.user.code,std.name,subject.category.name,subject.name,score,scoreText,std.department.name,std.major.name,std.grade,certificate,acquiredOn,examNo");
+        bg.form.addInput(form,"titles","学号,姓名,考试类型,考试科目,分数,成绩,院系,专业,年级,证书编号,考试日期,准考证号");
         bg.form.addInput(form,"fileName","校外考试成绩数据");
         bg.form.submit(form,"${b.url('!export')}","_self");
     }

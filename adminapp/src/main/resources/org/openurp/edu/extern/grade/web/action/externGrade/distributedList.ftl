@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-  [@b.toolbar title = "<span style=\"color:blue\">" + externGrade.std.user.name + "（<span style=\"padding-left: 1px; padding-right: 1px\">" + externGrade.std.user.code + "</span>）于" + externGrade.acquiredOn?string("yyyy-MM-dd") +"获得“"+ externGrade.courseName + "”</span>课程及成绩分配明细"]
+  [@b.toolbar title = "<span style=\"color:blue\">" + externGrade.std.user.name + "（<span style=\"padding-left: 1px; padding-right: 1px\">" + externGrade.std.user.code + "</span>）于" + externGrade.acquiredOn?string("yyyy-MM-dd") +"获得“"+ externGrade.courseName + "”</span>课程及认定认定明细"]
     bar.addItem("返回", function() {
       bg.form.submit(document.searchForm);
     }, "backward.png");
@@ -8,10 +8,10 @@
   [@b.grid items=externGrade.courseGrades?sort_by(["course", "code"]) var="courseGrade" sortable="false"]
     [@b.gridbar]
       bg.form.addInput(action.getForm(), "externGrade.id", "${externGrade.id}");
-      bar.addItem("分配", function() {
+      bar.addItem("认定", function() {
         bg.form.submit(action.getForm(), "${b.url("!toDistribute")}");
       }, "${b.theme.iconurl("actions/new.png")}");
-      bar.addItem("取消", action.single("undistribute", "确认要取消分配吗？"), "${b.theme.iconurl("actions/edit-delete.png")}");
+      bar.addItem("取消", action.single("undistribute", "确认要取消认定吗？"), "${b.theme.iconurl("actions/edit-delete.png")}");
     [/@]
     [@b.row]
       [@b.boxcol/]

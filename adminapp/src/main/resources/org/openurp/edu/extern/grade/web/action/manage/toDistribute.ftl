@@ -1,7 +1,7 @@
 [#ftl]
 [@b.head/]
-  [@b.toolbar title = "<span style=\"color:blue\">" + externExamGrade.std.user.name + "（<span style=\"padding-left: 1px; padding-right: 1px\">" + externExamGrade.std.user.code + "</span>）" + externExamGrade.subject.name + "</span>证书课程及成绩分配管理"]
-    bar.addItem("分配", function() {
+  [@b.toolbar title = "<span style=\"color:blue\">" + externExamGrade.std.user.name + "（<span style=\"padding-left: 1px; padding-right: 1px\">" + externExamGrade.std.user.code + "</span>）" + externExamGrade.subject.name + "</span>证书课程及成绩认定管理"]
+    bar.addItem("认定", function() {
       var fillSize = 0;
       var errorSize = 0;
       var planCourseIds = "";
@@ -20,7 +20,7 @@
         bg.form.addInput(form, "planCourseIds", planCourseIds);
         bg.form.submit(form, "${b.url("!distribute")}");
       } else {
-        alert("请完整填写要分配的课程成绩，谢谢。");
+        alert("请完整填写要认定的课程成绩，谢谢。");
       }
     }, "${b.theme.iconurl("actions/new.png")}");
 

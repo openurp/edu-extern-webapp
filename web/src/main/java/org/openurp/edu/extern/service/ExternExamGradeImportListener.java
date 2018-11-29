@@ -24,16 +24,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.beangle.commons.conversion.converter.String2DateConverter;
 import org.beangle.commons.dao.EntityDao;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Numbers;
 import org.beangle.commons.transfer.TransferResult;
 import org.beangle.commons.transfer.importer.listener.ItemImporterListener;
 import org.openurp.edu.base.model.Project;
-import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.model.Student;
-import org.openurp.edu.base.service.SemesterService;
 import org.openurp.edu.extern.model.ExternExamGrade;
 
 /**
@@ -48,23 +45,18 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
 
   private Project project;
 
-  private SemesterService semesterService;
-
   public ExternExamGradeImportListener() {
     super();
   }
 
-  public ExternExamGradeImportListener(EntityDao entityDao, Project project,
-      SemesterService semesterService) {
+  public ExternExamGradeImportListener(EntityDao entityDao, Project project) {
     super();
     this.entityDao = entityDao;
     this.project = project;
-    this.semesterService = semesterService;
   }
 
   @Override
   public void onItemStart(TransferResult tr) {
-    // FIXME 2018-11-12 zhouqi 尚未调试
     tr.getMsgs().addAll(tr.getErrs());
     tr.getErrs().clear();
     Map<String, Object> datas = importer.getCurData();
@@ -80,22 +72,19 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
         if (StringUtils.equals(sdf.format(value), acquiredOnValue)) {
           acquiredOn = (Date) value;
         } else {
-          throw new IllegalArgumentException(acquiredOnValue + " of value is invalid in 'examGrade.acquiredOn'!");
+          throw new IllegalArgumentException(acquiredOnValue
+              + " of value is invalid in 'examGrade.acquiredOn'!");
         }
       } catch (Exception e) {
         tr.addFailure("考试日期无效", acquiredOnValue);
         return;
       }
     }
-    java.sql.Date acquiredOnDate = (java.sql.Date) new String2DateConverter().convert(acquiredOn,
-        java.lang.String.class, java.sql.Date.class);
-    Semester semester = getSemester(acquiredOnDate, project);
     datas.put("examGrade.acquiredOn", acquiredOn);
-    datas.put("examGrade.semester", semester);
 
     String stdCode = (String) datas.get("examGrade.std.user.code");
-    OqlBuilder<Student> stdQuery = OqlBuilder.from(Student.class, "s")
-        .where("s.user.code=:code and s.project=:project", stdCode, project);
+    OqlBuilder<Student> stdQuery = OqlBuilder.from(Student.class, "s").where(
+        "s.user.code=:code and s.project=:project", stdCode, project);
 
     List<Student> stds = entityDao.search(stdQuery);
     if (stds.isEmpty()) {
@@ -108,7 +97,7 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     String subjectName = (String) datas.get("examGrade.subject.name");
     OqlBuilder<ExternExamGrade> builder = OqlBuilder.from(ExternExamGrade.class, "examGrade");
     builder.where("examGrade.std = :std", std);
-    builder.where("examGrade.semester=:semester", semester);
+    builder.where("examGrade.acquiredOn=:acquiredOn", acquiredOn);
     builder.where("examGrade.subject.name = :subjectName", subjectName);
     List<ExternExamGrade> examGrades = entityDao.search(builder);
 
@@ -118,21 +107,10 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     }
   }
 
-  private Semester getSemester(java.sql.Date examOn, Project project) {
-    return semesterService.getSemester(project.getCalendars().get(0), examOn);
-  }
-
   @Override
   public void onItemFinish(TransferResult tr) {
     Map datas = (Map) importer.getCurrent();
     ExternExamGrade examGrade = (ExternExamGrade) datas.get("examGrade");
-    if (examGrade.isTransient()) {
-      examGrade.setAcquiredOn((java.sql.Date) importer.getCurData().get("examGrade.acquiredOn"));
-      // FIXME 2018-11-12 zhouqi 由于字段调整了，暂时不知道如何调整下来的代码
-//      if (null == examGrade.getExamNo()) {
-//        examGrade.setExamOn(examOn);
-//      }
-    }
     if (examGradeVilidate(examGrade, tr)) {
       examGrade.setUpdatedAt(new java.util.Date(System.currentTimeMillis()));
       entityDao.saveOrUpdate(examGrade);

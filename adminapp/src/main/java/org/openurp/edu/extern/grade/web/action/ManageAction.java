@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.struts2.dispatcher.multipart.UploadedFile;
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Strings;
@@ -58,8 +59,6 @@ import org.openurp.edu.grade.course.service.GradeRateService;
 import org.openurp.edu.grade.course.service.ScoreConverter;
 import org.openurp.edu.program.plan.model.PlanCourse;
 import org.openurp.edu.program.plan.service.CoursePlanProvider;
-
-import com.opensymphony.xwork2.ActionContext;
 
 public class ManageAction extends SearchAction {
 
@@ -272,12 +271,12 @@ public class ManageAction extends SearchAction {
   protected EntityImporter buildEntityImporter() {
     String upload = "importFile";
     try {
-      File[] files = (File[]) ActionContext.getContext().getParameters().get(upload).getObject();
-      if (files == null || files.length < 1) {
+      UploadedFile file = get(upload, UploadedFile.class);
+      if (file == null) {
         logger.error("cannot get {} file.", upload);
       }
       String fileName = get(upload + "FileName");
-      InputStream is = new FileInputStream(files[0]);
+      InputStream is = new FileInputStream((File) file.getContent());
       if (fileName.endsWith(".xls")) {
         HSSFWorkbook wb = new HSSFWorkbook(is);
         if (wb.getNumberOfSheets() < 1 || wb.getSheetAt(0).getLastRowNum() == 0) {
@@ -307,8 +306,7 @@ public class ManageAction extends SearchAction {
     mimporter.addEntity("semesterTerm", String.class);
     ImporterForeignerListener l = new ImporterForeignerListener(entityDao);
     l.addForeigerKey("name");
-    importer.addListener(l).addListener(
-        new ExternExamGradeImportListener(entityDao, getProject(), semesterService));
+    importer.addListener(l).addListener(new ExternExamGradeImportListener(entityDao, getProject()));
   }
 
   public List<? extends TransferListener> getImporterListeners() {
