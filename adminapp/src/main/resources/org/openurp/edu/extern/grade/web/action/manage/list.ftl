@@ -27,7 +27,8 @@
         [/@]
         [@b.col property="std.state.department.name" title="院系"  width="12%"/]
         [@b.col property="certificate" title="证书编号"  width="15%"]${(examGrade.certificate)!"--"}[/@]
-        [@b.col title="已配课数" sortable="false"  width="55px"]${examGrade.courseGrades?size}[/@]
+        [@b.col property="updatedAt" title="录入时间"  width="15%"]${(examGrade.updatedAt?string("yyyy-MM-dd HH:mm:ss"))!"--"}[/@]
+        [@b.col title="已认定课数" sortable="false"  width="70px"]${examGrade.courseGrades?size}[/@]
     [/@]
 [/@]
 
@@ -52,8 +53,8 @@
             bg.form.addInput(form,"examGradeIds","");
         }
         bg.form.addInput(form,"examGradeIds",bg.input.getCheckBoxValues("examGrade.id"));
-        bg.form.addInput(form,"keys","std.user.code,std.name,subject.category.name,subject.name,score,scoreText,std.department.name,std.major.name,std.grade,certificate,acquiredOn,examNo");
-        bg.form.addInput(form,"titles","学号,姓名,考试类型,考试科目,分数,成绩,院系,专业,年级,证书编号,考试日期,准考证号");
+        bg.form.addInput(form,"keys","std.user.code,std.name,subject.category.name,subject.name,score,scoreText,std.department.name,std.major.name,std.grade,certificate,acquiredOn,examNo,updatedAt");
+        bg.form.addInput(form,"titles","学号,姓名,考试类型,考试科目,分数,成绩,院系,专业,年级,证书编号,考试日期,准考证号,录入时间");
         bg.form.addInput(form,"fileName","校外考试成绩数据");
         bg.form.submit(form,"${b.url('!export')}","_self");
     }

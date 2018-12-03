@@ -29,6 +29,7 @@
     [@b.textfield name="examGrade.certificate" label="证书编号" value=(examGrade.certificate)! maxlength="100" style="width:150px"/]
     [@b.formfoot]
         <input type="hidden" name="examGrade.id" value="${(examGrade.id)!}" />
+        <input type="hidden" name="_params" value="${b.paramstring}" />
         [@b.submit value="action.submit"/]
     [/@]
 [/@]

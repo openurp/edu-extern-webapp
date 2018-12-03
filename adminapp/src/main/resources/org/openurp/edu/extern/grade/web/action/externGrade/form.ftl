@@ -48,6 +48,7 @@
     <div style="margin-left: 50px;color: blue">说明：一个学生相同获得日期相同课程只能出现一次。</div>
     [@b.formfoot]
       <input type="hidden" name="externGrade.id" value="${(externGrade.id)!}"/>
+      <input type="hidden" name="_params" value="${b.paramstring}" />
       [@b.submit value="提交"/]
     [/@]
   [/@]
