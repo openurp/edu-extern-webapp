@@ -26,6 +26,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.entity.Entity;
+import org.beangle.commons.transfer.exporter.PropertyExtractor;
 import org.openurp.code.edu.model.CourseTakeType;
 import org.openurp.code.edu.model.EducationLevel;
 import org.openurp.code.edu.model.GradeType;
@@ -34,6 +35,7 @@ import org.openurp.edu.base.model.Course;
 import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.service.StudentService;
 import org.openurp.edu.extern.code.model.EduCategory;
+import org.openurp.edu.extern.grade.export.ExternGradePropertyExtractor;
 import org.openurp.edu.extern.grade.utils.ParamUtils;
 import org.openurp.edu.extern.model.ExternGrade;
 import org.openurp.edu.extern.model.ExternSchool;
@@ -194,6 +196,11 @@ public class ExternGradeAction extends RestrictionSupportAction {
     entityDao.saveOrUpdate(externGrade);
     entityDao.remove(courseGrade);
     return redirect("search", "info.action.success");
+  }
+
+  @Override
+  protected PropertyExtractor getPropertyExtractor() {
+    return new ExternGradePropertyExtractor();
   }
 
   public void setStudentService(StudentService studentService) {
