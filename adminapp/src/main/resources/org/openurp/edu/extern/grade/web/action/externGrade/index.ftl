@@ -11,6 +11,8 @@
           [@b.select label="培养层次" name="externGrade.level.id" items=levels empty="..."/]
           [@b.select label="教育类别" name="externGrade.category.id" items=eduCategories empty="..."/]
           [@b.textfields names="externGrade.majorName;外校专业,externGrade.courseName;外校课程,externGrade.credits;外校学分"/]
+          [@b.datepicker id="fromAt" label="录入起时" name="fromAt" format="yyyy-MM-dd" maxDate="#F{$dp.$D(\\'toAt\\')}"/]
+          [@b.datepicker id="toAt" label="录入止时" name="toAt" format="yyyy-MM-dd" minDate="#F{$dp.$D(\\'fromAt\\')}"/]
         [/@]
       </td>
       <td class="index_content">[@b.div id="externGrades"/]</td>

@@ -20,15 +20,16 @@ package org.openurp.edu.extern.grade.web.action;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 import org.beangle.commons.collection.Order;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
-import org.beangle.commons.entity.Entity;
 import org.beangle.commons.lang.Strings;
 import org.openurp.code.edu.model.GradingMode;
 import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
+import org.openurp.edu.extern.grade.utils.ParamUtils;
 import org.openurp.edu.extern.model.ExamSignupConfig;
 import org.openurp.edu.extern.model.ExternExamGrade;
 import org.openurp.edu.web.action.SemesterSupportAction;
@@ -63,8 +64,8 @@ public class SearchAction extends SemesterSupportAction {
   }
 
   @Override
-  protected <T extends Entity<?>> OqlBuilder<T> getQueryBuilder() {
-    OqlBuilder<T> builder = OqlBuilder.from(ExternExamGrade.class.getName(), "examGrade");
+  protected OqlBuilder<ExternExamGrade> getQueryBuilder() {
+    OqlBuilder<ExternExamGrade> builder = OqlBuilder.from(ExternExamGrade.class, "examGrade");
     populateConditions(builder);
     Float from = getFloat("from");
     Float to = getFloat("to");
@@ -77,8 +78,15 @@ public class SearchAction extends SemesterSupportAction {
     } else if (null != to) {
       builder.where("examGrade.score <=:T", to);
     }
-    builder.where("examGrade.std.project = :cproject", getProject());
-//    restrictionContext.applyRestriction(builder);
+    builder.where("examGrade.std.project = :project", getProject());
+    Date fromAt = ParamUtils.getOnlyYMDDate("fromAt");
+    Date toAt = ParamUtils.getOnlyYMDDate("toAt");
+    if (null != fromAt) {
+      builder.where("to_date(to_char(examGrade.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') >= :fromAt", fromAt);
+    }
+    if (null != toAt) {
+      builder.where("to_date(to_char(examGrade.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') <= :toAt", toAt);
+    }
     builder.orderBy(get(Order.ORDER_STR)).limit(getPageLimit());
     return builder;
   }

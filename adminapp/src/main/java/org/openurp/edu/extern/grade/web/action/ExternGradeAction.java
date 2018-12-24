@@ -34,6 +34,7 @@ import org.openurp.edu.base.model.Course;
 import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.service.StudentService;
 import org.openurp.edu.extern.code.model.EduCategory;
+import org.openurp.edu.extern.grade.utils.ParamUtils;
 import org.openurp.edu.extern.model.ExternGrade;
 import org.openurp.edu.extern.model.ExternSchool;
 import org.openurp.edu.grade.Grade;
@@ -67,6 +68,20 @@ public class ExternGradeAction extends RestrictionSupportAction {
     put("schools", codeService.getCodes(ExternSchool.class));
     put("levels", codeService.getCodes(EducationLevel.class));
     put("eduCategories", codeService.getCodes(EduCategory.class));
+  }
+
+  @Override
+  protected OqlBuilder<ExternGrade> getQueryBuilder() {
+    OqlBuilder<ExternGrade> builder = super.getQueryBuilder();
+    Date fromAt = ParamUtils.getOnlyYMDDate("fromAt");
+    Date toAt = ParamUtils.getOnlyYMDDate("toAt");
+    if (null != fromAt) {
+      builder.where("to_date(to_char(externGrade.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') >= :fromAt", fromAt);
+    }
+    if (null != toAt) {
+      builder.where("to_date(to_char(externGrade.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') <= :toAt", toAt);
+    }
+    return builder;
   }
 
   @Override
