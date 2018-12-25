@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.entity.Entity;
@@ -82,6 +83,11 @@ public class ExternGradeAction extends RestrictionSupportAction {
     }
     if (null != toAt) {
       builder.where("to_date(to_char(externGrade.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') <= :toAt", toAt);
+    }
+    Boolean hasCourseGrades = getBoolean("hasCourseGrades");
+    if (null != hasCourseGrades) {
+      builder.where((hasCourseGrades.booleanValue() ? StringUtils.EMPTY : "not ")
+          + "exists (from externGrade.courseGrades courseGrade)");
     }
     return builder;
   }

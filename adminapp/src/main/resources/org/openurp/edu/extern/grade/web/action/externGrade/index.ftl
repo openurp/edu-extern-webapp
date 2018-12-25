@@ -13,6 +13,7 @@
           [@b.textfields names="externGrade.majorName;外校专业,externGrade.courseName;外校课程,externGrade.credits;外校学分"/]
           [@b.datepicker id="fromAt" label="录入起时" name="fromAt" format="yyyy-MM-dd" maxDate="#F{$dp.$D(\\'toAt\\')}"/]
           [@b.datepicker id="toAt" label="录入止时" name="toAt" format="yyyy-MM-dd" minDate="#F{$dp.$D(\\'fromAt\\')}"/]
+          [@b.select label="是否认定" name="hasCourseGrades" items={ "1": "是", "0": "否" } empty="..."/]
         [/@]
       </td>
       <td class="index_content">[@b.div id="externGrades"/]</td>

@@ -22,13 +22,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.beangle.commons.collection.Order;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Strings;
+import org.beangle.commons.transfer.exporter.PropertyExtractor;
 import org.openurp.code.edu.model.GradingMode;
 import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
+import org.openurp.edu.extern.grade.export.ExternExamGradePropertyExtractor;
 import org.openurp.edu.extern.grade.utils.ParamUtils;
 import org.openurp.edu.extern.model.ExamSignupConfig;
 import org.openurp.edu.extern.model.ExternExamGrade;
@@ -87,6 +90,11 @@ public class SearchAction extends SemesterSupportAction {
     if (null != toAt) {
       builder.where("to_date(to_char(examGrade.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') <= :toAt", toAt);
     }
+    Boolean hasCourseGrades = getBoolean("hasCourseGrades");
+    if (null != hasCourseGrades) {
+      builder.where((hasCourseGrades.booleanValue() ? StringUtils.EMPTY : "not ")
+          + "exists (from examGrade.courseGrades courseGrade)");
+    }
     builder.orderBy(get(Order.ORDER_STR)).limit(getPageLimit());
     return builder;
   }
@@ -104,6 +112,11 @@ public class SearchAction extends SemesterSupportAction {
     } else {
       return entityDao.search(getQueryBuilder().limit(null));
     }
+  }
+
+  @Override
+  protected PropertyExtractor getPropertyExtractor() {
+    return new ExternExamGradePropertyExtractor();
   }
 
   public String categorySubject() {
