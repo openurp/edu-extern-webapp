@@ -332,6 +332,13 @@ public class ManageAction extends SearchAction {
     return forward();
   }
 
+  public String identificationReport() {
+    OqlBuilder<ExternExamGrade> builder = getQueryBuilder();
+    builder.limit(null);
+    put("externExamGrades", entityDao.search(builder));
+    return forward();
+  }
+
   public void setStudentService(StudentService studentService) {
     this.studentService = studentService;
   }

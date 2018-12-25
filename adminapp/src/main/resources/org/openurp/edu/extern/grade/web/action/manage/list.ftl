@@ -12,7 +12,13 @@
       bar1.addItem("下载模板","downloadTemplate()");
       bar1.addItem("${b.text("action.export")}","exportData()");
 
+      [#--
       bar.addItem("打印","printted()");
+      --]
+      bar.addItem("打印", function() {
+        bg.form.addHiddens(action.getForm(),action.page.paramstr);
+        bg.form.submit(action.getForm(), "${b.url("!identificationReport")}", "_blank");
+      }, "${b.theme.iconurl("actions/print.png")}");
     [/@]
     [@b.row]
         [@b.boxcol/]

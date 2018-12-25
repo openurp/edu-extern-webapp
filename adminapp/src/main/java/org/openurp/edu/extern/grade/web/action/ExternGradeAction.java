@@ -209,6 +209,13 @@ public class ExternGradeAction extends RestrictionSupportAction {
     return new ExternGradePropertyExtractor();
   }
 
+  public String identificationReport() {
+    OqlBuilder<ExternGrade> builder = getQueryBuilder();
+    builder.limit(null);
+    put("externGrades", entityDao.search(builder));
+    return forward();
+  }
+
   public void setStudentService(StudentService studentService) {
     this.studentService = studentService;
   }
