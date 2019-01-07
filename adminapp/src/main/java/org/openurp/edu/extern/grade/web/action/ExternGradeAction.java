@@ -172,7 +172,7 @@ public class ExternGradeAction extends RestrictionSupportAction {
         courseGrade.setPassed(true);
         courseGrade.setScore(getFloat("score" + planCourse.getId()));
         courseGrade.setScoreText(get("scoreText" + planCourse.getId()));
-        courseGrade.setStatus(Grade.Status.Confirmed);
+        courseGrade.setStatus(Grade.Status.Published);
         ScoreConverter converter = gradeRateService.getConverter(getProject(), courseGrade.getGradingMode());
         courseGrade.setGp(converter.calcGp(courseGrade.getScore()));
         courseGrade.setOperator(getUsername());
@@ -182,7 +182,7 @@ public class ExternGradeAction extends RestrictionSupportAction {
         gaGrade.setGradingMode(courseGrade.getGradingMode());
         gaGrade.setScoreText(courseGrade.getScoreText());
         gaGrade.setPassed(true);
-        gaGrade.setStatus(Grade.Status.Confirmed);
+        gaGrade.setStatus(Grade.Status.Published);
         gaGrade.setGp(courseGrade.getGp());
         gaGrade.setOperator(getUsername());
         gaGrade.setUpdatedAt(updatedAt);
