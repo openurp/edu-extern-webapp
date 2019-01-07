@@ -148,7 +148,7 @@ public class ExternGradeAction extends RestrictionSupportAction {
   public String distribute() {
     ExternGrade externGrade = entityDao.get(ExternGrade.class, getLongId("externGrade"));
     List<PlanCourse> planCourses = entityDao.get(PlanCourse.class, getLongIds("planCourse"));
-    CourseTakeType courseTakeType = new CourseTakeType(CourseTakeType.Normal);
+    CourseTakeType courseTakeType = new CourseTakeType(CourseTakeType.Exemption);
     List<GradingMode> gradingModes = codeService.getCodes(GradingMode.class);
     Map<Integer, GradingMode> gradingModeMap = CollectUtils.newHashMap();
     for (GradingMode gradingMode : gradingModes) {

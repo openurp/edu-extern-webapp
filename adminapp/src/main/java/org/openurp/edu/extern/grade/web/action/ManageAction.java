@@ -201,7 +201,7 @@ public class ManageAction extends SearchAction {
   public String distribute() {
     ExternExamGrade externExamGrade = entityDao.get(ExternExamGrade.class, getLongId("examGrade"));
     List<PlanCourse> planCourses = entityDao.get(PlanCourse.class, getLongIds("planCourse"));
-    CourseTakeType courseTakeType = new CourseTakeType(CourseTakeType.Normal);
+    CourseTakeType courseTakeType = new CourseTakeType(CourseTakeType.Exemption);
     List<GradingMode> gradingModes = codeService.getCodes(GradingMode.class);
     Map<Integer, GradingMode> gradingModeMap = CollectUtils.newHashMap();
     for (GradingMode gradingMode : gradingModes) {
