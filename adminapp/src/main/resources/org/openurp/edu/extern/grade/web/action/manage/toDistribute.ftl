@@ -48,7 +48,7 @@
       <tr class="${(0 == planCourse_index % 2)?string("griddata-even", "griddata-odd")}">
         <td>${planCourse.course.code}</td>
         <td>${planCourse.course.name}</td>
-        <td>${planCourse.course.courseType.name}</td>
+        <td>${planCourse.group.courseType.name}</td>
         <td>${planCourse.course.credits}</td>
         <td>
           <select name="gradingMode.id${planCourse.id}" style="width: 150px">
