@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
   [@b.toolbar title="外校成绩管理"/]
-  <div style="color: blue">注：以下字段除学号、姓名外，都来自这些学生当时在外校中就读的情况。</div>
   <table class="indexpanel">
     <tr>
       <td class="index_view">

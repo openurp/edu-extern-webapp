@@ -28,24 +28,19 @@ import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.entity.Entity;
 import org.beangle.commons.transfer.exporter.PropertyExtractor;
-import org.openurp.code.edu.model.CourseTakeType;
 import org.openurp.code.edu.model.EducationLevel;
-import org.openurp.code.edu.model.GradeType;
 import org.openurp.code.edu.model.GradingMode;
 import org.openurp.edu.base.model.Course;
 import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.service.StudentService;
 import org.openurp.edu.extern.code.model.EduCategory;
 import org.openurp.edu.extern.grade.export.ExternGradePropertyExtractor;
+import org.openurp.edu.extern.grade.service.CourseGradeUpdator;
 import org.openurp.edu.extern.grade.utils.ParamUtils;
 import org.openurp.edu.extern.model.ExternGrade;
 import org.openurp.edu.extern.model.ExternSchool;
-import org.openurp.edu.grade.Grade;
-import org.openurp.edu.grade.course.domain.GradeTypeConstants;
 import org.openurp.edu.grade.course.model.CourseGrade;
-import org.openurp.edu.grade.course.model.GaGrade;
 import org.openurp.edu.grade.course.service.GradeRateService;
-import org.openurp.edu.grade.course.service.ScoreConverter;
 import org.openurp.edu.program.plan.model.PlanCourse;
 import org.openurp.edu.program.plan.service.CoursePlanProvider;
 import org.openurp.edu.web.action.RestrictionSupportAction;
@@ -116,18 +111,11 @@ public class ExternGradeAction extends RestrictionSupportAction {
   }
 
   public String distributedList() {
-    put("externGrade", entityDao.get(ExternGrade.class, getLongId("externGrade")));
-    return forward();
-  }
-
-  public String toDistribute() {
     ExternGrade externGrade = entityDao.get(ExternGrade.class, getLongId("externGrade"));
     put("externGrade", externGrade);
 
     List<PlanCourse> planCourses = coursePlanProvider.getPlanCourses(externGrade.getStd());
-    if (CollectionUtils.isEmpty(planCourses)) {
-      return "noPlanMsg";
-    }
+    if (CollectionUtils.isEmpty(planCourses)) { return "noPlanMsg"; }
 
     Map<Course, PlanCourse> coursesMap = CollectUtils.newHashMap();
     for (PlanCourse planCourse : planCourses) {
@@ -138,56 +126,25 @@ public class ExternGradeAction extends RestrictionSupportAction {
         externGrade.getStd(), coursesMap.keySet());
     courseGrades.addAll(externGrade.getCourseGrades());
     for (CourseGrade courseGrade : courseGrades) {
-      coursesMap.remove(courseGrade.getCourse());
+      if (courseGrade.isPassed()) {
+        coursesMap.remove(courseGrade.getCourse());
+      }
     }
     put("planCourses", coursesMap.values());
     put("gradingModes", codeService.getCodes(GradingMode.class));
     return forward();
   }
 
-  public String distribute() {
+  public String convert() {
     ExternGrade externGrade = entityDao.get(ExternGrade.class, getLongId("externGrade"));
     List<PlanCourse> planCourses = entityDao.get(PlanCourse.class, getLongIds("planCourse"));
-    CourseTakeType courseTakeType = new CourseTakeType(CourseTakeType.Exemption);
-    List<GradingMode> gradingModes = codeService.getCodes(GradingMode.class);
-    Map<Integer, GradingMode> gradingModeMap = CollectUtils.newHashMap();
-    for (GradingMode gradingMode : gradingModes) {
-      gradingModeMap.put(gradingMode.getId(), gradingMode);
-    }
-    GradeType gaGradeType = entityDao.get(GradeType.class, GradeTypeConstants.GA_ID);
-    Date updatedAt = new Date();
     String remark = "成绩来自外校成绩";
+    CourseGradeUpdator updator = new CourseGradeUpdator(entityDao, gradeRateService);
     for (PlanCourse planCourse : planCourses) {
       for (Semester semester : coursePlanProvider.getSemesterByPlanCourse(planCourse)) {
-        CourseGrade courseGrade = new CourseGrade();
-        courseGrade.setProject(getProject());
-        courseGrade.setStd(externGrade.getStd());
-        courseGrade.setSemester(semester);
-        courseGrade.setCourse(planCourse.getCourse());
-        courseGrade.setCourseType(planCourse.getCourse().getCourseType());
-        courseGrade.setCourseTakeType(courseTakeType);
-        courseGrade.setExamMode(planCourse.getCourse().getExamMode());
-        courseGrade.setGradingMode(gradingModeMap.get(getInt("gradingMode.id" + planCourse.getId())));
-        courseGrade.setFreeListening(true);
-        courseGrade.setPassed(true);
-        courseGrade.setScore(getFloat("score" + planCourse.getId()));
-        courseGrade.setScoreText(get("scoreText" + planCourse.getId()));
-        courseGrade.setStatus(Grade.Status.Published);
-        ScoreConverter converter = gradeRateService.getConverter(getProject(), courseGrade.getGradingMode());
-        courseGrade.setGp(converter.calcGp(courseGrade.getScore()));
-        courseGrade.setOperator(getUsername());
-        courseGrade.setUpdatedAt(updatedAt);
-        courseGrade.setRemark(remark);
-        GaGrade gaGrade = new GaGrade(gaGradeType, courseGrade.getScore());
-        gaGrade.setGradingMode(courseGrade.getGradingMode());
-        gaGrade.setScoreText(courseGrade.getScoreText());
-        gaGrade.setPassed(true);
-        gaGrade.setStatus(Grade.Status.Published);
-        gaGrade.setGp(courseGrade.getGp());
-        gaGrade.setOperator(getUsername());
-        gaGrade.setUpdatedAt(updatedAt);
-        gaGrade.setRemark(remark);
-        courseGrade.addGaGrade(gaGrade);
+        CourseGrade courseGrade = updator.updateGrade(planCourse, externGrade.getStd(), semester,
+            getInt("gradingMode.id" + planCourse.getId()), getFloat("score" + planCourse.getId()),
+            get("scoreText" + planCourse.getId()), remark);
         externGrade.addCourseGrade(courseGrade);
       }
     }

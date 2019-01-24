@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="成绩管理" /]
+[@b.toolbar title="证书成绩管理" /]
 <div>
     <table class="indexpanel">
     <tr>
@@ -17,7 +17,7 @@
                 [@b.field label="分数区间"]<input name="from" value="" maxLength="5" onBlur="clearNoNum(this)" style="width:42px;border:0px"/>-<input name="to" onBlur="clearNoNum(this)" value="" maxLength="5" style="width:42px;border:0px"/>
                 [/@]
                 [@b.textfield name="examGrade.examNo" label="准考证号"/]
-                [@b.textfield name="examGrade.certificateNo" label="证书编号"/]
+                [@b.textfield name="examGrade.certificate" label="证书编号"/]
                 [@b.select name="examGrade.passed" label="是否合格" items={"1":"合格", "0":"不合格"} empty="..." /]
                 [@b.datepicker label="考试日期" name="examGrade.acquiredOn"/]
                 [@b.datepicker id="fromAt" label="录入起时" name="fromAt" format="yyyy-MM-dd" maxDate="#F{$dp.$D(\\'toAt\\')}"/]
