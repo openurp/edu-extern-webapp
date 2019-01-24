@@ -110,7 +110,7 @@ public class ExternGradeAction extends RestrictionSupportAction {
     return forward();
   }
 
-  public String distributedList() {
+  public String convertList() {
     ExternGrade externGrade = entityDao.get(ExternGrade.class, getLongId("externGrade"));
     put("externGrade", externGrade);
 

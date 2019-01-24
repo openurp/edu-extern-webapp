@@ -10,16 +10,16 @@
     [/@]
     [@b.row]
       [@b.boxcol/]
-      [@b.col title="学年学期" property="semester.code"]${courseGrade.semester.schoolYear} ${courseGrade.semester.name}[/@]
-      [@b.col title="课程代码" property="course.code" style="width:80px"/]
+      [@b.col title="学年学期" property="semester.code" width="80px"]${courseGrade.semester.schoolYear} ${courseGrade.semester.name}[/@]
+      [@b.col title="课程代码" property="course.code" width="80px"/]
       [@b.col title="课程名称" property="course.name"/]
       [@b.col title="课程类别" property="courseType.name"/]
-      [@b.col title="学分" property="course.credits" style="width:40px"/]
-      [@b.col title="成绩" property="score" style="width:80px"]${courseGrade.score?string("0.#")}${("（" + courseGrade.scoreText + "）")!}[/@]
-      [@b.col title="绩点" property="gp" style="width:40px"]${courseGrade.gp?string("0.#")}[/@]
+      [@b.col title="学分" property="course.credits" width="40px"/]
+      [@b.col title="成绩" property="score" width="80px"]${courseGrade.score?string("0.#")}${("（" + courseGrade.scoreText + "）")!}[/@]
+      [@b.col title="绩点" property="gp" width="40px"]${courseGrade.gp?string("0.#")}[/@]
       [@b.col title="修读类别" property="courseTakeType.name"/]
-      [@b.col title="考核方式" property="examMode.name"  style="width:50px"/]
-      [@b.col title="是否免听" property="freeListening" style="width:40px"]${courseGrade.freeListening?string("是", "否")}[/@]
+      [@b.col title="考核方式" property="examMode.name" width="50px"/]
+      [@b.col title="是否免听" property="freeListening" width="40px"]${courseGrade.freeListening?string("是", "否")}[/@]
     [/@]
   [/@]
 
@@ -48,8 +48,8 @@
         <th width="20%">课程名称</th>
         <th width="15%">课程类别</th>
         <th width="50px">学分</th>
-        <th width="150px">成绩记录方式</th>
-        <th width="150px">成绩(分数)</th>
+        <th width="130px">成绩记录方式</th>
+        <th width="130px">成绩(分数)</th>
         <th>修读类别</th>
         <th>考核方式</th>
         <th>是否免听</th>
@@ -63,7 +63,7 @@
         <td>${planCourse.group.courseType.name}</td>
         <td>${planCourse.course.credits}</td>
         <td>
-          <select name="gradingMode.id${planCourse.id}" style="width: 130px" onchange="displayScore(this.value,${planCourse.id})">
+          <select name="gradingMode.id${planCourse.id}" style="width: 120px" onchange="displayScore(this.value,${planCourse.id})">
             [#list gradingModes as gradingMode]
             <option value="${gradingMode.id}"[#if 1 == gradingMode.id] selected[/#if]>${gradingMode.name}</option>
             [/#list]

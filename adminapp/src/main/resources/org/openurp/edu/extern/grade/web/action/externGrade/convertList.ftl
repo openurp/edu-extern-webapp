@@ -40,7 +40,7 @@
       });
 
       bg.form.addInput(form, "planCourseIds", planCourseIds);
-      bg.form.submit(form, "${b.url("!distribute")}");
+      bg.form.submit(form, "${b.url("!convert")}");
     }, "${b.theme.iconurl("actions/new.png")}");
   [/@]
   [@b.form name="externGradeDistributeForm" action="!convert" target="externGrades"]
