@@ -11,29 +11,29 @@
                         <table class="search-widget">
                              <tr>
                                   <td  class="infoTitle" align="left" valign="bottom">
-                                   <img src="${base}/static/images/action/info.gif" align="top"/>
+                                   <img src="${b.static_url("bui","icons/16x16/actions/info.png")} align="top"/>
                                       <B>统计项目</B>
                                   </td>
                               </tr>
                                <tr>
                                   <td  colspan="8" style="font-size:0px">
-                                      <img src="${base}/static/images/action/keyline.gif" height="2" width="100%" align="top">
+                                      <img src="${b.static_url("bui","icons/16x16/actions/keyline.png")}" height="2" width="100%" align="top">
                                   </td>
                                </tr>
 
                                 <tr>
                                  <td class="padding" id="defaultItem" onclick="signup()" onmouseover="MouseOver(event)" onmouseout="MouseOut(event)" title="点击按报名进行统计">
-                                 &nbsp;&nbsp;<image src="${base}/static/images/action/list.gif" align="bottom" >报名统计
+                                 &nbsp;&nbsp;<image src="${b.static_url("bui","icons/16x16/actions/list.png")}" align="bottom" >报名统计
                                  </td>
                              </tr>
                            <tr>
                                  <td class="padding"  onclick="statGrade()"  onmouseover="MouseOver(event)" onmouseout="MouseOut(event)" title="点击按成绩进行统计">
-                                 &nbsp;&nbsp;<image src="${base}/static/images/action/list.gif">成绩统计
+                                 &nbsp;&nbsp;<image src="${b.static_url("bui","icons/16x16/actions/list.png")}">成绩统计
                                  </td>
                            </tr>
                            <tr>
                                  <td class="padding"  onclick="passRate()"  onmouseover="MouseOver(event)" onmouseout="MouseOut(event)" title="点击按成绩进行统计">
-                                   &nbsp;&nbsp;<image src="${base}/static/images/action/list.gif">及格率统计
+                                   &nbsp;&nbsp;<image src="${b.static_url("bui","icons/16x16/actions/list.png")}">及格率统计
                                   </td>
                            </tr>
                            <tr>

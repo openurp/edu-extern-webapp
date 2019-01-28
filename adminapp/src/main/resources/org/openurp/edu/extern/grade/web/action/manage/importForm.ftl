@@ -1,7 +1,7 @@
 [#ftl/]
 [@b.head/]
 [@b.toolbar title="学生成绩模版导入"]
-    bar.addItem("模板下载","downloadTemplate()","${base}/static/images/action/download.gif");
+    bar.addItem("模板下载","downloadTemplate()","action-download");
 [/@]
 [@b.form name="awardImportForm" action="!importData" theme="list" enctype="multipart/form-data"]
     [@b.messages/]

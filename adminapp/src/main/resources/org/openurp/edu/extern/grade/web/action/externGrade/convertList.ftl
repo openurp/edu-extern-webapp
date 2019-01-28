@@ -10,8 +10,8 @@
       bg.form.addInput(action.getForm(), "externGrade.id", "${externGrade.id}");
       bar.addItem("认定", function() {
         bg.form.submit(action.getForm(), "${b.url("!toDistribute")}");
-      }, "${b.theme.iconurl("actions/new.png")}");
-      bar.addItem("取消", action.single("undistribute", "确认要取消认定吗？"), "${b.theme.iconurl("actions/edit-delete.png")}");
+      }, "action-new");
+      bar.addItem("取消", action.single("undistribute", "确认要取消认定吗？"), "action-edit-delete");
     [/@]
     [@b.row]
       [@b.boxcol/]
@@ -41,7 +41,7 @@
 
       bg.form.addInput(form, "planCourseIds", planCourseIds);
       bg.form.submit(form, "${b.url("!convert")}");
-    }, "${b.theme.iconurl("actions/new.png")}");
+    }, "action-new");
   [/@]
   [@b.form name="externGradeDistributeForm" action="!convert" target="externGrades"]
   <table class="gridtable">

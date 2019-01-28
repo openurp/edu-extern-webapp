@@ -6,7 +6,7 @@
   [@b.grid items=externExamGrade.courseGrades?sort_by(["course", "code"]) var="courseGrade" sortable="false"]
     [@b.gridbar]
       bg.form.addInput(action.getForm(), "externExamGrade.id", "${externExamGrade.id}");
-      bar.addItem("取消", action.single("undistribute", "确认要取消认定吗？"), "${b.theme.iconurl("actions/edit-delete.png")}");
+      bar.addItem("取消", action.single("undistribute", "确认要取消认定吗？"), "action-edit-delete");
     [/@]
     [@b.row]
       [@b.boxcol/]
@@ -37,7 +37,7 @@
 
       bg.form.addInput(form, "planCourseIds", planCourseIds);
       bg.form.submit(form, "${b.url("!convert")}");
-    }, "${b.theme.iconurl("actions/new.png")}");
+    }, "action-new");
   [/@]
 
   [@b.form name="externExamGradeDistributeForm" action="!convert"]

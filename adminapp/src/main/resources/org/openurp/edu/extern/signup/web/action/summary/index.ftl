@@ -25,7 +25,7 @@
           <table  width="100%" id ="viewTables" style="font-size:10pt">
            <tr>
              <td class="padding" id="defaultSelectItem" onclick="search(this,'signupSummaryByDept')"  onmouseover="MouseOver(event)" onmouseout="MouseOut(event)">
-             &nbsp;&nbsp;<image src="${base}/static/images/action/list.gif">报考人数院系统计
+             &nbsp;&nbsp;<image src="${b.static_url("bui","icons/16x16/actions/list.png")}">报考人数院系统计
              </td>
            </tr>
 

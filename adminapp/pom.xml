@@ -17,6 +17,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.openurp.edu.grade</groupId>
+      <artifactId>openurp-edu-grade-core4j</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.openurp.edu.extern</groupId>
       <artifactId>openurp-edu-extern-web</artifactId>
       <version>${project.version}</version>
@@ -35,21 +40,6 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openurp.edu.extern.identificationapp.base</groupId>
-      <artifactId>identificationapp-base-web</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openurp.edu.extern.identificationapp.identification</groupId>
-      <artifactId>identificationapp-identification-web</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openurp.edu.extern.identificationapp</groupId>
-      <artifactId>identificationapp-maintain</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.inject</groupId>

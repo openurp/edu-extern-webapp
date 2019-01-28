@@ -4,7 +4,7 @@
     [@b.gridbar title="校外考试成绩维护"]
       bar.addItem("${b.text("action.new")}",action.add());
       bar.addItem("${b.text("action.modify")}",action.edit());
-      bar.addItem("成绩认定", action.single("convertList"), "${b.theme.iconurl("actions/update.png")}");
+      bar.addItem("成绩认定", action.single("convertList"), "action-update");
       bar.addItem("${b.text("action.delete")}",'remove()');
 
       var bar1=bar.addMenu("导入导出");
@@ -15,7 +15,7 @@
       bar.addItem("打印", function() {
         bg.form.addHiddens(action.getForm(),action.page.paramstr);
         bg.form.submit(action.getForm(), "${b.url("!identificationReport")}", "_blank");
-      }, "${b.theme.iconurl("actions/print.png")}");
+      }, "action-print");
     [/@]
     [@b.row]
         [@b.boxcol/]

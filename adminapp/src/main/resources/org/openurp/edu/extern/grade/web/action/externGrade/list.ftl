@@ -4,12 +4,12 @@
     [@b.gridbar]
       bar.addItem("${b.text("action.new")}", action.add());
       bar.addItem("${b.text("action.modify")}", action.edit());
-      bar.addItem("成绩认定", action.single("convertList"), "${b.theme.iconurl("actions/update.png")}");
+      bar.addItem("成绩认定", action.single("convertList"), "action-update");
       bar.addItem("${b.text("action.delete")}", action.remove("确认要删除吗？"));
       bar.addItem("${b.text("action.export")}", action.exportData("std.user.code:学号,std.user.name:姓名,school.name:校外学校,level.name:培养层次,category:教育类别,majorName:外校专业,courseName:外校课程,scoreText:外校得分,credits:外校学分,acquiredOn:获得日期,updatedAt:录入时间,courseGradeSize:已认定课数"));
       bar.addItem("打印", function() {
         bg.form.submit(action.getForm(), "${b.url("!identificationReport")}", "_blank");
-      }, "${b.theme.iconurl("actions/print.png")}");
+      }, "action-print");
     [/@]
     [@b.row]
       [@b.boxcol/]
