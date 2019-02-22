@@ -53,7 +53,7 @@ import org.openurp.edu.extern.model.ExamSignupConfig;
 import org.openurp.edu.extern.model.ExternExamGrade;
 import org.openurp.edu.extern.service.ExternExamGradeImportListener;
 import org.openurp.edu.grade.Grade;
-import org.openurp.edu.grade.course.domain.GradeTypeConstants;
+
 import org.openurp.edu.grade.course.model.CourseGrade;
 import org.openurp.edu.grade.course.model.GaGrade;
 import org.openurp.edu.grade.course.service.GradeRateService;

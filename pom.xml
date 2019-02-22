@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.openurp</groupId>
     <artifactId>openurp-java-parent</artifactId>
-    <version>0.2.26</version>
+    <version>0.2.27</version>
   </parent>
   <groupId>org.openurp.edu.extern</groupId>
   <artifactId>openurp-edu-extern-webapp</artifactId>
@@ -14,7 +14,6 @@
   <properties>
     <bundle.symbolicName>org.openurp.edu.extern.webapp</bundle.symbolicName>
     <bundle.namespace>org.openurp.edu.extern</bundle.namespace>
-    <openurp.api.version>0.1.7-SNAPSHOT</openurp.api.version>
   </properties>
 
   <modules>

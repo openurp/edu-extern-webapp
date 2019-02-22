@@ -33,7 +33,7 @@ import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.course.model.CourseTaker;
 import org.openurp.edu.grade.Grade;
-import org.openurp.edu.grade.course.domain.GradeTypeConstants;
+
 import org.openurp.edu.grade.course.model.CourseGrade;
 import org.openurp.edu.grade.course.model.GaGrade;
 import org.openurp.edu.grade.course.service.GradeRateService;
@@ -52,7 +52,7 @@ public class CourseGradeUpdator {
     super();
     this.entityDao = entityDao;
     this.gradeRateService = gradeRateService;
-    gaGradeType = entityDao.get(GradeType.class, GradeTypeConstants.GA_ID);
+    gaGradeType = entityDao.get(GradeType.class, GradeType.GA_ID);
     courseTakeType = new CourseTakeType(CourseTakeType.Exemption);
     List<GradingMode> gradingModes = entityDao.getAll(GradingMode.class);
     gradingModeMap = CollectUtils.newHashMap();
