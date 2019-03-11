@@ -18,7 +18,7 @@
  */
 package org.openurp.edu.extern.base.code.web.action;
 
-import org.openurp.edu.extern.code.model.EduCategory;
+import org.openurp.code.edu.model.EduCategory;
 
 /**
  * @author zhouqi 2018年11月21日

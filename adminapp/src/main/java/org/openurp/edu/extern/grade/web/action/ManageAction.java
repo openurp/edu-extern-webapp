@@ -37,8 +37,6 @@ import org.beangle.commons.transfer.excel.ExcelItemReader;
 import org.beangle.commons.transfer.importer.EntityImporter;
 import org.beangle.commons.transfer.importer.MultiEntityImporter;
 import org.beangle.commons.transfer.importer.listener.ImporterForeignerListener;
-import org.openurp.code.edu.model.CourseTakeType;
-import org.openurp.code.edu.model.GradeType;
 import org.openurp.code.edu.model.GradingMode;
 import org.openurp.edu.base.model.Course;
 import org.openurp.edu.base.model.Project;
@@ -53,11 +51,8 @@ import org.openurp.edu.extern.model.ExamSignupConfig;
 import org.openurp.edu.extern.model.ExternExamGrade;
 import org.openurp.edu.extern.service.ExternExamGradeImportListener;
 import org.openurp.edu.grade.Grade;
-
 import org.openurp.edu.grade.course.model.CourseGrade;
-import org.openurp.edu.grade.course.model.GaGrade;
 import org.openurp.edu.grade.course.service.GradeRateService;
-import org.openurp.edu.grade.course.service.ScoreConverter;
 import org.openurp.edu.program.plan.model.PlanCourse;
 import org.openurp.edu.program.plan.service.CoursePlanProvider;
 
