@@ -138,7 +138,7 @@ public class ExternGradeAction extends RestrictionSupportAction {
   public String convert() {
     ExternGrade externGrade = entityDao.get(ExternGrade.class, getLongId("externGrade"));
     List<PlanCourse> planCourses = entityDao.get(PlanCourse.class, getLongIds("planCourse"));
-    String remark = "成绩来自外校成绩";
+    String remark = "成绩来自外校:"+externGrade.getCourseName();
     CourseGradeUpdator updator = new CourseGradeUpdator(entityDao, gradeRateService);
     for (PlanCourse planCourse : planCourses) {
       for (Semester semester : coursePlanProvider.getSemesterByPlanCourse(planCourse)) {

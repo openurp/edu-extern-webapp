@@ -37,6 +37,7 @@ import org.beangle.commons.transfer.excel.ExcelItemReader;
 import org.beangle.commons.transfer.importer.EntityImporter;
 import org.beangle.commons.transfer.importer.MultiEntityImporter;
 import org.beangle.commons.transfer.importer.listener.ImporterForeignerListener;
+import org.joda.time.LocalDate;
 import org.openurp.code.edu.model.GradingMode;
 import org.openurp.edu.base.model.Course;
 import org.openurp.edu.base.model.Project;
@@ -47,6 +48,7 @@ import org.openurp.edu.eams.web.util.DownloadHelper;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
 import org.openurp.edu.extern.grade.service.CourseGradeUpdator;
+import org.openurp.edu.extern.grade.utils.ParamUtils;
 import org.openurp.edu.extern.model.ExamSignupConfig;
 import org.openurp.edu.extern.model.ExternExamGrade;
 import org.openurp.edu.extern.service.ExternExamGradeImportListener;
@@ -171,7 +173,7 @@ public class ManageAction extends SearchAction {
 
     List<CourseGrade> courseGrades = entityDao.get(CourseGrade.class, new String[] { "std", "course" },
         externExamGrade.getStd(), coursesMap.keySet());
-    courseGrades.addAll(externExamGrade.getCourseGrades());
+    courseGrades.addAll(externExamGrade.getGrades());
     for (CourseGrade courseGrade : courseGrades) {
       if (courseGrade.isPassed()) {
         coursesMap.remove(courseGrade.getCourse());
@@ -185,7 +187,7 @@ public class ManageAction extends SearchAction {
   public String convert() {
     ExternExamGrade externExamGrade = entityDao.get(ExternExamGrade.class, getLongId("examGrade"));
     List<PlanCourse> planCourses = entityDao.get(PlanCourse.class, getLongIds("planCourse"));
-    String remark = "成绩来自校外成绩";
+    String remark = "成绩来自" + externExamGrade.getSubject().getName();
     CourseGradeUpdator updator = new CourseGradeUpdator(entityDao, gradeRateService);
     for (PlanCourse planCourse : planCourses) {
       for (Semester semester : coursePlanProvider.getSemesterByPlanCourse(planCourse)) {
@@ -202,7 +204,7 @@ public class ManageAction extends SearchAction {
   public String undistribute() {
     ExternExamGrade externExamGrade = entityDao.get(ExternExamGrade.class, getLongId("externExamGrade"));
     CourseGrade courseGrade = entityDao.get(CourseGrade.class, getLongId("courseGrade"));
-    externExamGrade.getCourseGrades().remove(courseGrade);
+    externExamGrade.getGrades().remove(courseGrade);
     entityDao.saveOrUpdate(externExamGrade);
     entityDao.remove(courseGrade);
     return redirect("search", "info.action.success");
@@ -232,7 +234,7 @@ public class ManageAction extends SearchAction {
         HSSFWorkbook wb = new HSSFWorkbook(is);
         if (wb.getNumberOfSheets() < 1 || wb.getSheetAt(0).getLastRowNum() == 0) { return null; }
         EntityImporter importer = new MultiEntityImporter();
-        importer.setReader(new ExcelItemReader(wb, 1));
+        importer.setReader(new ExcelItemReader(wb, 0));
         put("importer", importer);
         return importer;
       } else {
@@ -285,8 +287,24 @@ public class ManageAction extends SearchAction {
     OqlBuilder<ExternExamGrade> builder = getQueryBuilder();
     builder.limit(null);
     put("externExamGrades", entityDao.search(builder));
+
+    Date convertFrom = ParamUtils.getOnlyYMDDate("convertFromAt");
+    Date convertTo = ParamUtils.getOnlyYMDDate("convertToAt");
+
+    if (null == convertFrom) {
+      convertFrom = LocalDate.parse("1970-01-01").toDate();
+    }
+
+    if (convertTo == null) {
+      convertTo = LocalDate.parse("9999-12-31").toDate();
+    } else {
+      convertTo = LocalDate.parse(get("convertToAt")).plusDays(1).toDate();
+    }
+    put("convertFrom",convertFrom);
+    put("convertTo",convertTo);
     return forward();
   }
+
 
   public void setStudentService(StudentService studentService) {
     this.studentService = studentService;

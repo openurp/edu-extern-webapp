@@ -29,7 +29,7 @@ public class ExternExamGradePropertyExtractor extends DefaultPropertyExtractor {
   public Object getPropertyValue(Object target, String property) throws Exception {
     ExternExamGrade externExamGrade = (ExternExamGrade) target;
     if ("courseGradeSize".equals(property)) {
-      return externExamGrade.getCourseGrades().size();
+      return externExamGrade.getGrades().size();
     }
     return super.getPropertyValue(target, property);
   }

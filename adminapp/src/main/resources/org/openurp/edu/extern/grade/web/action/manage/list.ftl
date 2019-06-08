@@ -21,17 +21,16 @@
         [@b.boxcol/]
         [@b.col property="std.user.code" title="std.user.code" width="13%"/]
         [@b.col property="std.user.name" title="姓名" width="11%"/]
-        [@b.col property="subject.name" title="考试科目" width="14%"/]
-        [@b.col property="scoreText" title="成绩" width="10%"/]
-        [@b.col property="passed" title="是否合格" width="8%"]
-            [#if !(examGrade.passed)]<font style="color:red">[/#if]
-            ${(examGrade.passed)!?string("是","否")}
-            [#if !(examGrade.passed)]</font>[/#if]
+        [@b.col property="subject.name" title="考试科目" width="28%"/]
+        [@b.col property="scoreText" title="成绩" width="7%"]
+          <span [#if !(examGrade.passed)]style="color:red"[/#if]>
+            ${(examGrade.scoreText)!}
+          </span>
         [/@]
         [@b.col property="std.state.department.name" title="院系"  width="12%"/]
         [@b.col property="certificate" title="证书编号"  width="15%"]${(examGrade.certificate)!"--"}[/@]
-        [@b.col property="updatedAt" title="录入时间"  width="15%"]${(examGrade.updatedAt?string("yyyy-MM-dd HH:mm:ss"))!"--"}[/@]
-        [@b.col title="已认定课数" sortable="false"  width="70px"]${examGrade.courseGrades?size}[/@]
+        [@b.col property="updatedAt" title="录入时间"  width="12%"]${(examGrade.updatedAt?string("yy-MM-dd HH:mm"))!"--"}[/@]
+        [@b.col title="已认定" sortable="false"  width="40px"]${examGrade.courseGrades?size}[/@]
     [/@]
 [/@]
 

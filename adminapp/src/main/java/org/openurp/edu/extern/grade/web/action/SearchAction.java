@@ -90,7 +90,26 @@ public class SearchAction extends SemesterSupportAction {
     if (null != toAt) {
       builder.where("to_date(to_char(examGrade.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') <= :toAt", toAt);
     }
+
+    Date convertFromAt = ParamUtils.getOnlyYMDDate("convertFromAt");
+    Date convertToAt = ParamUtils.getOnlyYMDDate("convertToAt");
     Boolean hasCourseGrades = getBoolean("hasCourseGrades");
+    if (null != convertFromAt || null != convertToAt) {
+      if (null != convertFromAt && null != convertToAt) {
+        builder.where(
+            "exists(from examGrade.courseGrades as cg where to_date(to_char(cg.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') between :convertFrom and :convertTo)",
+            convertFromAt, convertToAt);
+      } else if (null != convertFromAt) {
+        builder.where(
+            "exists(from examGrade.courseGrades as cg where to_date(to_char(cg.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') >= :convertFrom)",
+            convertFromAt);
+      } else if (null != convertToAt) {
+        builder.where(
+            "exists(from examGrade.courseGrades as cg where to_date(to_char(cg.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') <= :convertToAt)",
+            convertToAt);
+      }
+    }
+
     if (null != hasCourseGrades) {
       builder.where((hasCourseGrades.booleanValue() ? StringUtils.EMPTY : "not ")
           + "exists (from examGrade.courseGrades courseGrade)");

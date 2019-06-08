@@ -56,6 +56,8 @@
       </tr>
         [#else]
           [#list externExamGrade.courseGrades as courseGrade]
+          [#if (courseGrade.updatedAt?string("yyyy-MM-dd")?date("yyyy-MM-dd") > convertFrom?string("yyyy-MM-dd")?date("yyyy-MM-dd")
+           && courseGrade.updatedAt?string("yyyy-MM-dd")?date("yyyy-MM-dd") < convertTo?string("yyyy-MM-dd")?date("yyyy-MM-dd")) ]
       <tr>
         <td style='vnd.ms-excel.numberformat:@'>${externExamGrade.std.user.code}</td>
         <td>${externExamGrade.std.user.name}</td>
@@ -64,7 +66,7 @@
         <td>${(externExamGrade.passed)!?string("是","否")}</td>
         <td>${externExamGrade.std.state.department.name}</td>
         <td style='vnd.ms-excel.numberformat:@'>${(externExamGrade.certificate)!"--"}</td>
-        <td style='vnd.ms-excel.numberformat:@'>${(externExamGrade.updatedAt?string("yyyy-MM-dd HH:mm:ss"))!"--"}</td>
+        <td style='vnd.ms-excel.numberformat:@'>${(courseGrade.updatedAt?string("yyyy-MM-dd HH:mm:ss"))!"--"}</td>
         <td>${courseGrade.course.name}(${courseGrade.course.code})</td>
         <td>${courseGrade.courseType.name}</td>
         <td>${courseGrade.course.credits}</td>
@@ -74,6 +76,7 @@
         <td>${courseGrade.examMode.name}</td>
         <td>${courseGrade.freeListening?string("是", "否")}</td>
       </tr>
+      [/#if]
           [/#list]
         [/#if]
       [/#list]

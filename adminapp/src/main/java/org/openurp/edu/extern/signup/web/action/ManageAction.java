@@ -482,7 +482,7 @@ public class ManageAction extends SemesterSupportAction {
         HSSFWorkbook wb = new HSSFWorkbook(is);
         if (wb.getNumberOfSheets() < 1 || wb.getSheetAt(0).getLastRowNum() == 0) { return null; }
         EntityImporter importer = new MultiEntityImporter();
-        importer.setReader(new ExcelItemReader(wb, 1));
+        importer.setReader(new ExcelItemReader(wb, 0));
         put("importer", importer);
         return importer;
       } else {

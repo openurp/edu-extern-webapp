@@ -20,8 +20,10 @@
                 [@b.textfield name="examGrade.certificate" label="证书编号"/]
                 [@b.select name="examGrade.passed" label="是否合格" items={"1":"合格", "0":"不合格"} empty="..." /]
                 [@b.datepicker label="考试日期" name="examGrade.acquiredOn"/]
-                [@b.datepicker id="fromAt" label="录入起时" name="fromAt" format="yyyy-MM-dd" maxDate="#F{$dp.$D(\\'toAt\\')}"/]
-                [@b.datepicker id="toAt" label="录入止时" name="toAt" format="yyyy-MM-dd" minDate="#F{$dp.$D(\\'fromAt\\')}"/]
+                [@b.datepicker id="fromAt" label="录入从" name="fromAt" format="yyyy-MM-dd" maxDate="#F{$dp.$D(\\'toAt\\')}"/]
+                [@b.datepicker id="toAt" label="录入到" name="toAt" format="yyyy-MM-dd" minDate="#F{$dp.$D(\\'fromAt\\')}"/]
+                [@b.datepicker id="convertFromAt" label="认定从" name="convertFromAt" format="yyyy-MM-dd" maxDate="#F{$dp.$D(\\'convertToAt\\')}"/]
+                [@b.datepicker id="convertToAt" label="认定到" name="convertToAt" format="yyyy-MM-dd" minDate="#F{$dp.$D(\\'convertFromAt\\')}"/]
                 [@b.select label="是否认定" name="hasCourseGrades" items={ "1": "是", "0": "否" } empty="..."/]
             [/@]
 
