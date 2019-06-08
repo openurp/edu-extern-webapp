@@ -20,7 +20,6 @@
     <module>web</module>
     <module>adminapp</module>
     <module>studentapp</module>
-    <module>identificationapp</module>
   </modules>
 
   <dependencies>

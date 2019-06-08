@@ -1,4 +1,0 @@
-[#ftl]
-{
-  "isOk": ${isOk?string}
-}
