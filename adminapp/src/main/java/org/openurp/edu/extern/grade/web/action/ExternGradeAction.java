@@ -124,7 +124,7 @@ public class ExternGradeAction extends RestrictionSupportAction {
 
     List<CourseGrade> courseGrades = entityDao.get(CourseGrade.class, new String[] { "std", "course" },
         externGrade.getStd(), coursesMap.keySet());
-    courseGrades.addAll(externGrade.getCourseGrades());
+    courseGrades.addAll(externGrade.getGrades());
     for (CourseGrade courseGrade : courseGrades) {
       if (courseGrade.isPassed()) {
         coursesMap.remove(courseGrade.getCourse());
@@ -155,7 +155,7 @@ public class ExternGradeAction extends RestrictionSupportAction {
   public String undistribute() {
     ExternGrade externGrade = entityDao.get(ExternGrade.class, getLongId("externGrade"));
     CourseGrade courseGrade = entityDao.get(CourseGrade.class, getLongId("courseGrade"));
-    externGrade.getCourseGrades().remove(courseGrade);
+    externGrade.getGrades().remove(courseGrade);
     entityDao.saveOrUpdate(externGrade);
     entityDao.remove(courseGrade);
     return redirect("search", "info.action.success");
