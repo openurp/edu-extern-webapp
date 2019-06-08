@@ -38,7 +38,7 @@
     </thead>
     <tbody>
       [#list externGrades?sort_by(["std", "user", "code"]) as externGrade]
-        [#if externGrade.courseGrades?size == 0]
+        [#if externGrade.grades?size == 0]
       <tr>
         <td style='vnd.ms-excel.numberformat:@'>${externGrade.std.user.code}</td>
         <td>${externGrade.std.user.name}</td>
@@ -61,7 +61,7 @@
         <td></td>
       </tr>
         [#else]
-          [#list externGrade.courseGrades as courseGrade]
+          [#list externGrade.grades as courseGrade]
       <tr>
         <td style='vnd.ms-excel.numberformat:@'>${externGrade.std.user.code}</td>
         <td>${externGrade.std.user.name}</td>

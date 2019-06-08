@@ -23,7 +23,7 @@
       [@b.col title="得分" property="scoreText" width="40px"/]
       [@b.col title="学分" property="credits" width="40px"/]
       [@b.col title="获得日期" property="acquiredOn" width="60px"]${externGrade.acquiredOn?string("yyyy-MM")}[/@]
-      [@b.col title="已认定" sortable="false"  width="50px"]${externGrade.courseGrades?size}[/@]
+      [@b.col title="已认定" sortable="false"  width="50px"]${externGrade.grades?size}[/@]
     [/@]
   [/@]
 [@b.foot/]

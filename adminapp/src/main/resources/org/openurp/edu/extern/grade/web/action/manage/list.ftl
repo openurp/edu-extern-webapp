@@ -30,7 +30,7 @@
         [@b.col property="std.state.department.name" title="院系"  width="12%"/]
         [@b.col property="certificate" title="证书编号"  width="15%"]${(examGrade.certificate)!"--"}[/@]
         [@b.col property="updatedAt" title="录入时间"  width="12%"]${(examGrade.updatedAt?string("yy-MM-dd HH:mm"))!"--"}[/@]
-        [@b.col title="已认定" sortable="false"  width="40px"]${examGrade.courseGrades?size}[/@]
+        [@b.col title="已认定" sortable="false"  width="40px"]${examGrade.grades?size}[/@]
     [/@]
 [/@]
 

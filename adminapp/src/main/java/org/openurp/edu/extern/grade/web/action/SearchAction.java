@@ -97,22 +97,22 @@ public class SearchAction extends SemesterSupportAction {
     if (null != convertFromAt || null != convertToAt) {
       if (null != convertFromAt && null != convertToAt) {
         builder.where(
-            "exists(from examGrade.courseGrades as cg where to_date(to_char(cg.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') between :convertFrom and :convertTo)",
+            "exists(from examGrade.grades as cg where to_date(to_char(cg.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') between :convertFrom and :convertTo)",
             convertFromAt, convertToAt);
       } else if (null != convertFromAt) {
         builder.where(
-            "exists(from examGrade.courseGrades as cg where to_date(to_char(cg.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') >= :convertFrom)",
+            "exists(from examGrade.grades as cg where to_date(to_char(cg.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') >= :convertFrom)",
             convertFromAt);
       } else if (null != convertToAt) {
         builder.where(
-            "exists(from examGrade.courseGrades as cg where to_date(to_char(cg.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') <= :convertToAt)",
+            "exists(from examGrade.grades as cg where to_date(to_char(cg.updatedAt, 'yyyy-MM-dd'), 'yyyy-MM-dd') <= :convertToAt)",
             convertToAt);
       }
     }
 
     if (null != hasCourseGrades) {
       builder.where((hasCourseGrades.booleanValue() ? StringUtils.EMPTY : "not ")
-          + "exists (from examGrade.courseGrades courseGrade)");
+          + "exists (from examGrade.grades courseGrade)");
     }
     builder.orderBy(get(Order.ORDER_STR)).limit(getPageLimit());
     return builder;

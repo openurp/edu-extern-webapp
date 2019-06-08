@@ -3,7 +3,7 @@
   [@b.toolbar title = "<span style=\"color:blue\">" + externExamGrade.std.user.name + "（<span style=\"padding-left: 1px; padding-right: 1px\">" + externExamGrade.std.user.code + "</span>）" + externExamGrade.subject.name + "</span>证书课程及成绩认定明细"]
     bar.addBack();
   [/@]
-  [@b.grid items=externExamGrade.courseGrades?sort_by(["course", "code"]) var="courseGrade" sortable="false"]
+  [@b.grid items=externExamGrade.grades?sort_by(["course", "code"]) var="courseGrade" sortable="false"]
     [@b.gridbar]
       bg.form.addInput(action.getForm(), "externExamGrade.id", "${externExamGrade.id}");
       bar.addItem("取消", action.single("undistribute", "确认要取消认定吗？"), "action-edit-delete");

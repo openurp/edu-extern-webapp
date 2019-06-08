@@ -5,7 +5,7 @@
       bg.form.submit(document.searchForm);
     }, "backward.png");
   [/@]
-  [@b.grid items=externGrade.courseGrades?sort_by(["course", "code"]) var="courseGrade" sortable="false"]
+  [@b.grid items=externGrade.grades?sort_by(["course", "code"]) var="courseGrade" sortable="false"]
     [@b.gridbar]
       bg.form.addInput(action.getForm(), "externGrade.id", "${externGrade.id}");
       bar.addItem("认定", function() {

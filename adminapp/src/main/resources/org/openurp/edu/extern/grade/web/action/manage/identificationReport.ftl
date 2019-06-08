@@ -35,7 +35,7 @@
     </thead>
     <tbody>
       [#list externExamGrades?sort_by(["std", "user", "code"]) as externExamGrade]
-        [#if externExamGrade.courseGrades?size == 0]
+        [#if externExamGrade.grades?size == 0]
       <tr>
         <td style='vnd.ms-excel.numberformat:@'>${externExamGrade.std.user.code}</td>
         <td>${externExamGrade.std.user.name}</td>
@@ -55,7 +55,7 @@
         <td></td>
       </tr>
         [#else]
-          [#list externExamGrade.courseGrades as courseGrade]
+          [#list externExamGrade.grades as courseGrade]
           [#if (courseGrade.updatedAt?string("yyyy-MM-dd")?date("yyyy-MM-dd") > convertFrom?string("yyyy-MM-dd")?date("yyyy-MM-dd")
            && courseGrade.updatedAt?string("yyyy-MM-dd")?date("yyyy-MM-dd") < convertTo?string("yyyy-MM-dd")?date("yyyy-MM-dd")) ]
       <tr>

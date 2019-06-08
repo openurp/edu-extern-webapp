@@ -82,7 +82,7 @@ public class ExternGradeAction extends RestrictionSupportAction {
     Boolean hasCourseGrades = getBoolean("hasCourseGrades");
     if (null != hasCourseGrades) {
       builder.where((hasCourseGrades.booleanValue() ? StringUtils.EMPTY : "not ")
-          + "exists (from externGrade.courseGrades courseGrade)");
+          + "exists (from externGrade.grades courseGrade)");
     }
     return builder;
   }
