@@ -23,10 +23,10 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.beangle.commons.entity.Entity;
+import org.openurp.edu.base.code.model.FeeType;
 import org.openurp.edu.extern.model.ExamFeeConfig;
 import org.openurp.edu.extern.service.ExamFeeConfigService;
 import org.openurp.edu.web.action.SemesterSupportAction;
-import org.openurp.fee.code.model.FeeType;
 
 public class FeeConfigAction extends SemesterSupportAction {
 
