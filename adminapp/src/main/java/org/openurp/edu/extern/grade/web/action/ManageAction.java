@@ -38,6 +38,7 @@ import org.beangle.commons.transfer.importer.EntityImporter;
 import org.beangle.commons.transfer.importer.MultiEntityImporter;
 import org.beangle.commons.transfer.importer.listener.ImporterForeignerListener;
 import org.joda.time.LocalDate;
+import org.openurp.code.edu.model.ExamStatus;
 import org.openurp.code.edu.model.GradingMode;
 import org.openurp.edu.base.model.Course;
 import org.openurp.edu.base.model.Project;
@@ -73,6 +74,7 @@ public class ManageAction extends SearchAction {
     put("examCategories", codeService.getCodes(ExamCategory.class));
     put("semesters", entityDao.getAll(Semester.class));
     put("gradingModes", codeService.getCodes(GradingMode.class));
+    put("examStatuses", codeService.getCodes(ExamStatus.class));
     put("semesters", entityDao.getAll(Semester.class));
   }
 
@@ -99,7 +101,6 @@ public class ManageAction extends SearchAction {
     if (examGradeId != null) {
       put("examGrade", entityDao.get(ExternExamGrade.class, examGradeId));
     }
-
     editSetting();
     return forward();
   }
@@ -119,6 +120,7 @@ public class ManageAction extends SearchAction {
     if (isExist(examGrade)) { return redirect("search", "保存失败,成绩重复"); }
     examGrade.setStatus(Grade.Status.Published);
     examGrade.setUpdatedAt(new Date());
+    examGrade.setExamStatus(new ExamStatus(ExamStatus.NORMAL));
     saveOrUpdate(examGrade);
     return redirect("search", "info.save.success");
   }

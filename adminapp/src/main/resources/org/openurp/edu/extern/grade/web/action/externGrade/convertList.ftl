@@ -8,9 +8,6 @@
   [@b.grid items=externGrade.grades?sort_by(["course", "code"]) var="courseGrade" sortable="false"]
     [@b.gridbar]
       bg.form.addInput(action.getForm(), "externGrade.id", "${externGrade.id}");
-      bar.addItem("认定", function() {
-        bg.form.submit(action.getForm(), "${b.url("!toDistribute")}");
-      }, "action-new");
       bar.addItem("取消", action.single("undistribute", "确认要取消认定吗？"), "action-edit-delete");
     [/@]
     [@b.row]
@@ -28,7 +25,7 @@
   [/@]
 
  [@b.toolbar title = "添加新的认定课程"]
-    bar.addItem("分配", function() {
+    bar.addItem("认定", function() {
       var fillSize = 0;
       var planCourseIds = "";
 

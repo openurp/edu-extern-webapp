@@ -69,6 +69,7 @@ public class CourseGradeUpdator {
       courseGrade = new CourseGrade();
       courseGrade.setProject(std.getProject());
       courseGrade.setStd(std);
+      courseGrade.setCrn("--");
       courseGrade.setSemester(semester);
       courseGrade.setCourse(pc.getCourse());
       courseGrade.setCourseType(pc.getGroup().getCourseType());

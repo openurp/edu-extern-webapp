@@ -29,6 +29,7 @@ import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Numbers;
 import org.beangle.commons.transfer.TransferResult;
 import org.beangle.commons.transfer.importer.listener.ItemImporterListener;
+import org.openurp.code.edu.model.ExamStatus;
 import org.openurp.edu.base.model.Project;
 import org.openurp.edu.base.model.Student;
 import org.openurp.edu.extern.model.ExternExamGrade;
@@ -112,6 +113,9 @@ public class ExternExamGradeImportListener extends ItemImporterListener {
     Map datas = (Map) importer.getCurrent();
     ExternExamGrade examGrade = (ExternExamGrade) datas.get("examGrade");
     if (examGradeVilidate(examGrade, tr)) {
+      if(null==examGrade.getExamStatus() || !examGrade.getExamStatus().isPersisted()) {
+        examGrade.setExamStatus(new ExamStatus(ExamStatus.NORMAL));
+      }
       examGrade.setUpdatedAt(new java.util.Date(System.currentTimeMillis()));
       entityDao.saveOrUpdate(examGrade);
     }

@@ -21,6 +21,7 @@
     [/@]
     [@b.select name="examGrade.subject.id" items=examSubjects?sort_by("name") empty="..." required="true" label="考试科目" value=(examGrade.subject.id)! style="width:150px"/]
     [@b.select name="examGrade.gradingMode.id" items=gradingModes label="记录方式" empty="..." required="true" value=(examGrade.gradingMode.id)! style="width:150px"/]
+    [@b.select name="examGrade.examStatus.id" items=examStatuses label="考试情况" required="true" value=(examGrade.examStatus.id)! style="width:150px"/]
     [@b.textfield name="examGrade.scoreText" maxlength="5" label="成绩"  onchange="setScore(this.value)" value=(examGrade.scoreText)! required="true" style="width:150px"/]
     [@b.textfield name="examGrade.score" maxlength="5" label="分数" check="match('number')" value=(examGrade.score)! style="width:150px" comment="须数字"/]
     [@b.radios name="examGrade.passed" items={"1":"合格", "0":"不合格"} label="是否合格" value=(examGrade.passed)!true?string("1", "0")/]
