@@ -1,0 +1,27 @@
+[#ftl]
+[@b.head/]
+  [@b.grid items=grades var="grade"]
+    [@b.gridbar]
+      [#if grades.totalItems gt 10000]
+        bar.addItem("本校成绩导出", function() { 
+          alert("导出数据每次不能超过10000条，建议分批导出。");
+        }, "excel.png");
+      [#else]
+        bar.addItem("本校成绩导出", action.exportData("std.user.name:姓名,std.person.code:身份证号,std.state.major.name:专业名称,course.name:课程名称,std.level.code:教育层次代码,std.project.category.code:教育类别代码,course.credits:学分,course.creditHours:学时,scoreText:成绩,semester.beginOn:获得时间,graduation.graduateOn:届别,graduation.educationResult.code:毕业结业肄业", "xls", "fileName=本校${graduateSession.name}批次学分银行成绩"), "excel.png");
+      [/#if]
+    [/@]
+    [@b.row]
+      [@b.boxcol/]
+      [@b.col title="学号" property="std.user.code"/]
+      [@b.col title="姓名" property="std.user.name"/]
+      [@b.col title="年级" property="std.state.grade" width="6%"/]
+      [@b.col title="学院" property="std.state.department.name"/]
+      [@b.col title="专业" property="std.state.major.name"/]
+      [@b.col title="班级" property="std.state.squad.name"/]
+      [@b.col title="课程" property="course.name"]${grade.course.name}(${grade.course.code})[/@]
+      [@b.col title="学分" property="course.credits" width="5%"/]
+      [@b.col title="成绩" property="score" width="7%"][#if !grade.passed]<span style="color: red">[/#if]${grade.score!}${("(" + grade.scoreText?html + ")")!}[#if !grade.passed]</span>[/#if][/@]
+      [@b.col title="绩点" property="gp" width="5%"/]
+    [/@]
+  [/@]
+[@b.foot/]

@@ -10,7 +10,7 @@
                 [@b.textfield name="examGrade.std.user.code" label="std.user.code"/]
                 [@b.textfield name="examGrade.std.user.name" label="姓名"/]
                 [@b.textfield name="examGrade.std.state.grade" label="年级"/]
-                [@b.select name="examGrade.std.state.department.id" label="common.college" items=departments?sort_by("code") empty="..." /]
+                [@b.select name="examGrade.std.state.department.id" label="common.college" items=departments?sortBy(["code"]) empty="..." /]
                 [@b.textfield name="examGrade.std.state.squad.name" label="班级名称"/]
                 [@b.select name="examGrade.subject.category.id" id="categoryId" onchange="changeSubjects()" label="考试类型" items=examCategories empty="..."/]
                 [@b.select name="examGrade.subject.id" id="subjectId" label="科目" items=examSubjects empty="..." /]
@@ -25,6 +25,7 @@
                 [@b.datepicker id="convertFromAt" label="认定从" name="convertFromAt" format="yyyy-MM-dd" maxDate="#F{$dp.$D(\\'convertToAt\\')}"/]
                 [@b.datepicker id="convertToAt" label="认定到" name="convertToAt" format="yyyy-MM-dd" minDate="#F{$dp.$D(\\'convertFromAt\\')}"/]
                 [@b.select label="是否认定" name="hasCourseGrades" items={ "1": "是", "0": "否" } empty="..."/]
+                [@b.select label="毕业批次" name="sessionId" items=sessions?sortBy(["name"])?reverse empty="..."/]
             [/@]
 
             [@b.form name="importForm" action="manage!importForm" target="examGradeList"/]

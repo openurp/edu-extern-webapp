@@ -18,23 +18,31 @@
  */
 package org.openurp.edu.extern.grade.web.action;
 
-import java.util.Collection;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.collection.Order;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Strings;
-import org.beangle.commons.transfer.exporter.PropertyExtractor;
+import org.beangle.commons.transfer.exporter.Context;
+import org.beangle.commons.transfer.exporter.Exporter;
 import org.openurp.code.edu.model.GradingMode;
 import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.extern.code.model.ExamCategory;
 import org.openurp.edu.extern.code.model.ExamSubject;
+import org.openurp.edu.extern.grade.data.ExternExamGradeData;
 import org.openurp.edu.extern.grade.export.ExternExamGradePropertyExtractor;
 import org.openurp.edu.extern.grade.utils.ParamUtils;
 import org.openurp.edu.extern.model.ExamSignupConfig;
 import org.openurp.edu.extern.model.ExternExamGrade;
+import org.openurp.edu.grade.course.model.CourseGrade;
+import org.openurp.edu.graduation.audit.model.GraduateResult;
+import org.openurp.edu.graduation.audit.model.GraduateSession;
 import org.openurp.edu.web.action.SemesterSupportAction;
 
 public class SearchAction extends SemesterSupportAction {
@@ -55,6 +63,7 @@ public class SearchAction extends SemesterSupportAction {
     put("departments", getTeachDeparts());
     put("semesters", entityDao.getAll(Semester.class));
 
+    put("sessions", entityDao.getAll(GraduateSession.class));
     return forward();
   }
 
@@ -114,17 +123,36 @@ public class SearchAction extends SemesterSupportAction {
       builder.where((hasCourseGrades.booleanValue() ? StringUtils.EMPTY : "not ")
           + "exists (from examGrade.grades courseGrade)");
     }
+
+    Long sessionId = getLongId("session");
+    if (null != sessionId) {
+      GraduateSession session = entityDao.get(GraduateSession.class, sessionId);
+      put("graduateSession", session);
+      StringBuilder hql1 = new StringBuilder();
+      hql1.append("exists (");
+      hql1.append("  from ").append(GraduateResult.class.getName()).append(" result");
+      hql1.append(" where result.std = examGrade.std");
+      hql1.append("   and result.session = :session");
+      hql1.append(")");
+      builder.where(hql1.toString(), session);
+    }
+
     builder.orderBy(get(Order.ORDER_STR)).limit(getPageLimit());
     return builder;
   }
 
-  /**
-   * 导出excel
-   *
-   * @return
-   */
   @Override
-  protected Collection<?> getExportDatas() {
+  protected void configExporter(Exporter exporter, Context context) throws IOException {
+    String dataInSource = get("dataInSource");
+    if ("courseGrade".equals(dataInSource)) {
+      context.put("items", getInCourseGradeData());
+    } else {
+      context.put("items", getInNormalData());
+    }
+    context.put(Context.EXTRACTOR, new ExternExamGradePropertyExtractor(dataInSource));
+  }
+
+  private List<ExternExamGrade> getInNormalData() {
     Long[] examGrades = Strings.splitToLong(get("examGradeIds"));
     if (examGrades.length != 0) {
       return entityDao.get(ExternExamGrade.class, examGrades);
@@ -133,9 +161,22 @@ public class SearchAction extends SemesterSupportAction {
     }
   }
 
-  @Override
-  protected PropertyExtractor getPropertyExtractor() {
-    return new ExternExamGradePropertyExtractor();
+  /**
+   * @return
+   */
+  private List<ExternExamGradeData> getInCourseGradeData() {
+    List<ExternExamGrade> inNormalData = getInNormalData();
+    List<ExternExamGradeData> dataList = CollectUtils.newArrayList();
+    for (ExternExamGrade eeGrade : inNormalData) {
+      if (CollectionUtils.isEmpty(eeGrade.getGrades())) {
+        dataList.add(new ExternExamGradeData(eeGrade, null));
+      } else {
+        for (CourseGrade courseGrade : eeGrade.getGrades()) {
+          dataList.add(new ExternExamGradeData(eeGrade, courseGrade));
+        }
+      }
+    }
+    return dataList;
   }
 
   public String categorySubject() {

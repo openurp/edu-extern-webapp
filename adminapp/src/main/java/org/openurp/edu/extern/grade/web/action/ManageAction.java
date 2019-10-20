@@ -56,6 +56,7 @@ import org.openurp.edu.extern.service.ExternExamGradeImportListener;
 import org.openurp.edu.grade.Grade;
 import org.openurp.edu.grade.course.model.CourseGrade;
 import org.openurp.edu.grade.course.service.GradeRateService;
+import org.openurp.edu.graduation.audit.model.GraduateSession;
 import org.openurp.edu.program.plan.model.PlanCourse;
 import org.openurp.edu.program.plan.service.CoursePlanProvider;
 
@@ -89,7 +90,7 @@ public class ManageAction extends SearchAction {
     put("gradingModes", codeService.getCodes(GradingMode.class));
     put("departments", getTeachDeparts());
     put("semesters", entityDao.getAll(Semester.class));
-
+    put("sessions", entityDao.getAll(GraduateSession.class));
     return forward();
   }
 
@@ -116,8 +117,12 @@ public class ManageAction extends SearchAction {
       Student student = studentService.getStudent(projectId, get("examGrade.std.user.code"));
       examGrade.setStd(student);
     }
-    if (examGrade.getStd() == null) { return redirect("search", "保存失败,学号不存在"); }
-    if (isExist(examGrade)) { return redirect("search", "保存失败,成绩重复"); }
+    if (examGrade.getStd() == null) {
+      return redirect("search", "保存失败,学号不存在");
+    }
+    if (isExist(examGrade)) {
+      return redirect("search", "保存失败,成绩重复");
+    }
     examGrade.setStatus(Grade.Status.Published);
     examGrade.setUpdatedAt(new Date());
     examGrade.setExamStatus(new ExamStatus(ExamStatus.NORMAL));
@@ -139,11 +144,15 @@ public class ManageAction extends SearchAction {
 
     if (examGrade.getId() == null) {
       List<ExternExamGrade> sizeExternExamGrade = entityDao.search(query);
-      if (!CollectUtils.isEmpty(sizeExternExamGrade)) { return true; }
+      if (!CollectUtils.isEmpty(sizeExternExamGrade)) {
+        return true;
+      }
     } else {
       query.where("grade.id <>:id", examGrade.getId());
       List<ExternExamGrade> sizeExternExamGrade = entityDao.search(query);
-      if (!CollectUtils.isEmpty(sizeExternExamGrade)) { return true; }
+      if (!CollectUtils.isEmpty(sizeExternExamGrade)) {
+        return true;
+      }
     }
     return false;
   }
@@ -166,7 +175,9 @@ public class ManageAction extends SearchAction {
     put("externExamGrade", externExamGrade);
 
     List<PlanCourse> planCourses = coursePlanProvider.getPlanCourses(externExamGrade.getStd());
-    if (CollectionUtils.isEmpty(planCourses)) { return "noPlanMsg"; }
+    if (CollectionUtils.isEmpty(planCourses)) {
+      return "noPlanMsg";
+    }
 
     Map<Course, PlanCourse> coursesMap = CollectUtils.newHashMap();
     for (PlanCourse planCourse : planCourses) {
@@ -223,6 +234,7 @@ public class ManageAction extends SearchAction {
     return null;
   }
 
+  @SuppressWarnings("resource")
   protected EntityImporter buildEntityImporter() {
     String upload = "importFile";
     try {
@@ -234,7 +246,9 @@ public class ManageAction extends SearchAction {
       InputStream is = new FileInputStream((File) file.getContent());
       if (fileName.endsWith(".xls")) {
         HSSFWorkbook wb = new HSSFWorkbook(is);
-        if (wb.getNumberOfSheets() < 1 || wb.getSheetAt(0).getLastRowNum() == 0) { return null; }
+        if (wb.getNumberOfSheets() < 1 || wb.getSheetAt(0).getLastRowNum() == 0) {
+          return null;
+        }
         EntityImporter importer = new MultiEntityImporter();
         importer.setReader(new ExcelItemReader(wb, 0));
         put("importer", importer);
@@ -302,11 +316,10 @@ public class ManageAction extends SearchAction {
     } else {
       convertTo = LocalDate.parse(get("convertToAt")).plusDays(1).toDate();
     }
-    put("convertFrom",convertFrom);
-    put("convertTo",convertTo);
+    put("convertFrom", convertFrom);
+    put("convertTo", convertTo);
     return forward();
   }
-
 
   public void setStudentService(StudentService studentService) {
     this.studentService = studentService;

@@ -17,8 +17,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.openurp.edu.grade</groupId>
-      <artifactId>openurp-edu-grade-core4j</artifactId>
+      <groupId>org.openurp.edu.graduation</groupId>
+      <artifactId>openurp-edu-graduation-core4j</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

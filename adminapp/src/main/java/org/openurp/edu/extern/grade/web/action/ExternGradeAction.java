@@ -18,6 +18,7 @@
  */
 package org.openurp.edu.extern.grade.web.action;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +28,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.entity.Entity;
-import org.beangle.commons.transfer.exporter.PropertyExtractor;
+import org.beangle.commons.transfer.exporter.Context;
+import org.beangle.commons.transfer.exporter.Exporter;
 import org.openurp.code.edu.model.EduCategory;
 import org.openurp.code.edu.model.EducationLevel;
 import org.openurp.code.edu.model.GradingMode;
 import org.openurp.edu.base.model.Course;
 import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.service.StudentService;
+import org.openurp.edu.extern.grade.data.ExternGradeData;
 import org.openurp.edu.extern.grade.export.ExternGradePropertyExtractor;
 import org.openurp.edu.extern.grade.service.CourseGradeUpdator;
 import org.openurp.edu.extern.grade.utils.ParamUtils;
@@ -41,6 +44,8 @@ import org.openurp.edu.extern.model.ExternGrade;
 import org.openurp.edu.extern.model.ExternSchool;
 import org.openurp.edu.grade.course.model.CourseGrade;
 import org.openurp.edu.grade.course.service.GradeRateService;
+import org.openurp.edu.graduation.audit.model.GraduateResult;
+import org.openurp.edu.graduation.audit.model.GraduateSession;
 import org.openurp.edu.program.plan.model.PlanCourse;
 import org.openurp.edu.program.plan.service.CoursePlanProvider;
 import org.openurp.edu.web.action.RestrictionSupportAction;
@@ -66,6 +71,7 @@ public class ExternGradeAction extends RestrictionSupportAction {
     put("schools", codeService.getCodes(ExternSchool.class));
     put("levels", codeService.getCodes(EducationLevel.class));
     put("eduCategories", codeService.getCodes(EduCategory.class));
+    put("sessions", entityDao.getAll(GraduateSession.class));
   }
 
   @Override
@@ -83,6 +89,18 @@ public class ExternGradeAction extends RestrictionSupportAction {
     if (null != hasCourseGrades) {
       builder.where((hasCourseGrades.booleanValue() ? StringUtils.EMPTY : "not ")
           + "exists (from externGrade.grades courseGrade)");
+    }
+    Long sessionId = getLongId("session");
+    if (null != sessionId) {
+      GraduateSession session = entityDao.get(GraduateSession.class, sessionId);
+      put("graduateSession", session);
+      StringBuilder hql1 = new StringBuilder();
+      hql1.append("exists (");
+      hql1.append("  from ").append(GraduateResult.class.getName()).append(" result");
+      hql1.append(" where result.std = externGrade.std");
+      hql1.append("   and result.session = :session");
+      hql1.append(")");
+      builder.where(hql1.toString(), session);
     }
     return builder;
   }
@@ -160,10 +178,34 @@ public class ExternGradeAction extends RestrictionSupportAction {
     entityDao.remove(courseGrade);
     return redirect("search", "info.action.success");
   }
-
+  
   @Override
-  protected PropertyExtractor getPropertyExtractor() {
-    return new ExternGradePropertyExtractor();
+  protected void configExporter(Exporter exporter, Context context) throws IOException {
+    String dataInSource = get("dataInSource");
+    if ("courseGrade".equals(dataInSource)) {
+      context.put("items", getInCourseGradeData());
+    } else {
+      context.put("items", getExportDatas());
+    }
+    context.put(Context.EXTRACTOR, new ExternGradePropertyExtractor(dataInSource));
+  }
+
+  /**
+   * @return
+   */
+  private List<ExternGradeData> getInCourseGradeData() {
+    List<ExternGrade> inNormalData = (List<ExternGrade>) getExportDatas();
+    List<ExternGradeData> dataList = CollectUtils.newArrayList();
+    for (ExternGrade eGrade : inNormalData) {
+      if (CollectionUtils.isEmpty(eGrade.getGrades())) {
+        dataList.add(new ExternGradeData(eGrade, null));
+      } else {
+        for (CourseGrade courseGrade : eGrade.getGrades()) {
+          dataList.add(new ExternGradeData(eGrade, courseGrade));
+        }
+      }
+    }
+    return dataList;
   }
 
   public String identificationReport() {

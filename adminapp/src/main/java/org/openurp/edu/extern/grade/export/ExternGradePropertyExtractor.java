@@ -18,7 +18,10 @@
  */
 package org.openurp.edu.extern.grade.export;
 
+import java.text.SimpleDateFormat;
+
 import org.beangle.commons.transfer.exporter.DefaultPropertyExtractor;
+import org.openurp.edu.extern.grade.data.ExternGradeData;
 import org.openurp.edu.extern.model.ExternGrade;
 
 /**
@@ -26,11 +29,29 @@ import org.openurp.edu.extern.model.ExternGrade;
  */
 public class ExternGradePropertyExtractor extends DefaultPropertyExtractor {
 
+  private String dataInSource;
+
+  public ExternGradePropertyExtractor(String dataInSource) {
+    super();
+    this.dataInSource = dataInSource;
+  }
+
   @Override
   public Object getPropertyValue(Object target, String property) throws Exception {
-    ExternGrade externGrade = (ExternGrade) target;
-    if ("courseGradeSize".equals(property)) {
-      return externGrade.getGrades().size();
+    if ("courseGrade".equals(dataInSource)) {
+      ExternGradeData data = (ExternGradeData) target;
+      if ("original.course.code".equals(property)) {
+        return "01";
+      } else if ("original.course.creditHours".equals(property)) {
+        return "0";
+      } else if ("info.acquiredOn".equals(property)) {
+        return new SimpleDateFormat("yyyyMM").format(data.getInfo().getAcquiredOn());
+      }
+    } else {
+      ExternGrade externGrade = (ExternGrade) target;
+      if ("courseGradeSize".equals(property)) {
+        return externGrade.getGrades().size();
+      }
     }
     return super.getPropertyValue(target, property);
   }
