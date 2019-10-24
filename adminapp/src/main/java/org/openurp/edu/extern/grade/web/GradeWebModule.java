@@ -19,7 +19,7 @@
 package org.openurp.edu.extern.grade.web;
 
 import org.beangle.commons.inject.bind.AbstractBindModule;
-import org.openurp.edu.extern.grade.web.action.CreditBankGradeAction;
+import org.openurp.edu.extern.grade.web.action.CreditBankAction;
 import org.openurp.edu.extern.grade.web.action.ExternGradeAction;
 import org.openurp.edu.extern.grade.web.action.ManageAction;
 import org.openurp.edu.extern.grade.web.action.SearchAction;
@@ -35,6 +35,6 @@ public class GradeWebModule extends AbstractBindModule {
 
     bind(ExternGradeAction.class);
 
-    bind(CreditBankGradeAction.class);
+    bind(CreditBankAction.class);
   }
 }

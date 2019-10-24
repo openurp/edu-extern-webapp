@@ -18,29 +18,30 @@
  */
 package org.openurp.edu.extern.grade.web.action;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.query.builder.Condition;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Strings;
 import org.beangle.commons.transfer.exporter.PropertyExtractor;
+import org.openurp.code.edu.model.CourseTakeType;
 import org.openurp.edu.base.model.Student;
-import org.openurp.edu.extern.grade.export.CreditBankGradePropertyExtractor;
+import org.openurp.edu.extern.grade.export.CreditBankPropertyExtractor;
 import org.openurp.edu.grade.course.model.CourseGrade;
 import org.openurp.edu.graduation.audit.model.GraduateResult;
 import org.openurp.edu.graduation.audit.model.GraduateSession;
 import org.openurp.edu.student.info.model.Graduation;
 import org.openurp.edu.web.action.RestrictionSupportAction;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 学分银行成绩
- * 
+ *
  * @author zhouqi 2019年10月11日
  */
-public class CreditBankGradeAction extends RestrictionSupportAction {
+public class CreditBankAction extends RestrictionSupportAction {
 
   @Override
   protected void indexSetting() {
@@ -64,14 +65,11 @@ public class CreditBankGradeAction extends RestrictionSupportAction {
     StringBuilder hql1 = new StringBuilder();
     hql1.append("exists (");
     hql1.append("  from ").append(GraduateResult.class.getName()).append(" result");
-    hql1.append(" where result.std = grade.std");
+    hql1.append(" where result.std = grade.std and result.passed=true");
     hql1.append("   and result.session = :session");
     hql1.append(")");
     builder.where(hql1.toString(), session);
-    Integer courseTakeTypeId = getIntId("not.courseTakeType");
-    if (null != courseTakeTypeId) {
-      builder.where("grade.courseTakeType.id != :courseTakeTypeId", courseTakeTypeId);
-    }
+    builder.where("grade.courseTakeType.id != :courseTakeTypeId", CourseTakeType.Exemption);
     StringBuilder hql2 = new StringBuilder();
     hql2.append("not exists (");
     hql2.append("  from ").append(CourseGrade.class.getName()).append(" grade2");
@@ -97,7 +95,7 @@ public class CreditBankGradeAction extends RestrictionSupportAction {
 
   @Override
   protected PropertyExtractor getPropertyExtractor() {
-    return new CreditBankGradePropertyExtractor(getTextResource(), loadDataMap());
+    return new CreditBankPropertyExtractor(getTextResource(), loadDataMap());
   }
 
   @Override
@@ -108,7 +106,7 @@ public class CreditBankGradeAction extends RestrictionSupportAction {
   }
 
   /**
-   * @param items
+   * @param
    * @return
    */
   private Map<String, Object> loadDataMap() {

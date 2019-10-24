@@ -31,11 +31,11 @@ import org.openurp.edu.student.info.model.Graduation;
 /**
  * @author zhouqi 2019年10月12日
  */
-public class CreditBankGradePropertyExtractor extends DefaultPropertyExtractor {
+public class CreditBankPropertyExtractor extends DefaultPropertyExtractor {
 
   private Map<String, Object> dataMap;
 
-  public CreditBankGradePropertyExtractor(TextResource textResource, Map<String, Object> dataMap) {
+  public CreditBankPropertyExtractor(TextResource textResource, Map<String, Object> dataMap) {
     super(textResource);
     this.dataMap = dataMap;
   }
@@ -54,7 +54,7 @@ public class CreditBankGradePropertyExtractor extends DefaultPropertyExtractor {
       }
       return scoreText.toString();
     } else if ("semester.beginOn".equals(property)) {
-      return new SimpleDateFormat("yyyyMM").format(grade.getSemester().getBeginOn());
+      return new SimpleDateFormat("yyyyMM").format(grade.getSemester().getEndOn());
     } else if ("graduation.graduateOn".equals(property)) {
       return new SimpleDateFormat("yyyy").format(graduation.getGraduateOn());
     } else if ("graduation.educationResult.code".equals(property)) {
