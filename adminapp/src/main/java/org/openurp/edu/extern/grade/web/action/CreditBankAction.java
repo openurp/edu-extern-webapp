@@ -73,16 +73,18 @@ public class CreditBankAction extends RestrictionSupportAction {
     StringBuilder hql2 = new StringBuilder();
     hql2.append("not exists (");
     hql2.append("  from ").append(CourseGrade.class.getName()).append(" grade2");
-    hql2.append(" where grade2.std = grade.std");
-    hql2.append("   and grade2.course = grade2.course");
-    hql2.append("   and grade2.id != grade2.id");
+    hql2.append(" where grade.std = grade2.std");
+    hql2.append("   and grade.course = grade2.course");
+    hql2.append("   and grade.id != grade2.id");
     hql2.append("   and (");
     hql2.append("         coalesce(grade2.score, 0) = coalesce(grade.score, 0) and grade2.id > grade.id");
     hql2.append("         or");
     hql2.append("         coalesce(grade2.score, 0) > coalesce(grade.score, 0)");
     hql2.append("       )");
     hql2.append(")");
+
     builder.where(hql2.toString());
+    builder.where("grade.passed=true");
     String orderBy = get("orderBy");
     if (Strings.isBlank(orderBy)) {
       orderBy = "grade.id";
