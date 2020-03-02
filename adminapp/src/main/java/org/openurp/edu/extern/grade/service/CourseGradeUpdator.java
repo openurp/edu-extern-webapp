@@ -30,7 +30,7 @@ import org.openurp.code.edu.model.GradeType;
 import org.openurp.code.edu.model.GradingMode;
 import org.openurp.edu.base.model.Semester;
 import org.openurp.edu.base.model.Student;
-import org.openurp.edu.course.model.CourseTaker;
+import org.openurp.edu.clazz.model.CourseTaker;
 import org.openurp.edu.grade.Grade;
 import org.openurp.edu.grade.course.model.CourseGrade;
 import org.openurp.edu.grade.course.model.GaGrade;

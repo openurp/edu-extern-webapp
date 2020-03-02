@@ -22,16 +22,13 @@ import org.beangle.commons.inject.bind.AbstractBindModule;
 import org.openurp.edu.extern.dao.internal.ExamSignupDaoHibernate;
 import org.openurp.edu.extern.service.checker.ExamConditionChecker;
 import org.openurp.edu.extern.service.checker.ExamExistChecker;
-import org.openurp.edu.extern.service.checker.ExamPaymentChecker;
 import org.openurp.edu.extern.service.checker.ExamSignBuildInChecker;
 import org.openurp.edu.extern.service.checker.ExamSuperCategoryChecker;
 import org.openurp.edu.extern.service.checker.ExamTimeChecker;
-import org.openurp.edu.extern.service.impl.ExamFeeConfigServiceImpl;
 import org.openurp.edu.extern.service.impl.ExamSignupConfigServiceImpl;
 import org.openurp.edu.extern.service.impl.ExamSignupLoggerServiceImpl;
 import org.openurp.edu.extern.service.impl.ExamSignupServiceImpl;
 import org.openurp.edu.extern.service.impl.ExternExamGradeServiceImpl;
-import org.openurp.edu.extern.service.listener.ExamBillStateChangeEventListener;
 import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 
 public class OtherServiceModule extends AbstractBindModule {
@@ -53,9 +50,5 @@ public class OtherServiceModule extends AbstractBindModule {
         "checkerStack",
         list(ref("examSignBuildInChecker"), ref("examExistChecker"), ref("examConditionChecker"),
             ref("examSuperCategoryChecker")));
-
-    bind("examFeeConfigService", ExamFeeConfigServiceImpl.class);
-    bind("examPaymentChecker", ExamPaymentChecker.class);
-    bind(ExamBillStateChangeEventListener.class);
   }
 }

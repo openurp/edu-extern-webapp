@@ -20,7 +20,6 @@ package org.openurp.edu.extern.signup.web;
 
 import org.beangle.commons.inject.bind.AbstractBindModule;
 import org.openurp.edu.extern.signup.web.action.ConfigAction;
-import org.openurp.edu.extern.signup.web.action.FeeConfigAction;
 import org.openurp.edu.extern.signup.web.action.ManageAction;
 import org.openurp.edu.extern.signup.web.action.SettingAction;
 import org.openurp.edu.extern.signup.web.action.StatAction;
@@ -36,6 +35,5 @@ public class SignupWebModule extends AbstractBindModule {
     bind(SummaryAction.class);
     bind(StatAction.class);
     bind(TeacherAction.class);
-    bind(FeeConfigAction.class);
   }
 }

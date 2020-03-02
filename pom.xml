@@ -7,7 +7,7 @@
   </parent>
   <groupId>org.openurp.edu.extern</groupId>
   <artifactId>openurp-edu-extern-webapp</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Openurp Edu Extern Webapp</name>
 
@@ -19,7 +19,6 @@
   <modules>
     <module>web</module>
     <module>adminapp</module>
-    <module>studentapp</module>
   </modules>
 
   <dependencies>
@@ -28,8 +27,8 @@
       <artifactId>javax.servlet-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.openurp.edu.course</groupId>
-      <artifactId>openurp-edu-course-core4j</artifactId>
+      <groupId>org.openurp.edu.clazz</groupId>
+      <artifactId>openurp-edu-clazz-core4j</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
