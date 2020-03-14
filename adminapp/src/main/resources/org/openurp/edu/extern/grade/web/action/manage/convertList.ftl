@@ -15,7 +15,7 @@
       [@b.col title="课程名称" property="course.name"/]
       [@b.col title="课程类别" property="courseType.name"/]
       [@b.col title="学分" property="course.credits" width="40px"/]
-      [@b.col title="成绩" property="score" width="80px"]${courseGrade.score?string("0.#")}${("（" + courseGrade.scoreText + "）")!}[/@]
+      [@b.col title="成绩" property="score" width="80px"]${courseGrade.scoreText!}[/@]
       [@b.col title="绩点" property="gp" width="40px"]${courseGrade.gp?string("0.#")}[/@]
       [@b.col title="修读类别" property="courseTakeType.name"/]
       [@b.col title="考核方式" property="examMode.name" width="50px"/]
