@@ -72,6 +72,7 @@ public class CourseGradeUpdator {
       courseGrade.setCrn("--");
       courseGrade.setSemester(semester);
       courseGrade.setCourse(pc.getCourse());
+      courseGrade.setCreatedAt(new java.util.Date());
       courseGrade.setCourseType(pc.getGroup().getCourseType());
     } else {
       courseGrade = courseGrades.get(0);

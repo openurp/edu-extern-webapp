@@ -18,8 +18,8 @@
       [@b.col title="成绩" property="score" width="80px"]${courseGrade.scoreText!}[/@]
       [@b.col title="绩点" property="gp" width="40px"]${courseGrade.gp?string("0.#")}[/@]
       [@b.col title="修读类别" property="courseTakeType.name"/]
-      [@b.col title="考核方式" property="examMode.name" width="50px"/]
-      [@b.col title="是否免听" property="freeListening" width="40px"]${courseGrade.freeListening?string("是", "否")}[/@]
+      [@b.col title="认定时间" property="updatedAt"]${courseGrade.updatedAt?string("yy-MM-dd HH:mm")}[/@]
+      [@b.col title="是否免听" property="freeListening" width="60px"]${courseGrade.freeListening?string("是", "否")}[/@]
     [/@]
   [/@]
 
