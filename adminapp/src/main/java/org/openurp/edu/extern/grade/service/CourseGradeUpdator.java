@@ -99,7 +99,12 @@ public class CourseGradeUpdator {
       courseGrade.setScore(Float.parseFloat(scoreText));
     }
     courseGrade.setStatus(Grade.Status.Published);
-    courseGrade.setGp(null);//免修的不能计算绩点
+    ScoreConverter converter = gradeRateService.getConverter(std.getProject(), courseGrade.getGradingMode());
+    if(null==courseGrade.getScore()) {
+      courseGrade.setGp(null);
+    }else{
+      courseGrade.setGp(converter.calcGp(courseGrade.getScore()));
+    }
     courseGrade.setOperator(operator);
     courseGrade.setUpdatedAt(new java.util.Date());
     courseGrade.setRemark(remark);
@@ -114,7 +119,7 @@ public class CourseGradeUpdator {
     gaGrade.setScore(courseGrade.getScore());
     gaGrade.setPassed(true);
     gaGrade.setStatus(Grade.Status.Published);
-    gaGrade.setGp(null);
+    gaGrade.setGp(courseGrade.getGp());
     gaGrade.setOperator(operator);
     gaGrade.setUpdatedAt(new java.util.Date());
     gaGrade.setRemark(remark);
