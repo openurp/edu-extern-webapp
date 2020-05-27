@@ -30,7 +30,7 @@ public class SqlGenerator {
     if (!f1.exists()) {
       f1.mkdirs();
     }
-    System.out.println(f1);
+    System.out.println(f1.getAbsolutePath());
     DdlGenerator.main(new String[] { PostgresPlusDialect.class.getName(), f1.toString(), "zh_CN", null });
   }
 }

@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-  [@b.toolbar title="校外科目大类配置"]
+  [@b.toolbar title="校外成绩添加、修改"]
     bar.addBack();
   [/@]
   [@b.form name="externGradeForm" action="!save" target="externGrades" theme="list"]
